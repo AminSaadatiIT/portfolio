@@ -1,0 +1,14 @@
+{
+  "name": "portfolio-admin-dashboard",
+  "version": "1.0.0",
+  "description": "Production-ready static portfolio with admin dashboard",
+  "main": "index.html",
+  "scripts": {
+    "test": "node tests/validation.test.js",
+    "publish": "node scripts/publish.js",
+    "social:linkedin": "node scripts/social-generator.js --platform linkedin --project",
+    "social:instagram": "node scripts/social-generator.js --platform instagram --project"
+  },
+  "author": "Amin Saadati",
+  "license": "MIT"
+}

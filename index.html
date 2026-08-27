@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Amin Saadati - Network Infrastructure & Security Systems Specialist. Expert in Structured Cabling, CCTV, Fiber Optic, Access Control, and Server Management. Available for freelance projects in Iran.">
+    <meta name="author" content="Amin Saadati">
+    <meta name="keywords" content="network infrastructure, cabling, CCTV, fiber optic, security systems, access control, server management, structured cabling, IT specialist, Iran">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="Amin Saadati — Network Infrastructure & Security Specialist">
+    <meta property="og:description" content="Expert in designing and implementing network infrastructure and security systems. 50+ projects completed for businesses across Iran.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="images/logo.png">
+    <meta property="og:locale" content="en_US">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Amin Saadati — Portfolio">
+    <meta name="twitter:description" content="Network Infrastructure & Security Systems Specialist">
+    <meta name="twitter:image" content="images/logo.png">
+
+    <link rel="canonical" href="https://aminsaadati.com">
+
+    <title>Amin Saadati — Portfolio</title>
+    
+    <!-- Google Fonts: Space Grotesk (Display) + Inter (Body) + JetBrains Mono (Code) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/styles.css?v=3">
+    <link rel="stylesheet" href="css/custom-select.css">
+    <link rel="stylesheet" href="css/hero-new.css?v=1787812000">
+
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <noscript>
+        <style>
+            .js-only { display: none !important; }
+        </style>
+    </noscript>
+</head>
+<body>
+
+    <div class="scroll-progress" role="progressbar" aria-label="Scroll progress">
+        <div class="scroll-bar" id="scrollBar"></div>
+    </div>
+
+    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+    <div class="aurora" id="aurora" aria-hidden="true">
+        <div class="aurora-grid" id="auroraGrid"></div>
+        <div class="aurora-orb orb-1" id="orb1"></div>
+        <div class="aurora-orb orb-2" id="orb2"></div>
+        <div class="aurora-orb orb-3" id="orb3"></div>
+        <div class="aurora-orb orb-4" id="orb4"></div>
+        <div class="aurora-orb orb-5" id="orb5"></div>
+        <div class="aurora-particles" id="particles"></div>
+        <div class="aurora-noise"></div>
+    </div>
+
+    <header class="header" id="header">
+        <div class="header-inner container">
+            <a href="admin.html?login" class="logo" title="Admin Panel">
+                <div class="logo-anim-wrap">
+                    <!-- Ghost guide (faint, always visible) -->
+                    <img src="images/logo.png" alt="" class="logo-img logo-ghost" aria-hidden="true">
+                    <!-- Part 1: Triangle drops from top -->
+                    <img src="images/logo.png" alt="" class="logo-img logo-layer logo-p1" aria-hidden="true">
+                    <!-- Part 2: Inner A scales in -->
+                    <img src="images/logo.png" alt="" class="logo-img logo-layer logo-p2" aria-hidden="true">
+                    <!-- Part 3: S slides from right -->
+                    <img src="images/logo.png" alt="" class="logo-img logo-layer logo-p3" aria-hidden="true">
+                    <!-- Final assembled logo -->
+                    <img src="images/logo.png" alt="Amin Saadati Logo" class="logo-img logo-final">
+                </div>
+                <span class="logo-text">Amin Saadati</span>
+            </a>
+
+            <nav class="nav" id="mainNav" aria-label="Main navigation">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#experience" class="nav-link">Experience</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="#contact" class="btn-hire">Hire Me</a>
+
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Menu" aria-expanded="false">
+                    <span class="hamburger">
+                        <span></span><span></span><span></span>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero-new" id="home">
+            <div class="hero-bg"></div>
+            
+            <!-- Hero Left Content -->
+            <div class="hero-left">
+                <!-- Name & Title Badge -->
+                <div class="hero-badge-intro">
+                    <span class="hero-name">Amin Saadati</span>
+                    <span class="hero-divider">|</span>
+                    <span class="hero-role">Network Infrastructure Specialist</span>
+                    <span class="hero-divider">|</span>
+                    <span class="hero-status"><span class="status-dot"></span> Available for hire</span>
+                </div>
+                
+                <h1 class="hero-heading" id="heroHeading">
+                    <span class="hero-heading-primary">Network Infrastructure</span>
+                    <span class="hero-heading-accent">Built with Precision</span>
+                </h1>
+                
+                <p class="hero-subtitle">Helping businesses build reliable network infrastructure and security systems. From structured cabling to CCTV and fiber optics — delivering end-to-end solutions across Iran.</p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Projects</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">35+</span>
+                        <span class="stat-label">Clients</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">5+</span>
+                        <span class="stat-label">Years</span>
+                    </div>
+                </div>
+                
+                <div class="hero-cta-group" id="heroCtaGroup">
+                    <a href="#projects" class="btn-primary">
+                        View My Work
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="#contact" class="btn-secondary">
+                        Contact Me
+                    </a>
+                    <div class="download-wrap" id="downloadWrap">
+                        <a href="#" class="btn-outline" id="downloadResume">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                            </svg>
+                            Download Resume
+                        </a>
+                        <div class="download-menu" id="downloadMenu">
+                            <div class="download-menu-title">Choose format:</div>
+                            <a href="#" class="download-option" data-format="pdf">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                PDF Document
+                            </a>
+                            <a href="#" class="download-option" data-format="html">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+                                HTML Page
+                            </a>
+                            <a href="#" class="download-option" data-format="txt">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                                Plain Text
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hero Right — Circles Visualization -->
+            <div class="hero-right">
+                <div class="circles-container">
+                    <!-- Orbit 4 (outermost) -->
+                    <div class="orbit orbit-4">
+                        <div class="orbit-ring"></div>
+                        <div class="avatar avatar-orbit4-1" style="--angle: 30deg; --radius: 399px;">
+                            <div class="network-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                                <span>Server</span>
+                            </div>
+                        </div>
+                        <div class="avatar avatar-orbit4-2" style="--angle: 95deg; --radius: 399px;">
+                            <div class="network-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+                                <span>Router</span>
+                            </div>
+                        </div>
+                        <div class="avatar avatar-orbit4-3" style="--angle: 220deg; --radius: 399px;">
+                            <div class="network-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                <span>Security</span>
+                            </div>
+                        </div>
+                        <div class="avatar avatar-orbit4-4" style="--angle: 320deg; --radius: 399px;">
+                            <div class="network-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                                <span>CCTV</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Orbit 3 -->
+                    <div class="orbit orbit-3">
+                        <div class="orbit-ring"></div>
+                        <div class="avatar avatar-orbit3-1" style="--angle: 130deg; --radius: 325px;">
+                            <div class="network-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+                                <span>Fiber</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Orbit 2 -->
+                    <div class="orbit orbit-2">
+                        <div class="orbit-ring"></div>
+                        <div class="avatar avatar-orbit2-1" style="--angle: 60deg; --radius: 251px;">
+                            <div class="network-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5v14"/><circle cx="12" cy="12" r="10"/></svg>
+                                <span>Network</span>
+                            </div>
+                        </div>
+                        <div class="avatar avatar-orbit2-2" style="--angle: 180deg; --radius: 251px;">
+                            <div class="network-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
+                                <span>Switch</span>
+                            </div>
+                        </div>
+                        <div class="avatar avatar-orbit2-3" style="--angle: 300deg; --radius: 251px;">
+                            <div class="network-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg>
+                                <span>Monitoring</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Orbit 1 (innermost) -->
+                    <div class="orbit orbit-1">
+                        <div class="orbit-ring"></div>
+                        <div class="avatar avatar-orbit1-1" style="--angle: 270deg; --radius: 177px;">
+                            <div class="network-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                                <span>Passive</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Center -->
+                    <div class="orbit-center">
+                        <span class="orbit-number" id="orbitCounter">0</span>
+                        <span class="orbit-label">Projects Done</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div class="scroll-indicator">
+                <span>Scroll Down</span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+            </div>
+
+        </section>
+
+        <!-- ABOUT — Premium Glass Design -->
+        <section class="section about-section expand-target" id="about">
+            <div class="about-bg-glow"></div>
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-label">About</span>
+                    <h2 class="section-title">About Me</h2>
+                </div>
+
+                <div class="about-premium">
+                    <!-- Profile Card with Photo -->
+                    <div class="about-profile-card reveal">
+                        <div class="profile-photo-container">
+                            <img src="images/profile.png" alt="Amin Saadati" class="profile-photo">
+                            <div class="profile-photo-overlay"></div>
+                            <div class="profile-badge">
+                                <span class="badge-dot"></span>
+                                <span>Available for Hire</span>
+                            </div>
+                            <div class="profile-floating-content">
+                                <div class="profile-floating-text">
+                                    <h3 class="profile-name">Amin Saadati</h3>
+                                    <p class="profile-title">Network Infrastructure & Security Expert</p>
+                                    <div class="profile-socials">
+                                        <a href="https://github.com/AminSaadatiIT" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                                        </a>
+                                        <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                                        </a>
+                                        <a href="https://t.me/" target="_blank" rel="noopener" class="social-link" aria-label="Telegram">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 7.5a2.25 2.25 0 0 0 .126 4.086l3.9 1.2 1.8 5.7a1.5 1.5 0 0 0 2.4 0l2.5-3.1 4.2 3.1a2.25 2.25 0 0 0 3.5-1.7v-1.5l-4.5-2.2a1.125 1.125 0 0 1 0-2.04l8-3.6a2.25 2.25 0 0 0 1.25-2.06V4.44a2.25 2.25 0 0 0-2.31-2.007z"/></svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Info Side -->
+                    <div class="about-info-side">
+                        <p class="about-bio-premium reveal">
+                            I'm a specialist in designing and implementing <span class="text-gradient">network infrastructure</span> and <span class="text-gradient">security systems</span>. With over 5 years of hands-on experience, I've completed 50+ projects across Iran — from structured cabling and fiber optic installations to CCTV surveillance and access control systems.
+                        </p>
+                        <p class="about-bio-premium reveal" style="margin-top:12px;">
+                            <strong>Core expertise:</strong> Structured Cabling (Cat5e/Cat6/Cat6a) • Fiber Optic (Single-mode & Multi-mode) • CCTV & IP Surveillance • Access Control Systems • Server Room Design • MikroTik & Cisco Networking • Cable Management & Documentation.
+                        </p>
+                        <p class="about-bio-premium reveal" style="margin-top:12px;">
+                            <strong>Certifications:</strong> Cisco CCNA • MikroTik MTCNA • Fiber Optic Technician.
+                        </p>
+
+                        <div class="about-glass-grid reveal">
+                            <div class="glass-card">
+                                <div class="glass-card-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                                </div>
+                                <div class="glass-card-content">
+                                    <span class="glass-card-label">Name</span>
+                                    <span class="glass-card-value">Amin Saadati</span>
+                                </div>
+                            </div>
+                            <div class="glass-card">
+                                <div class="glass-card-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+                                </div>
+                                <div class="glass-card-content">
+                                    <span class="glass-card-label">Email</span>
+                                    <a href="mailto:amin.saadati5195@gmail.com" class="glass-card-value link-glow">amin.saadati5195@gmail.com</a>
+                                </div>
+                            </div>
+                            <div class="glass-card">
+                                <div class="glass-card-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                </div>
+                                <div class="glass-card-content">
+                                    <span class="glass-card-label">Location</span>
+                                    <span class="glass-card-value">Mashhad, Iran</span>
+                                </div>
+                            </div>
+                            <div class="glass-card">
+                                <div class="glass-card-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                </div>
+                                <div class="glass-card-content">
+                                    <span class="glass-card-label">Phone</span>
+                                    <a href="tel:+989999718581" class="glass-card-value link-glow">+98 999-971-8581</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="about-stats reveal">
+                            <div class="stat-glass">
+                                <span class="stat-number" data-count="50">0</span>
+                                <span class="stat-plus">+</span>
+                                <span class="stat-label">Projects Done</span>
+                            </div>
+                            <div class="stat-glass">
+                                <span class="stat-number" data-count="30">0</span>
+                                <span class="stat-plus">+</span>
+                                <span class="stat-label">Happy Clients</span>
+                            </div>
+                            <div class="stat-glass">
+                                <span class="stat-number" data-count="5">0</span>
+                                <span class="stat-plus">+</span>
+                                <span class="stat-label">Years Experience</span>
+                            </div>
+                        </div>
+
+                        <a href="#contact" class="btn-glass reveal">
+                            <span>Contact Me</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section class="section expand-target" id="skills">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-label">Skills</span>
+                    <h2 class="section-title">Skills</h2>
+                </div>
+                <div class="skills-groups reveal-stagger" id="skillsContainer"></div>
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section class="section expand-target" id="projects">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-label">Projects</span>
+                    <h2 class="section-title">Projects</h2>
+                </div>
+
+                <div class="filter-bar reveal">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="cabling">Cabling</button>
+                    <button class="filter-btn" data-filter="cctv">CCTV</button>
+                    <button class="filter-btn" data-filter="rack">Rack</button>
+                    <button class="filter-btn" data-filter="fiber">Fiber</button>
+                    <button class="filter-btn" data-filter="security">Security</button>
+                </div>
+
+                <div class="projects-grid" id="projectsGrid"></div>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section class="section expand-target" id="experience">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-label">Experience</span>
+                    <h2 class="section-title">Work Experience</h2>
+                </div>
+                <div class="timeline reveal" id="timelineContainer"></div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS -->
+        <section class="section" id="testimonials">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-label">Reviews</span>
+                    <h2 class="section-title">Client Reviews</h2>
+                    <p class="section-desc">What people I've worked with have to say.</p>
+                </div>
+
+                <div class="testimonials-slider reveal" id="testimonialsSlider">
+                    <div class="slider-track" id="sliderTrack"></div>
+                    <div class="slider-controls">
+                        <button class="slider-btn slider-prev" id="sliderPrev" aria-label="Previous">‹</button>
+                        <div class="slider-dots" id="sliderDots"></div>
+                        <button class="slider-btn slider-next" id="sliderNext" aria-label="Next">›</button>
+                    </div>
+                </div>
+
+                <div style="text-align:center;margin-top:40px;" class="reveal">
+                    <button class="btn btn-outline" id="openReviewFormBtn">
+                        ✍️ Leave a Review
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="section expand-target" id="contact">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-label">Contact</span>
+                    <h2 class="section-title">Get in Touch</h2>
+                </div>
+
+                <div class="contact-grid">
+                    <form class="contact-form reveal" id="contactForm" novalidate>
+                        <h3 class="form-title">Contact Form</h3>
+                        <div class="form-group">
+                            <label for="contactName" class="form-label">Full Name *</label>
+                            <input type="text" id="contactName" name="name" class="form-input" required minlength="2">
+                            <span class="form-error" id="contactNameError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactEmail" class="form-label">Email *</label>
+                            <input type="email" id="contactEmail" name="email" class="form-input" required>
+                            <span class="form-error" id="contactEmailError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactCompany" class="form-label">Company</label>
+                            <input type="text" id="contactCompany" name="company" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Service Needed *</label>
+                            <div class="custom-select" data-name="service" data-required="true">
+                                <div class="custom-select-trigger placeholder">Select a service...</div>
+                                <span class="custom-select-arrow">▼</span>
+                                <div class="custom-select-dropdown">
+                                    <div class="custom-select-option disabled" data-value="">Select a service...</div>
+                                    <div class="custom-select-option" data-value="Network Infrastructure">Network Infrastructure</div>
+                                    <div class="custom-select-option" data-value="CCTV & Security Systems">CCTV & Security Systems</div>
+                                    <div class="custom-select-option" data-value="Fiber Optic Installation">Fiber Optic Installation</div>
+                                    <div class="custom-select-option" data-value="Security Consulting">Security Consulting</div>
+                                    <div class="custom-select-option" data-value="Other">Other</div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="service" class="custom-select-value">
+                            <span class="form-error" id="contactServiceError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactSubject" class="form-label">Subject *</label>
+                            <input type="text" id="contactSubject" name="subject" class="form-input" required minlength="3">
+                            <span class="form-error" id="contactSubjectError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="contactMessage" class="form-label">Message *</label>
+                            <textarea id="contactMessage" name="message" class="form-input form-textarea" required minlength="10" rows="5"></textarea>
+                            <span class="form-error" id="contactMessageError"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+                    </form>
+
+                    <form class="contact-form reveal" id="hireForm" novalidate>
+                        <h3 class="form-title">Hire Me</h3>
+                        <div class="form-group">
+                            <label for="hireName" class="form-label">Name *</label>
+                            <input type="text" id="hireName" name="name" class="form-input" required minlength="2">
+                            <span class="form-error" id="hireNameError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="hireEmail" class="form-label">Email *</label>
+                            <input type="email" id="hireEmail" name="email" class="form-input" required>
+                            <span class="form-error" id="hireEmailError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="hireCompany" class="form-label">Company</label>
+                            <input type="text" id="hireCompany" name="company" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Service Needed *</label>
+                            <div class="custom-select" data-name="service" data-required="true">
+                                <div class="custom-select-trigger placeholder">Select a service...</div>
+                                <span class="custom-select-arrow">▼</span>
+                                <div class="custom-select-dropdown">
+                                    <div class="custom-select-option disabled" data-value="">Select a service...</div>
+                                    <div class="custom-select-option" data-value="Network Infrastructure">Network Infrastructure</div>
+                                    <div class="custom-select-option" data-value="CCTV & Security Systems">CCTV & Security Systems</div>
+                                    <div class="custom-select-option" data-value="Fiber Optic Installation">Fiber Optic Installation</div>
+                                    <div class="custom-select-option" data-value="Security Consulting">Security Consulting</div>
+                                    <div class="custom-select-option" data-value="Other">Other</div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="service" class="custom-select-value">
+                            <span class="form-error" id="hireServiceError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="hireSubject" class="form-label">Subject *</label>
+                            <input type="text" id="hireSubject" name="subject" class="form-input" required minlength="3">
+                            <span class="form-error" id="hireSubjectError"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="hireDesc" class="form-label">Project Details *</label>
+                            <textarea id="hireDesc" name="message" class="form-input form-textarea" required minlength="20" rows="5"></textarea>
+                            <span class="form-error" id="hireDescError"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Submit Request</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <img src="images/logo.png" alt="Amin Saadati Logo" class="footer-logo-img">
+                <div>
+                    <span class="footer-name">Amin Saadati</span>
+                    <span class="footer-title">Network Infrastructure & Security Specialist</span>
+                </div>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#experience">Experience</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <a href="mailto:amin.saadati5195@gmail.com">amin.saadati5195@gmail.com</a>
+                    <a href="tel:+989999718581">+98 999-971-8581</a>
+                    <span>Mashhad, Iran</span>
+                </div>
+                <div class="footer-col">
+                    <h4>Social</h4>
+                    <a href="https://github.com/AminSaadatiIT" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+                    <a href="https://t.me/" target="_blank" rel="noopener">Telegram</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copy">© 2025 Amin Saadati. All rights reserved.</p>
+                <p class="footer-credit">Designed & Built with ❤️</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Modal -->
+    <div class="modal-overlay" id="projectModal" role="dialog" aria-modal="true" hidden>
+        <div class="modal">
+            <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+            <div class="modal-gallery" id="modalGallery"></div>
+            <div class="modal-body">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <div class="modal-meta" id="modalMeta"></div>
+                <div class="modal-desc" id="modalDesc"></div>
+                <div class="modal-tags" id="modalTags"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Submission Modal -->
+    <div class="modal-overlay" id="reviewModal" role="dialog" aria-modal="true" hidden>
+        <div class="modal" style="max-width:520px;">
+            <button class="modal-close" id="reviewClose" aria-label="Close">✕</button>
+            <div class="modal-body">
+                <h2 class="modal-title" style="margin-bottom:8px;">✍️ Leave a Review</h2>
+                <p style="color:var(--text-2);font-size:14px;margin-bottom:24px;">
+                    Your review will be displayed on the site after approval.
+                </p>
+
+                <form id="reviewForm" novalidate>
+                    <div class="form-group">
+                        <label class="form-label" for="reviewName">Full Name *</label>
+                        <input type="text" id="reviewName" class="form-input" required minlength="2" maxlength="60">
+                        <span class="form-error" id="reviewNameError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="reviewEmail">Email *</label>
+                        <input type="email" id="reviewEmail" class="form-input" required>
+                        <span class="form-error" id="reviewEmailError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="reviewRole">Role / Company</label>
+                        <input type="text" id="reviewRole" class="form-input" maxlength="100" placeholder="e.g. Tech Lead — Company X">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Your Rating *</label>
+                        <div class="star-rating-input" id="reviewStars" data-rating="5">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="reviewText">Your Review *</label>
+                        <textarea id="reviewText" class="form-input form-textarea" required minlength="20" maxlength="500" rows="4"></textarea>
+                        <span class="form-error" id="reviewTextError"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">
+                        📤 Submit Review
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js?v=20260827" defer></script>
+</body>
+</html>

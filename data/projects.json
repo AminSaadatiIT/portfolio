@@ -1,0 +1,41 @@
+[
+    {
+        "id": 1,
+        "title": "کابل‌کشی ساختمان تجاری",
+        "client": "شرکت فناوری پارس",
+        "date": "2025-01",
+        "location": "تهران",
+        "short": "پیاده‌سازی کابل‌کشی ساختاریافته Cat6A برای ساختمان ۱۲ طبقه.",
+        "long": "پروژه شامل طراحی و اجرای زیرساخت شبکه از ابتدا بود. کابل‌کشی افقی و عمودی با استانداردهای TIA-568.",
+        "categories": ["cabling"],
+        "gradient": "linear-gradient(135deg, #0070f3, #00dfd8)",
+        "images": ["images/project-cabling.svg"],
+        "videos": []
+    },
+    {
+        "id": 2,
+        "title": "سیستم نظارت تصویری",
+        "client": "مرکز تجاری بزرگمهر",
+        "date": "2024-09",
+        "location": "اصفهان",
+        "short": "نصب ۶۴ دوربین IP با NVR مرکزی و مانیتورینگ ۲۴/۷.",
+        "long": "طراحی و پیاده‌سازی سیستم CCTV شامل دوربین‌های Bullet و Dome.",
+        "categories": ["cctv", "security"],
+        "gradient": "linear-gradient(135deg, #7928ca, #ff0080)",
+        "images": ["images/project-cctv.svg"],
+        "videos": []
+    },
+    {
+        "id": 3,
+        "title": "رک روم استاندارد",
+        "client": "بانک سپه",
+        "date": "2024-06",
+        "location": "تهران",
+        "short": "طراحی و ساخت رک‌روم استاندارد با سیستم خنک‌کننده.",
+        "long": "نصب ۴ عدد رک ۴۲ یونیتی، پچ‌پنل، سوئیچ‌های مدیریتی، UPS و مانیتورینگ محیطی.",
+        "categories": ["rack", "cabling"],
+        "gradient": "linear-gradient(135deg, #ff0080, #f5a623)",
+        "images": ["images/project-server.svg"],
+        "videos": []
+    }
+]

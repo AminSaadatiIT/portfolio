@@ -1,0 +1,35 @@
+[
+    {
+        "group": "Passive Network",
+        "icon": "🔌",
+        "color": "rgba(0,112,243,0.15)",
+        "items": [
+            { "name": "Structured Cabling", "level": 95 },
+            { "name": "Fiber Optic", "level": 90 },
+            { "name": "Rack Installation", "level": 92 },
+            { "name": "Cable Management", "level": 88 }
+        ]
+    },
+    {
+        "group": "Active Network",
+        "icon": "📡",
+        "color": "rgba(121,40,202,0.15)",
+        "items": [
+            { "name": "Cisco Switching", "level": 85 },
+            { "name": "MikroTik", "level": 88 },
+            { "name": "Wireless Design", "level": 82 },
+            { "name": "VoIP Systems", "level": 78 }
+        ]
+    },
+    {
+        "group": "Security",
+        "icon": "🛡️",
+        "color": "rgba(255,0,128,0.15)",
+        "items": [
+            { "name": "CCTV Systems", "level": 94 },
+            { "name": "Access Control", "level": 86 },
+            { "name": "Fire Alarm", "level": 80 },
+            { "name": "Intrusion Detection", "level": 75 }
+        ]
+    }
+]

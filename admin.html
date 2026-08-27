@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Admin Panel — Portfolio</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg-black:#000;--brand-gray:#1A1A1A;--text-white:#fff;--text-muted:rgba(255,255,255,0.6);--text-dim:rgba(255,255,255,0.4);--text-faint:rgba(255,255,255,0.2);--border-subtle:rgba(255,255,255,0.1);--blue:#0070f3;--green:#00c853;--red:#e00;--gradient-1:linear-gradient(135deg,#0070f3,#7928ca)}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',ui-sans-serif,system-ui,sans-serif;background:var(--bg-black);color:var(--text-white);-webkit-font-smoothing:antialiased;line-height:1.6;overflow:hidden}
+a{color:inherit;text-decoration:none}button{border:none;background:none;cursor:pointer;font:inherit;color:inherit}input,textarea,select{font:inherit}
+[hidden]{display:none!important}
+.aurora-signup{display:flex;min-height:100vh;width:100%;background:var(--bg-black);position:relative}
+@media(min-width:1024px){.aurora-signup{height:100vh;overflow:hidden;background:transparent}}.hero-column{display:none;position:fixed;inset:0;z-index:0}
+@media(min-width:1024px){.hero-column{display:block}}
+
+.hero-video{width:100%;height:100%;object-fit:cover}
+
+.form-column{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 1rem;overflow-y:auto;position:relative;z-index:1}
+@media(min-width:1024px){.form-column{margin-left:auto;width:48%;padding:2rem 4rem;overflow:hidden;background:linear-gradient(90deg,transparent 0%,rgba(0,0,0,0.85) 20%,rgba(0,0,0,0.95) 100%)}}
+.form-wrapper{width:100%;max-width:36rem;display:flex;flex-direction:column;gap:2rem;opacity:0;animation:formFadeIn .8s ease-out .4s forwards}
+@media(min-width:1024px){.form-wrapper{gap:1.5rem}}
+@media(min-width:640px){.form-wrapper{gap:2.5rem}}
+@keyframes formFadeIn{from{opacity:0}to{opacity:1}}
+.form-header h2{font-size:1.875rem;font-weight:500;letter-spacing:-0.02em}
+.form-header p{color:var(--text-dim);font-size:.875rem;margin-top:.25rem}
+.social-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.social-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;background:var(--bg-black);border:1px solid var(--border-subtle);border-radius:12px;font-size:14px;font-weight:500;transition:all 200ms}
+.social-btn:hover{background:rgba(255,255,255,0.05)}
+.social-btn svg{width:18px;height:18px}
+.divider{display:flex;align-items:center;position:relative}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border-subtle)}
+.divider span{background:var(--bg-black);padding:0 16px;font-size:12px;font-weight:500;color:var(--text-dim);text-transform:uppercase;letter-spacing:.1em}
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.form-grid-2{grid-template-columns:1fr}}
+.form-group{display:flex;flex-direction:column;gap:8px}
+.form-label{font-size:14px;font-weight:500;color:var(--text-white)}
+.form-input{width:100%;height:44px;padding:0 16px;background:var(--brand-gray);border:none;border-radius:12px;color:var(--text-white);font-size:14px;outline:none;transition:box-shadow 200ms}
+.form-input::placeholder{color:var(--text-faint)}
+.form-input:focus{box-shadow:0 0 0 2px rgba(255,255,255,0.2)}
+.password-wrapper{position:relative}
+.password-wrapper .form-input{padding-right:48px}
+.password-toggle{position:absolute;right:12px;top:50%;transform:translateY(-50%);padding:4px;color:var(--text-dim);transition:color 200ms}
+.password-toggle:hover{color:var(--text-white)}
+.password-toggle svg{width:18px;height:18px}
+.form-hint{font-size:12px;color:var(--text-dim);margin-top:2px}
+.login-error{color:var(--red);font-size:13px;text-align:center;min-height:20px}
+@keyframes shake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-5px)}20%,40%,60%,80%{transform:translateX(5px)}}
+.shake{animation:shake .5s}
+.submit-btn{width:100%;height:56px;background:var(--text-white);color:var(--bg-black);font-size:16px;font-weight:600;border-radius:12px;transition:all 200ms;margin-top:1rem}
+.submit-btn:hover{background:rgba(255,255,255,0.9)}
+.submit-btn:active{transform:scale(0.98)}
+.form-footer{text-align:center;font-size:14px;color:var(--text-dim);padding-bottom:2rem}
+@media(min-width:1024px){.form-footer{padding-bottom:0}}
+.form-footer a{color:var(--text-white);font-weight:500;transition:opacity 200ms}
+.form-footer a:hover{opacity:0.8}
+.demo-note{text-align:center;font-size:12px;color:rgba(255,255,255,0.3);line-height:1.8;margin-top:1rem}
+.demo-note code{background:var(--brand-gray);padding:2px 8px;border-radius:6px;font-family:monospace;font-size:12px}
+
+.admin-bg-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
+.admin-dashboard{display:grid;grid-template-columns:260px 1fr;min-height:100vh;position:relative;z-index:1}
+.sidebar{background:rgba(10,10,10,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-left:1px solid rgba(255,255,255,0.08);padding:24px 0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar-header{display:flex;align-items:center;gap:12px;padding:0 20px;margin-bottom:30px}
+.sidebar-title{font-weight:700;font-size:16px}
+.sidebar-nav{flex:1;display:flex;flex-direction:column;gap:2px;padding:0 12px}
+.sidebar-link{display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:10px;color:#a1a1a1;font-size:14px;width:100%;transition:all 150ms}
+.sidebar-link:hover{background:rgba(255,255,255,0.03);color:#ededed}
+.sidebar-link.active{background:rgba(255,255,255,0.06);color:#ededed;font-weight:600}
+.sidebar-footer{padding:12px;border-top:1px solid rgba(255,255,255,0.08);margin-top:12px;display:flex;flex-direction:column;gap:2px}
+.admin-main{background:rgba(5,5,5,0.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow-y:auto}
+.admin-header{display:flex;justify-content:space-between;align-items:center;padding:20px 32px;border-bottom:1px solid rgba(255,255,255,0.08);position:sticky;top:0;background:rgba(5,5,5,0.9);z-index:10}
+.admin-header h2{font-size:20px}
+.admin-user{display:flex;align-items:center;gap:10px;font-size:14px;color:#a1a1a1}
+.admin-avatar{width:32px;height:32px;border-radius:50%;background:var(--gradient-1);display:grid;place-items:center;font-weight:700;font-size:14px}
+.admin-content{padding:30px}
+.admin-section[hidden]{display:none}
+.admin-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;margin-bottom:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.card-title{font-size:17px;font-weight:700;display:flex;align-items:center;gap:6px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-hint{display:block;font-size:12px;color:#666;margin-top:6px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:all 200ms;border:1px solid transparent}
+.btn-primary{background:#ededed;color:#050505}.btn-primary:hover{opacity:0.9}
+.btn-outline{border-color:rgba(255,255,255,0.15);color:#a1a1a1;background:transparent}.btn-outline:hover{color:#ededed}
+.btn-full{width:100%}.btn-sm{padding:8px 14px;font-size:13px}
+.form-textarea{resize:vertical;min-height:80px}
+.checkbox-group{display:flex;flex-wrap:wrap;gap:16px;margin-top:8px}
+.checkbox-group label{display:flex;align-items:center;gap:6px;font-size:14px;color:#a1a1a1;cursor:pointer}
+.toggle-label{display:flex;align-items:center;gap:10px;font-size:14px;color:#a1a1a1;margin-top:16px;cursor:pointer}
+.btn-ai{padding:4px 10px;border-radius:6px;background:rgba(121,40,202,0.2);border:1px solid rgba(121,40,202,0.4);color:#c99bff;font-size:12px;cursor:pointer;margin-right:10px}
+.editor-modal{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.75);display:grid;place-items:center;padding:20px}
+.editor-modal[hidden]{display:none}
+.editor-card{background:#111;border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:30px;max-width:600px;width:100%;max-height:85vh;overflow-y:auto}
+.editor-card h3{font-size:20px;margin-bottom:20px}
+.editor-actions{display:flex;gap:12px;margin-top:24px}
+.editable-item{padding:16px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:start;gap:16px}
+.editable-item-content{flex:1}.editable-item-content h4{font-size:15px;margin-bottom:4px}.editable-item-content p{font-size:13px;color:#666}
+.editable-item-actions{display:flex;gap:8px}
+.item-btn{padding:6px 12px;border-radius:6px;background:rgba(255,255,255,0.06);font-size:12px;cursor:pointer;border:1px solid transparent;transition:all 150ms}
+.item-btn:hover{background:rgba(255,255,255,0.09)}.item-btn.delete{color:#e00}
+.social-actions{display:flex;gap:12px;margin:16px 0;flex-wrap:wrap}
+.social-output{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:20px;white-space:pre-wrap;font-size:14px;color:#a1a1a1;line-height:1.7;min-height:100px;display:none}
+.social-output.visible{display:block}
+.form-success{color:#00c853;text-align:center;padding:10px;font-size:14px}
+.star-rating{display:flex;gap:6px;font-size:28px;direction:ltr}
+.star-rating .star{cursor:pointer;color:rgba(255,255,255,0.2);transition:all 200ms;user-select:none}
+.star-rating .star:hover,.star-rating .star.active{color:#ffb800;transform:scale(1.1)}
+.star-rating.readonly .star{cursor:default;font-size:16px}.star-rating.readonly .star:hover{transform:none}
+.badge-count{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 8px;border-radius:11px;background:#e00;color:#fff;font-size:12px;font-weight:700;margin-right:8px}
+.badge-count.zero{background:rgba(255,255,255,0.09);color:#666}
+.testimonial-item{padding:20px;border:1px solid rgba(255,255,255,0.08);border-radius:12px;margin-bottom:12px;background:rgba(255,255,255,0.03)}
+.testimonial-item.pending{border-color:rgba(255,184,0,0.3);background:rgba(255,184,0,0.05)}
+.test-item-header{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.test-item-info h4{font-size:15px;margin-bottom:2px}.test-item-info small{color:#666;font-size:12px}
+.test-item-text{color:#a1a1a1;font-size:14px;line-height:1.7;margin:10px 0;padding:12px;background:rgba(255,255,255,0.06);border-radius:8px;border-right:3px solid #0070f3}
+.test-item-meta{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-top:10px}
+.test-item-actions{display:flex;gap:8px}
+.item-btn.approve{background:rgba(0,200,83,0.15);color:#00c853;border-color:rgba(0,200,83,0.3)}.item-btn.approve:hover{background:rgba(0,200,83,0.25)}
+.item-btn.reject{background:rgba(238,0,0,0.15);color:#e00;border-color:rgba(238,0,0,0.3)}
+.emailjs-config{background:rgba(0,112,243,0.05);border:1px solid rgba(0,112,243,0.2);border-radius:10px;padding:16px;margin-bottom:20px;font-size:13px;color:#a1a1a1;line-height:1.7}
+.emailjs-config strong{color:#0070f3}
+.empty-state{text-align:center;padding:40px 20px;color:#666;font-size:14px}
+@media(max-width:768px){.admin-dashboard{grid-template-columns:1fr}.sidebar{position:relative;height:auto;border-left:none;border-bottom:1px solid rgba(255,255,255,0.08)}.form-row{grid-template-columns:1fr}.admin-content{padding:20px 16px}.admin-header{padding:16px 20px}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="aurora-signup" id="loginScreen">
+  <div class="hero-column">
+    <video class="hero-video" autoplay muted loop playsInline>
+      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260613_180732_a54afbf6-b30d-470e-861f-669871f09f67.mp4" type="video/mp4">
+    </video>
+
+  </div>
+  <div class="form-column">
+    <div class="form-wrapper">
+      <div class="form-header"><h2>Admin Panel</h2><p>Enter your credentials to log in.</p></div>
+
+      <form id="loginForm">
+        <div class="form-group"><label class="form-label" for="loginUser">Username</label><input type="text" id="loginUser" class="form-input" placeholder="admin" required autocomplete="username"></div>
+        <div class="form-group" style="margin-top:20px">
+          <label class="form-label" for="loginPass">Password</label>
+          <div class="password-wrapper">
+            <input type="password" id="loginPass" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" id="togglePass" class="password-toggle" aria-label="Toggle password visibility">
+              <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </div>
+          <span class="form-hint">Requires at least 8 symbols.</span>
+        </div>
+        <div class="login-error" id="loginError"></div>
+        <button type="submit" class="submit-btn">Log In</button>
+      </form>
+      <div class="demo-note">⚠️ Demo — Username: <code>admin</code> / Password: <code>Admin@1234</code></div>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<video class="admin-bg-video" autoplay muted loop playsInline>
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260613_180732_a54afbf6-b30d-470e-861f-669871f09f67.mp4" type="video/mp4">
+  </video>
+<div class="admin-dashboard" id="dashboard" hidden>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <img src="images/logo.png" alt="Logo" style="width:36px;height:36px;border-radius:10px;object-fit:cover;box-shadow:0 0 0 1px rgba(255,255,255,0.1)">
+      <span class="sidebar-title">Admin Panel</span>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="sidebar-link active" data-section="settings">⚙️ Site Settings</button>
+      <button class="sidebar-link" data-section="skills">🎯 Manage Skills</button>
+      <button class="sidebar-link" data-section="projects">📁 Projects</button>
+      <button class="sidebar-link" data-section="experience">💼 Experience</button>
+      <button class="sidebar-link" data-section="testimonials">💬 Testimonials</button>
+      <button class="sidebar-link" data-section="publish">🚀 Auto Publish</button>
+      <button class="sidebar-link" data-section="password">🔒 Change Password</button>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="index.html" class="sidebar-link">← View Site</a>
+      <button class="sidebar-link" id="logoutBtn">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <header class="admin-header">
+      <h2 id="pageTitle">Site Settings</h2>
+      <div class="admin-user"><span>admin</span><div class="admin-avatar">A</div></div>
+    </header>
+    <div class="admin-content">
+
+      <!-- SETTINGS -->
+      <section class="admin-section" id="sec-settings">
+        <div class="admin-card">
+          <h3 class="card-title">Hero Section</h3>
+          <div class="form-group"><label class="form-label">Main Title</label><input type="text" class="form-input" id="setHeroTitle" value="Hi, I'm Amin Saadati"></div>
+          <div class="form-group"><label class="form-label">Description</label><textarea class="form-input form-textarea" id="setHeroDesc" rows="3">Network infrastructure design and implementation specialist, security and surveillance systems</textarea></div>
+        </div>
+        <div class="admin-card">
+          <h3 class="card-title">About Section</h3>
+          <div class="form-group"><label class="form-label">Bio</label><textarea class="form-input form-textarea" id="setAboutBio" rows="4">I'm Amin Saadati, a specialist in designing and implementing network infrastructure and security systems.</textarea></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" id="setAboutName" value="Amin Saadati"></div>
+            <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="setAboutEmail" value="amin@example.com"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="setAboutLocation" value="Tehran, Iran"></div>
+            <div class="form-group"><label class="form-label">Phone</label><input type="text" class="form-input" id="setAboutPhone" value="+98 912 345 6789"></div>
+          </div>
+        </div>
+        <div class="admin-card">
+          <h3 class="card-title">Social Links</h3>
+          <div class="form-group"><label class="form-label">GitHub URL</label><input type="url" class="form-input" id="setGithub" value="https://github.com/AminSaadatiIT"></div>
+          <div class="form-group"><label class="form-label">LinkedIn URL</label><input type="url" class="form-input" id="setLinkedin"></div>
+          <div class="form-group"><label class="form-label">Telegram URL</label><input type="url" class="form-input" id="setTelegram"></div>
+        </div>
+        <button class="btn btn-primary" id="saveSettings">💾 Save Settings</button>
+      </section>
+
+      <!-- SKILLS -->
+      <section class="admin-section" id="sec-skills" hidden>
+        <div class="admin-card">
+          <div class="card-header"><h3 class="card-title">Manage Skills</h3><button class="btn btn-outline btn-sm" id="addSkillGroup">+ New Group</button></div>
+          <div id="skillsEditor"></div>
+        </div>
+        <button class="btn btn-primary" id="saveSkills">💾 Save</button>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="admin-section" id="sec-projects" hidden>
+        <div class="admin-card">
+          <div class="card-header"><h3 class="card-title">Manage Projects</h3><button class="btn btn-outline btn-sm" id="addProject">+ New Project</button></div>
+          <div id="projectsList"></div>
+        </div>
+        <div class="editor-modal" id="projectEditor" hidden>
+          <div class="editor-card">
+            <h3 id="editorTitle">New Project</h3>
+            <input type="hidden" id="projEditId">
+            <div class="form-group"><label class="form-label">Title *</label><input type="text" class="form-input" id="projTitle" required></div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Client</label><input type="text" class="form-input" id="projClient"></div>
+              <div class="form-group"><label class="form-label">Date</label><input type="text" class="form-input" id="projDate" placeholder="2025-01"></div>
+            </div>
+            <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="projLocation"></div>
+            <div class="form-group"><label class="form-label">Short Description</label><textarea class="form-input form-textarea" id="projShort" rows="2"></textarea></div>
+            <div class="form-group"><label class="form-label">Long Description <button type="button" class="btn-ai" id="aiGenerateBtn">🤖 AI Generate</button></label><textarea class="form-input form-textarea" id="projLong" rows="4"></textarea></div>
+            <div class="form-group">
+              <label class="form-label">Categories</label>
+              <div class="checkbox-group">
+                <label><input type="checkbox" value="cabling"> Cabling</label>
+                <label><input type="checkbox" value="cctv"> CCTV</label>
+                <label><input type="checkbox" value="rack"> Rack</label>
+                <label><input type="checkbox" value="fiber"> Fiber</label>
+                <label><input type="checkbox" value="security"> Security</label>
+              </div>
+            </div>
+            <div class="editor-actions">
+              <button class="btn btn-primary" id="saveProject">💾 Save</button>
+              <button class="btn btn-outline" id="cancelProject">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section class="admin-section" id="sec-experience" hidden>
+        <div class="admin-card">
+          <div class="card-header"><h3 class="card-title">Work Experience</h3><button class="btn btn-outline btn-sm" id="addExperience">+ New Experience</button></div>
+          <div id="experienceList"></div>
+        </div>
+        <button class="btn btn-primary" id="saveExperience">💾 Save</button>
+      </section>
+
+      <!-- TESTIMONIALS -->
+      <section class="admin-section" id="sec-testimonials" hidden>
+        <div class="admin-card">
+          <div class="card-header"><h3 class="card-title">📥 Pending Reviews <span class="badge-count" id="pendingCount">0</span></h3></div>
+          <div id="pendingList"></div>
+        </div>
+        <div class="admin-card">
+          <div class="card-header"><h3 class="card-title">✅ Approved Reviews <span class="badge-count" id="approvedCount">0</span></h3><button class="btn btn-outline btn-sm" id="addTestimonial">+ Add Manually</button></div>
+          <div id="testimonialsList"></div>
+        </div>
+        <div class="editor-modal" id="testimonialEditor" hidden>
+          <div class="editor-card">
+            <h3 id="testEditorTitle">New Review</h3>
+            <input type="hidden" id="testEditId">
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Full Name *</label><input type="text" class="form-input" id="testName" required></div>
+              <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="testEmail"></div>
+            </div>
+            <div class="form-group"><label class="form-label">Role / Company</label><input type="text" class="form-input" id="testRole" placeholder="e.g. Tech Lead — Company X"></div>
+            <div class="form-group">
+              <label class="form-label">Rating (Stars)</label>
+              <div class="star-rating" id="testStars" data-rating="5">
+                <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span><span class="star" data-value="3">★</span><span class="star" data-value="4">★</span><span class="star" data-value="5">★</span>
+              </div>
+            </div>
+            <div class="form-group"><label class="form-label">Review Text *</label><textarea class="form-input form-textarea" id="testText" rows="5" required></textarea></div>
+            <div class="editor-actions">
+              <button class="btn btn-primary" id="saveTestimonial">💾 Save</button>
+              <button class="btn btn-outline" id="cancelTestimonial">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PUBLISH -->
+      <section class="admin-section" id="sec-publish" hidden>
+        <div class="admin-card">
+          <h3 class="card-title">🚀 GitHub Auto Publish</h3>
+          <div class="form-group">
+            <label class="form-label">PAT Token</label>
+            <div style="position:relative">
+              <input type="password" class="form-input" id="ghPAT" placeholder="ghp_xxxxxxxxxxxx" style="padding-right:44px">
+              <button type="button" class="toggle-pw" data-target="ghPAT" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:18px;cursor:pointer;color:#666;padding:4px">👁️</button>
+            </div>
+            <small class="form-hint">⚠️ Do not commit your PAT to code.</small>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Repository</label><input type="text" class="form-input" id="ghRepo" placeholder="user/repo"></div>
+            <div class="form-group"><label class="form-label">Branch</label><input type="text" class="form-input" id="ghBranch" value="main"></div>
+          </div>
+          <label class="toggle-label"><input type="checkbox" id="autoPublish"> Auto-publish when saving project</label>
+        </div>
+        <div class="admin-card">
+          <h3 class="card-title">📧 EmailJS Settings</h3>
+          <div class="emailjs-config"><strong>Guide:</strong> Create a free account at <strong>emailjs.com</strong> and enter the details below.</div>
+          <div class="form-group"><label class="form-label">Your Email</label><input type="email" class="form-input" id="adminEmail" placeholder="admin@example.com"></div>
+          <div class="form-group"><label class="form-label">Service ID</label><input type="text" class="form-input" id="emailServiceId" placeholder="service_xxxxxxx"></div>
+          <div class="form-group"><label class="form-label">Template ID</label><input type="text" class="form-input" id="emailTemplateId" placeholder="template_xxxxxxx"></div>
+          <div class="form-group"><label class="form-label">Public Key</label><input type="text" class="form-input" id="emailPublicKey" placeholder="xxxxxxxxxxxxxxx"></div>
+          <button class="btn btn-primary" id="saveEmailJS">💾 Save EmailJS</button>
+        </div>
+        <div class="admin-card">
+          <h3 class="card-title">📱 Social Generator</h3>
+          <div class="form-group"><label class="form-label">Select Project</label><select class="form-input" id="socialProject"></select></div>
+          <div class="social-actions">
+            <button class="btn btn-outline btn-sm" id="genLinkedIn">💼 LinkedIn Post</button>
+            <button class="btn btn-outline btn-sm" id="genInstagram">📸 Instagram Caption</button>
+          </div>
+          <div id="socialOutput" class="social-output"></div>
+        </div>
+        <button class="btn btn-primary" id="savePublishSettings">💾 Save Settings</button>
+      </section>
+
+      <!-- PASSWORD -->
+      <section class="admin-section" id="sec-password" hidden>
+        <div class="admin-card">
+          <h3 class="card-title">🔒 Change Password</h3>
+          <form id="passwordForm">
+            <div class="form-group">
+              <label class="form-label">Current Password</label>
+              <div style="position:relative">
+                <input type="password" class="form-input" id="currentPass" required style="padding-right:44px">
+                <button type="button" class="toggle-pw" data-target="currentPass" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:18px;cursor:pointer;color:#666;padding:4px">👁️</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">New Password</label>
+              <div style="position:relative">
+                <input type="password" class="form-input" id="newPass" required minlength="8" style="padding-right:44px">
+                <button type="button" class="toggle-pw" data-target="newPass" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:18px;cursor:pointer;color:#666;padding:4px">👁️</button>
+              </div>
+              <small class="form-hint">Minimum 8 characters</small>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Confirm New Password</label>
+              <div style="position:relative">
+                <input type="password" class="form-input" id="confirmPass" required style="padding-right:44px">
+                <button type="button" class="toggle-pw" data-target="confirmPass" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:18px;cursor:pointer;color:#666;padding:4px">👁️</button>
+              </div>
+            </div>
+            <div id="passError" class="login-error"></div>
+            <div id="passSuccess" class="form-success" hidden></div>
+            <button type="submit" class="btn btn-primary">Change Password</button>
+          </form>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/ai-generator.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

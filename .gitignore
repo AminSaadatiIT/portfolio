@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Admin panel (not needed for portfolio)
+admin/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+
+# Logs
+*.log

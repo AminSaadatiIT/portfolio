@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a0a2e"/>
+      <stop offset="100%" stop-color="#2d1b4e"/>
+    </linearGradient>
+    <linearGradient id="cam" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </linearGradient>
+    <radialGradient id="scan" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00ff88" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg2)"/>
+  <!-- Grid -->
+  <g opacity="0.04" stroke="#a855f7" stroke-width="1">
+    <line x1="0" y1="100" x2="800" y2="100"/><line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="300" x2="800" y2="300"/><line x1="0" y1="400" x2="800" y2="400"/>
+    <line x1="200" y1="0" x2="200" y2="500"/><line x1="400" y1="0" x2="400" y2="500"/>
+    <line x1="600" y1="0" x2="600" y2="500"/>
+  </g>
+  <!-- CCTV Camera 1 - Bullet type -->
+  <g transform="translate(150, 120)">
+    <rect x="0" y="10" width="80" height="30" rx="5" fill="url(#cam)"/>
+    <rect x="75" y="15" width="20" height="20" rx="3" fill="#64748b"/>
+    <circle cx="85" cy="25" r="8" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+    <circle cx="85" cy="25" r="4" fill="#3b82f6"/>
+    <circle cx="85" cy="25" r="2" fill="#60a5fa"/>
+    <rect x="-15" y="18" width="20" height="14" rx="2" fill="#475569"/>
+    <line x1="10" y1="40" x2="10" y2="80" stroke="#64748b" stroke-width="3"/>
+    <line x1="-10" y1="80" x2="30" y2="80" stroke="#64748b" stroke-width="3"/>
+    <!-- Cable -->
+    <path d="M0 25 Q-30 25 -50 50 Q-70 80 -80 120" fill="none" stroke="#a855f7" stroke-width="2" opacity="0.6"/>
+  </g>
+  <!-- CCTV Camera 2 - Dome type -->
+  <g transform="translate(550, 100)">
+    <ellipse cx="40" cy="60" rx="40" ry="12" fill="#475569"/>
+    <path d="M10 60 Q10 20 40 15 Q70 20 70 60" fill="url(#cam)"/>
+    <circle cx="40" cy="40" r="12" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+    <circle cx="40" cy="40" r="6" fill="#3b82f6"/>
+    <circle cx="40" cy="40" r="3" fill="#60a5fa"/>
+    <line x1="40" y1="72" x2="40" y2="110" stroke="#64748b" stroke-width="3"/>
+  </g>
+  <!-- Monitor/Screen -->
+  <g transform="translate(300, 200)">
+    <rect x="0" y="0" width="200" height="130" rx="8" fill="#1e293b" stroke="#475569" stroke-width="2"/>
+    <rect x="10" y="10" width="180" height="100" rx="4" fill="#0f172a"/>
+    <!-- Camera feed grid on screen -->
+    <rect x="15" y="15" width="85" height="45" rx="2" fill="#1a1a2e" stroke="#334155" stroke-width="0.5"/>
+    <rect x="105" y="15" width="80" height="45" rx="2" fill="#1a1a2e" stroke="#334155" stroke-width="0.5"/>
+    <rect x="15" y="65" width="85" height="40" rx="2" fill="#1a1a2e" stroke="#334155" stroke-width="0.5"/>
+    <rect x="105" y="65" width="80" height="40" rx="2" fill="#1a1a2e" stroke="#334155" stroke-width="0.5"/>
+    <!-- REC indicator -->
+    <circle cx="170" cy="22" r="4" fill="#ef4444"/>
+    <text x="160" y="25" fill="#ef4444" font-family="monospace" font-size="7">REC</text>
+    <!-- Camera labels -->
+    <text x="25" y="35" fill="#64748b" font-family="monospace" font-size="7">CAM-01</text>
+    <text x="115" y="35" fill="#64748b" font-family="monospace" font-size="7">CAM-02</text>
+    <text x="25" y="80" fill="#64748b" font-family="monospace" font-size="7">CAM-03</text>
+    <text x="115" y="80" fill="#64748b" font-family="monospace" font-size="7">CAM-04</text>
+    <!-- Screen stand -->
+    <rect x="85" y="130" width="30" height="15" rx="2" fill="#475569"/>
+    <rect x="70" y="145" width="60" height="5" rx="2" fill="#475569"/>
+  </g>
+  <!-- NVR Box -->
+  <g transform="translate(550, 300)">
+    <rect x="0" y="0" width="160" height="40" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+    <circle cx="15" cy="20" r="3" fill="#00ff88"/><circle cx="25" cy="20" r="3" fill="#00ff88"/>
+    <circle cx="35" cy="20" r="3" fill="#ffaa00"/>
+    <text x="80" y="24" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">NVR 64CH</text>
+    <!-- HDD indicators -->
+    <rect x="110" y="10" width="35" height="8" rx="2" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
+    <rect x="110" y="22" width="35" height="8" rx="2" fill="#0f172a" stroke="#334155" stroke-width="0.5"/>
+    <rect x="112" y="12" width="20" height="4" rx="1" fill="#00ff88" opacity="0.6"/>
+    <rect x="112" y="24" width="25" height="4" rx="1" fill="#00ff88" opacity="0.6"/>
+  </g>
+  <!-- Scan beams -->
+  <ellipse cx="180" cy="200" rx="120" ry="80" fill="url(#scan)"/>
+  <!-- Title -->
+  <text x="400" y="470" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="14" letter-spacing="4">CCTV &amp; SURVEILLANCE</text>
+</svg>

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a1628"/>
+      <stop offset="100%" stop-color="#1a2744"/>
+    </linearGradient>
+    <linearGradient id="cable1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00b4d8"/>
+      <stop offset="100%" stop-color="#0077b6"/>
+    </linearGradient>
+    <linearGradient id="panel1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d3748"/>
+      <stop offset="100%" stop-color="#1a202c"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg1)"/>
+  <!-- Grid lines -->
+  <g opacity="0.05" stroke="#00b4d8" stroke-width="1">
+    <line x1="0" y1="100" x2="800" y2="100"/><line x1="0" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="300" x2="800" y2="300"/><line x1="0" y1="400" x2="800" y2="400"/>
+    <line x1="200" y1="0" x2="200" y2="500"/><line x1="400" y1="0" x2="400" y2="500"/>
+    <line x1="600" y1="0" x2="600" y2="500"/>
+  </g>
+  <!-- Server Rack -->
+  <rect x="280" y="80" width="240" height="340" rx="8" fill="url(#panel1)" stroke="#4a5568" stroke-width="2"/>
+  <!-- Rack Units -->
+  <g fill="#2d3748" stroke="#4a5568" stroke-width="1">
+    <rect x="290" y="95" width="220" height="30" rx="3"/>
+    <rect x="290" y="135" width="220" height="30" rx="3"/>
+    <rect x="290" y="175" width="220" height="30" rx="3"/>
+    <rect x="290" y="215" width="220" height="30" rx="3"/>
+    <rect x="290" y="255" width="220" height="30" rx="3"/>
+    <rect x="290" y="295" width="220" height="30" rx="3"/>
+    <rect x="290" y="335" width="220" height="30" rx="3"/>
+  </g>
+  <!-- LED indicators on rack -->
+  <g>
+    <circle cx="305" cy="110" r="3" fill="#00ff88"/><circle cx="315" cy="110" r="3" fill="#00ff88"/>
+    <circle cx="305" cy="150" r="3" fill="#00ff88"/><circle cx="315" cy="150" r="3" fill="#ff4444"/>
+    <circle cx="305" cy="190" r="3" fill="#00ff88"/><circle cx="315" cy="190" r="3" fill="#00ff88"/>
+    <circle cx="305" cy="230" r="3" fill="#ffaa00"/><circle cx="315" cy="230" r="3" fill="#00ff88"/>
+    <circle cx="305" cy="270" r="3" fill="#00ff88"/><circle cx="315" cy="270" r="3" fill="#00ff88"/>
+  </g>
+  <!-- Cables coming from rack -->
+  <g fill="none" stroke-width="3" stroke-linecap="round">
+    <path d="M280 120 Q200 120 150 180 Q100 240 80 320" stroke="#00b4d8" opacity="0.8"/>
+    <path d="M280 160 Q190 160 140 220 Q90 280 60 360" stroke="#0096c7" opacity="0.7"/>
+    <path d="M280 200 Q180 200 130 260 Q80 320 50 400" stroke="#0077b6" opacity="0.6"/>
+    <path d="M520 140 Q600 140 650 200 Q700 260 720 340" stroke="#00b4d8" opacity="0.8"/>
+    <path d="M520 180 Q610 180 660 240 Q710 300 740 380" stroke="#0096c7" opacity="0.7"/>
+    <path d="M520 220 Q620 220 670 280 Q720 340 750 420" stroke="#0077b6" opacity="0.6"/>
+  </g>
+  <!-- Cable tray / conduit -->
+  <rect x="40" y="420" width="720" height="8" rx="4" fill="#4a5568" opacity="0.5"/>
+  <!-- Patch Panel -->
+  <rect x="340" y="370" width="120" height="50" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+  <g fill="#334155">
+    <rect x="348" y="378" width="8" height="12" rx="1"/><rect x="360" y="378" width="8" height="12" rx="1"/>
+    <rect x="372" y="378" width="8" height="12" rx="1"/><rect x="384" y="378" width="8" height="12" rx="1"/>
+    <rect x="396" y="378" width="8" height="12" rx="1"/><rect x="408" y="378" width="8" height="12" rx="1"/>
+    <rect x="420" y="378" width="8" height="12" rx="1"/><rect x="432" y="378" width="8" height="12" rx="1"/>
+    <rect x="444" y="378" width="8" height="12" rx="1"/>
+  </g>
+  <text x="400" y="410" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="8">PATCH PANEL</text>
+  <!-- Glow effect -->
+  <circle cx="400" cy="250" r="200" fill="#00b4d8" opacity="0.03"/>
+  <!-- Title -->
+  <text x="400" y="470" text-anchor="middle" fill="#64748b" font-family="monospace" font-size="14" letter-spacing="4">STRUCTURED CABLING</text>
+</svg>
