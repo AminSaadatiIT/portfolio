@@ -14,35 +14,65 @@
     /* Hero section - prevent circles from overflowing */
     .hero-new {
         overflow: hidden !important;
-        padding: 100px 16px 30px !important;
+        padding: 100px 12px 30px !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
     }
     
-    /* Circles container - constrain within viewport */
+    /* Hero left - full width, text centered */
+    .hero-left {
+        flex: none !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        text-align: center !important;
+        overflow: visible !important;
+    }
+    
+    /* Hero right - centered, constrained */
+    .hero-right {
+        flex: none !important;
+        width: 200px !important;
+        height: 200px !important;
+        margin: 0 auto !important;
+        overflow: visible !important;
+    }
+    
+    /* Circles container - centered, small */
     .circles-container {
-        width: 250px !important;
-        height: 250px !important;
-        transform: scale(0.5) !important;
+        width: 200px !important;
+        height: 200px !important;
+        transform: scale(0.55) !important;
         transform-origin: center center !important;
     }
     
-    /* Hero right panel */
-    .hero-right {
-        flex: 0 0 130px !important;
-        width: 130px !important;
-        overflow: hidden !important;
+    /* Orbit icons - smaller */
+    .network-icon {
+        width: 40px !important;
+        height: 40px !important;
     }
     
-    /* Hero left - ensure text is visible */
-    .hero-left {
-        flex: 1 !important;
-        min-width: 0 !important;
-        overflow: hidden !important;
+    .network-icon svg {
+        width: 16px !important;
+        height: 16px !important;
     }
     
-    /* Stats - prevent overflow */
+    .network-icon span {
+        font-size: 6px !important;
+    }
+    
+    .orbit-number {
+        font-size: 32px !important;
+    }
+    
+    .orbit-label {
+        font-size: 10px !important;
+    }
+    
+    /* Stats - centered */
     .hero-stats {
         overflow: hidden !important;
         padding: 10px 8px !important;
+        justify-content: center !important;
     }
     
     .stat-number {
@@ -163,7 +193,11 @@
         display: grid !important;
     }
     
-    /* Buttons */
+    /* Buttons - centered */
+    .hero-cta-group {
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+    }
     .btn {
         padding: 12px 20px !important;
         font-size: 14px !important;
