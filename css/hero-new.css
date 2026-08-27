@@ -704,18 +704,19 @@
 
 /* ─── Responsive ─── */
 
-/* PERFORMANCE: Disable heavy animations on mobile */
+/* PERFORMANCE: Keep orbits spinning but disable heavy effects on mobile */
 @media (max-width: 768px) {
-    .orbit { animation: none !important; }
-    .orbit-ring { animation: none !important; }
-    .avatar { animation: none !important; opacity: 1 !important; filter: none !important; }
     .particle, .meteor { display: none !important; }
     #particles { display: none !important; }
     #cursorGlow { display: none !important; }
     .hero-bg { animation: none !important; }
     .scroll-indicator { animation: none !important; }
-    .orbit-center { animation: none !important; }
-    * { animation-duration: 0s !important; transition-duration: 0.15s !important; }
+    .orbit { animation-duration: 60s !important; }
+    .orbit-1 { animation-duration: 50s !important; }
+    .orbit-2 { animation-duration: 65s !important; }
+    .orbit-3 { animation-duration: 80s !important; }
+    .orbit-4 { animation-duration: 100s !important; }
+    .avatar { animation: none !important; opacity: 1 !important; filter: none !important; }
 }
 
 /* Tablet — keep side-by-side, smaller orbit */
