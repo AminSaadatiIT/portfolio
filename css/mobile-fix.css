@@ -1,4 +1,54 @@
 /* ═══════════════════════════════════════════
+   PERFORMANCE OPTIMIZATIONS
+   GPU acceleration + lazy rendering
+   ═══════════════════════════════════════════ */
+
+/* GPU-accelerate all animations */
+.orbit, .orbit-1, .orbit-2, .orbit-3, .orbit-4 {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.avatar {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+}
+
+/* Contain layout for performance */
+.hero-new {
+    contain: layout style;
+}
+
+.section {
+    contain: layout style;
+}
+
+/* Lazy render off-screen sections */
+.section:nth-child(n+3) {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 600px;
+}
+
+/* Optimize orbit rendering */
+.circles-container {
+    contain: layout paint;
+    will-change: transform;
+}
+
+/* Smooth animations without jank */
+.orbit {
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+}
+
+/* Reduce paint complexity */
+.network-icon {
+    contain: layout paint;
+    will-change: transform;
+}
+
+/* ═══════════════════════════════════════════
    COMPREHENSIVE MOBILE FIX
    Applied to ALL sections
    ═══════════════════════════════════════════ */
