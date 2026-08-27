@@ -1706,8 +1706,11 @@ select.form-input option,
 /* Tablet */
 @media (max-width: 1024px) {
     .container { padding: 0 24px; }
-    .about-premium { grid-template-columns: 1fr; }
-    .about-profile-card { max-width: 320px; margin: 0 auto; }
+    .about-premium {
+        grid-template-columns: 280px 1fr;
+        gap: 32px;
+    }
+    .about-profile-card { max-width: 280px; }
     .skills-groups { grid-template-columns: 1fr 1fr; }
     .projects-grid { grid-template-columns: 1fr 1fr; }
     .contact-grid { grid-template-columns: 1fr; }
@@ -1729,6 +1732,22 @@ select.form-input option,
     }
     .mobile-toggle { display: grid; }
     .btn-hire { display: none; }
+    /* About: keep side-by-side like hero orbit */
+    .about-premium {
+        grid-template-columns: 160px 1fr;
+        gap: 20px;
+        align-items: start;
+    }
+    .about-profile-card { max-width: 160px; }
+    .profile-photo-container { height: 220px; }
+    .profile-name { font-size: 18px; }
+    .profile-title { font-size: 12px; }
+    .profile-badge { top: 8px; left: 8px; padding: 4px 8px; font-size: 9px; }
+    .about-bio { font-size: 14px; line-height: 1.6; }
+    .about-details { gap: 8px; }
+    .detail-item { padding: 10px; }
+    .detail-label { font-size: 10px; }
+    .detail-value { font-size: 13px; }
     .skills-groups,
     .projects-grid,
     .contact-grid { grid-template-columns: 1fr; }
@@ -1736,8 +1755,8 @@ select.form-input option,
     .about-stats { grid-template-columns: repeat(3, 1fr); }
     .footer-columns { grid-template-columns: 1fr; gap: 30px; text-align: center; }
     .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
-    .section { padding: 48px 0; }
-    .section-header { margin-bottom: 24px; }
+    .section { padding: 40px 0; }
+    .section-header { margin-bottom: 20px; }
     .section-title { font-size: clamp(22px, 5vw, 32px); }
     .filter-bar { flex-wrap: wrap; gap: 8px; }
     .filter-btn { padding: 8px 14px; font-size: 13px; }
@@ -1752,22 +1771,26 @@ select.form-input option,
 
 /* Mobile Portrait */
 @media (max-width: 480px) {
-    .container { padding: 0 16px; }
-    .section { padding: 48px 0; }
-    .header-inner { padding: 12px 16px; }
+    .container { padding: 0 12px; }
+    .section { padding: 32px 0; }
+    .header-inner { padding: 10px 12px; }
     .logo-text { font-size: 14px; }
-    .hero-actions { gap: 12px; }
-    .about-details { gap: 12px; }
-    .detail-item { padding: 12px; }
+    /* About: even smaller photo, still side-by-side */
+    .about-premium {
+        grid-template-columns: 120px 1fr;
+        gap: 14px;
+    }
+    .about-profile-card { max-width: 120px; }
+    .profile-photo-container { height: 180px; }
+    .profile-name { font-size: 16px; }
+    .profile-title { font-size: 11px; }
+    .about-bio { font-size: 13px; }
+    .about-stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
     .form-input { padding: 10px 12px; font-size: 13px; }
     .form-textarea { min-height: 80px; }
     .btn { padding: 12px 20px; font-size: 14px; }
-    .testimonial-card { padding: 20px; }
+    .testimonial-card { padding: 16px; }
     .slider-btn { width: 36px; height: 36px; }
-    .profile-photo { object-position: center 20%; }
-    .profile-badge { top: 12px; left: 12px; padding: 5px 10px; font-size: 10px; }
-    .profile-name { font-size: 22px; }
-    .profile-title { font-size: 13px; }
 }
 
 /* Prevent horizontal overflow */
