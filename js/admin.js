@@ -100,6 +100,9 @@
     function initDashboard() {
         const links = $$('.sidebar-link[data-section]');
         const pageTitle = $('#pageTitle');
+        const sidebar = $('.sidebar');
+        const sidebarToggle = $('#sidebarToggle');
+        const sidebarOverlay = $('#sidebarOverlay');
 
         const titles = {
             settings: 'Site Settings',
@@ -111,6 +114,31 @@
             password: 'Change Password'
         };
 
+        // Mobile sidebar toggle
+        function openSidebar() {
+            sidebar.classList.add('open');
+            sidebarOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        function toggleSidebar() {
+            sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+        }
+
+        if (sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebar);
+        if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+
+        // Show toggle on mobile
+        function checkMobile() {
+            if (sidebarToggle) sidebarToggle.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+        }
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+
         links.forEach(link => {
             link.addEventListener('click', () => {
                 const section = link.dataset.section;
@@ -120,6 +148,9 @@
                 const target = $(`#sec-${section}`);
                 if (target) target.hidden = false;
                 if (pageTitle) pageTitle.textContent = titles[section] || section;
+
+                // Close sidebar on mobile after click
+                if (window.innerWidth <= 768) closeSidebar();
 
                 // Refresh testimonials when opened
                 if (section === 'testimonials') renderTestimonialsList();
