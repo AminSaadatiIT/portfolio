@@ -12,6 +12,7 @@
     const $ = (sel, ctx = document) => ctx.querySelector(sel);
     const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.innerWidth <= 768;
 
     function escapeHTML(str) {
         const div = document.createElement('div');
@@ -323,7 +324,7 @@
 
     // ═══════ PARALLAX BACKGROUND ═══════
     function initParallax() {
-        if (prefersReducedMotion) return;
+        if (prefersReducedMotion || isMobile) return;
 
         const orbs = [
             { el: $('#orb1'), sx: 0.12, sy: -0.075 },
@@ -359,7 +360,7 @@
 
     // ═══════ CURSOR GLOW ═══════
     function initCursorGlow() {
-        if (prefersReducedMotion) return;
+        if (prefersReducedMotion || isMobile) return;
         const glow = $('#cursorGlow');
         if (!glow || !window.matchMedia('(pointer: fine)').matches) return;
 
@@ -379,7 +380,7 @@
 
     // ═══════ PARTICLES & METEORS ═══════
     function initParticles() {
-        if (prefersReducedMotion) return;
+        if (prefersReducedMotion || isMobile) return;
         const container = $('#particles');
         if (!container) return;
 

@@ -319,4 +319,21 @@
     .admin-header { padding: 16px; }
     .form-row { grid-template-columns: 1fr; }
     .editor-card { padding: 24px 16px; }
+    .admin-title { font-size: 18px; }
+    .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat-card { padding: 16px; }
+    .stat-value { font-size: 24px; }
+    .stat-label { font-size: 11px; }
+    .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { min-width: 500px; font-size: 13px; }
+    .admin-table th, .admin-table td { padding: 10px 8px; }
+    .btn { padding: 10px 16px; font-size: 14px; }
+    .form-group { margin-bottom: 16px; }
+    .social-output { max-height: 200px; overflow-y: auto; font-size: 12px; }
+}
+@media (max-width: 480px) {
+    .admin-content { padding: 12px; }
+    .editor-card { padding: 16px 12px; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .admin-header h1 { font-size: 20px; }
 }

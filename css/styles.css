@@ -1732,21 +1732,22 @@ select.form-input option,
     .skills-groups,
     .projects-grid,
     .contact-grid { grid-template-columns: 1fr; }
-    .hero-stats { gap: 0; }
-    .stat-item { padding: 0 16px; }
-    .stat-number { font-size: 28px; }
     .about-glass-grid { grid-template-columns: 1fr; }
     .about-stats { grid-template-columns: repeat(3, 1fr); }
-    .hero-actions { flex-direction: column; width: 100%; }
-    .btn { width: 100%; justify-content: center; }
     .footer-columns { grid-template-columns: 1fr; gap: 30px; text-align: center; }
     .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
-    .section { padding: 60px 0; }
-    .section-header { margin-bottom: 32px; }
+    .section { padding: 48px 0; }
+    .section-header { margin-bottom: 24px; }
     .section-title { font-size: clamp(22px, 5vw, 32px); }
     .filter-bar { flex-wrap: wrap; gap: 8px; }
     .filter-btn { padding: 8px 14px; font-size: 13px; }
     .modal { margin: 16px; max-height: 90vh; }
+    /* Performance: disable parallax on mobile */
+    .parallax-orb { display: none !important; }
+    .aurora-grid { display: none !important; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    .reveal-stagger { opacity: 1 !important; transform: none !important; }
+    .project-card { opacity: 1 !important; transform: none !important; }
 }
 
 /* Mobile Portrait */
