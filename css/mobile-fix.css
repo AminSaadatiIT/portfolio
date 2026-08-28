@@ -1,9 +1,7 @@
 /* ═══════════════════════════════════════════
-   PERFORMANCE OPTIMIZATIONS
-   GPU acceleration + lazy rendering
+   PERFORMANCE - GPU ACCELERATION
    ═══════════════════════════════════════════ */
 
-/* GPU-accelerate all animations */
 .orbit, .orbit-1, .orbit-2, .orbit-3, .orbit-4 {
     will-change: transform;
     transform: translateZ(0);
@@ -15,7 +13,6 @@
     transform: translateZ(0);
 }
 
-/* Contain layout for performance */
 .hero-new {
     contain: layout style;
 }
@@ -24,186 +21,216 @@
     contain: layout style;
 }
 
-/* Lazy render off-screen sections */
 .section:nth-child(n+3) {
     content-visibility: auto;
     contain-intrinsic-size: 0 600px;
 }
 
-/* Optimize orbit rendering */
 .circles-container {
     contain: layout paint;
     will-change: transform;
 }
 
-/* Smooth animations without jank */
 .orbit {
     animation-timing-function: linear;
     animation-fill-mode: both;
 }
 
-/* Reduce paint complexity */
 .network-icon {
     contain: layout paint;
     will-change: transform;
 }
 
 /* ═══════════════════════════════════════════
-   COMPREHENSIVE MOBILE FIX
+   MATERIAL DESIGN MOBILE LAYOUT
    ═══════════════════════════════════════════ */
 
-/* ─── Global Mobile Fixes ─── */
 @media (max-width: 768px) {
-    /* Prevent horizontal overflow everywhere */
+    /* ─── Global Reset ─── */
     html, body {
         overflow-x: hidden !important;
         max-width: 100vw !important;
     }
-    
-    /* Hero section - column layout on mobile */
+
+    /* ─── Hero Section - Compact Material Layout ─── */
     .hero-new {
-        overflow: visible !important;
-        padding: 100px 16px 30px !important;
+        padding: 80px 20px 40px !important;
         flex-direction: column !important;
         align-items: center !important;
         text-align: center !important;
-        gap: 20px !important;
+        gap: 0 !important;
+        min-height: auto !important;
     }
-    
-    /* Hero left - full width, centered */
+
     .hero-left {
         flex: none !important;
         width: 100% !important;
         min-width: 0 !important;
         text-align: center !important;
         overflow: visible !important;
-        animation: fadeInUp 0.6s ease forwards !important;
     }
-    
-    /* Terminal window */
+
+    /* ─── Terminal - Compact ─── */
     .terminal-window {
         text-align: left !important;
-        margin-bottom: 20px !important;
+        margin-bottom: 16px !important;
+        border-radius: 16px !important;
     }
-    
-    /* Hero right - centered below text */
+
+    .terminal-body {
+        padding: 12px 16px !important;
+        font-size: 12px !important;
+    }
+
+    /* ─── Badge - Pill Shape ─── */
+    .hero-badge-intro {
+        font-size: 12px !important;
+        padding: 8px 16px !important;
+        margin-bottom: 12px !important;
+        justify-content: center !important;
+        border-radius: 50px !important;
+        background: rgba(160,104,255,0.1) !important;
+        border: 1px solid rgba(160,104,255,0.3) !important;
+    }
+
+    /* ─── Heading - Fluid Typography ─── */
+    .hero-heading {
+        font-size: clamp(28px, 8vw, 42px) !important;
+        line-height: 1.15 !important;
+        margin-bottom: 16px !important;
+        letter-spacing: -0.5px !important;
+    }
+
+    .hero-heading-primary {
+        font-size: 1em !important;
+    }
+
+    .hero-heading-accent {
+        font-size: 0.9em !important;
+    }
+
+    /* ─── Stats - Material Card ─── */
+    .hero-stats {
+        padding: 12px 16px !important;
+        margin-bottom: 20px !important;
+        border-radius: 16px !important;
+        gap: 8px !important;
+        background: rgba(160,104,255,0.08) !important;
+        border: 1px solid rgba(160,104,255,0.2) !important;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.3) !important;
+    }
+
+    .stat-number {
+        font-size: 22px !important;
+        font-weight: 700 !important;
+    }
+
+    .stat-label {
+        font-size: 9px !important;
+        letter-spacing: 0.08em !important;
+    }
+
+    .stat-divider {
+        height: 30px !important;
+    }
+
+    /* ─── CTA Buttons - Full Width Material ─── */
+    .hero-cta-group {
+        flex-direction: column !important;
+        gap: 10px !important;
+        width: 100% !important;
+        margin-top: 16px !important;
+        padding: 0 8px !important;
+    }
+
+    .btn-primary, .btn-secondary {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 14px 24px !important;
+        font-size: 15px !important;
+        border-radius: 12px !important;
+        box-shadow: 0 4px 16px rgba(160,104,255,0.3) !important;
+    }
+
+    .btn-outline {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 12px 20px !important;
+        font-size: 14px !important;
+        border-radius: 12px !important;
+    }
+
+    /* ─── Orbit Section - Inline with Hero ─── */
     .hero-right {
         flex: none !important;
         width: 100% !important;
-        max-width: 250px !important;
-        height: 250px !important;
-        margin: 0 auto !important;
+        max-width: 280px !important;
+        height: 280px !important;
+        margin: 24px auto 0 !important;
         overflow: visible !important;
-        animation: scaleIn 0.8s ease 0.2s forwards !important;
     }
-    
-    /* Circles container - fit within 250px */
+
     .circles-container {
-        width: 250px !important;
-        height: 250px !important;
-        transform: scale(0.65) !important;
+        width: 280px !important;
+        height: 280px !important;
+        transform: scale(0.75) !important;
         transform-origin: center center !important;
     }
-    
-    /* Orbit icons - smaller */
+
+    /* Orbit icons - smaller but visible */
     .network-icon {
-        width: 48px !important;
-        height: 48px !important;
+        width: 44px !important;
+        height: 44px !important;
         border-radius: 12px !important;
     }
-    
+
     .network-icon svg {
-        width: 20px !important;
-        height: 20px !important;
+        width: 18px !important;
+        height: 18px !important;
     }
-    
+
     .network-icon span {
-        font-size: 7px !important;
+        font-size: 6px !important;
     }
-    
+
     .orbit-number {
-        font-size: 40px !important;
+        font-size: 36px !important;
     }
-    
+
     .orbit-label {
-        font-size: 12px !important;
+        font-size: 11px !important;
     }
-    
-    /* Badge intro */
-    .hero-badge-intro {
-        font-size: 13px !important;
-        padding: 10px 16px !important;
-        margin-bottom: 12px !important;
-        justify-content: center !important;
-        flex-wrap: wrap !important;
+
+    /* ─── Scroll Indicator - Minimal ─── */
+    .scroll-indicator {
+        display: none !important;
     }
-    
-    /* Stats - centered */
-    .hero-stats {
-        overflow: visible !important;
-        padding: 12px 16px !important;
-        justify-content: center !important;
-        gap: 16px !important;
-        margin-bottom: 20px !important;
-    }
-    
-    .stat-number {
-        font-size: 24px !important;
-    }
-    
-    .stat-label {
-        font-size: 10px !important;
-    }
-    
-    /* CTA buttons - centered */
-    .hero-cta-group {
-        justify-content: center !important;
-        flex-wrap: wrap !important;
-        gap: 10px !important;
-        margin-top: 20px !important;
-    }
-    
-    .btn-primary {
-        padding: 14px 24px !important;
-        font-size: 15px !important;
-    }
-    
-    .btn-secondary {
-        padding: 14px 24px !important;
-        font-size: 15px !important;
-    }
-    
-    .btn-outline {
-        padding: 12px 18px !important;
-        font-size: 14px !important;
-    }
-    
-    /* About section - full width photo */
+
+    /* ═══ ABOUT SECTION ═══ */
     .about-premium {
         grid-template-columns: 1fr !important;
-        gap: 24px !important;
+        gap: 20px !important;
     }
-    
+
     .about-profile-card {
         max-width: 100% !important;
-        margin-bottom: 0 !important;
         border-radius: 20px !important;
         overflow: hidden !important;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.5) !important;
+        box-shadow: 0 16px 48px rgba(0,0,0,0.5) !important;
     }
-    
+
     .profile-photo-container {
-        height: 320px !important;
+        height: 300px !important;
         position: relative !important;
     }
-    
+
     .profile-photo {
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
         object-position: center 20% !important;
     }
-    
+
     .profile-floating-content {
         padding: 20px !important;
         position: absolute !important;
@@ -211,134 +238,135 @@
         left: 0 !important;
         right: 0 !important;
         z-index: 5 !important;
-        background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%) !important;
+        background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%) !important;
     }
-    
+
     .profile-name {
-        font-size: 22px !important;
+        font-size: 24px !important;
         font-weight: 700 !important;
         color: #fff !important;
+        margin-bottom: 4px !important;
     }
-    
+
     .profile-title {
         font-size: 13px !important;
-        color: rgba(255,255,255,0.8) !important;
+        color: rgba(255,255,255,0.85) !important;
     }
-    
+
     .profile-badge {
         top: 12px !important;
         left: 12px !important;
-        padding: 6px 12px !important;
+        padding: 6px 14px !important;
         font-size: 11px !important;
+        border-radius: 50px !important;
     }
-    
-    /* About info */
+
     .about-info-side {
         min-height: auto !important;
     }
-    
+
     .about-bio-premium {
         font-size: 15px !important;
         line-height: 1.7 !important;
     }
-    
-    /* Glass cards */
+
     .about-glass-grid {
         grid-template-columns: 1fr !important;
     }
-    
-    /* Skills */
+
+    /* ═══ SKILLS ═══ */
     .skills-groups {
         grid-template-columns: 1fr !important;
     }
-    
-    /* Projects */
+
+    /* ═══ PROJECTS ═══ */
     .projects-grid {
         grid-template-columns: 1fr !important;
     }
-    
-    /* Contact */
+
+    /* ═══ CONTACT ═══ */
     .contact-grid {
         grid-template-columns: 1fr !important;
     }
-    
-    /* Sections */
+
+    .form-row {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* ═══ SECTIONS ═══ */
     .section {
-        padding: 40px 16px !important;
+        padding: 32px 16px !important;
     }
-    
+
     .section-title {
-        font-size: clamp(22px, 5vw, 32px) !important;
+        font-size: clamp(22px, 6vw, 32px) !important;
+        margin-bottom: 8px !important;
     }
-    
+
     .section-desc {
         font-size: 14px !important;
+        margin-bottom: 24px !important;
     }
-    
-    /* Footer */
+
+    /* ═══ FOOTER ═══ */
     .footer-columns {
         grid-template-columns: 1fr !important;
         text-align: center !important;
     }
-    
+
     .footer-bottom {
         flex-direction: column !important;
         text-align: center !important;
+        gap: 12px !important;
     }
-    
-    /* Forms */
-    .form-row {
-        grid-template-columns: 1fr !important;
-    }
-    
-    /* Navigation */
+
+    /* ═══ NAVIGATION ═══ */
     .nav {
         display: none !important;
     }
-    
+
     .nav.open {
         display: flex !important;
         flex-direction: column !important;
         position: fixed !important;
-        top: var(--header-h) !important;
+        top: var(--header-h, 60px) !important;
         right: 0 !important;
         left: 0 !important;
         padding: 24px !important;
         background: rgba(5,5,5,0.95) !important;
         backdrop-filter: blur(20px) !important;
-        border-bottom: 1px solid var(--border-1) !important;
+        border-bottom: 1px solid var(--border-1, rgba(232,168,56,0.1)) !important;
         gap: 4px !important;
         z-index: 100 !important;
     }
-    
+
     .mobile-toggle {
         display: grid !important;
     }
-    
-    /* Performance - disable heavy effects */
+
+    /* ═══ PERFORMANCE - DISABLE HEAVY EFFECTS ═══ */
     .particle, .meteor {
         display: none !important;
     }
-    
+
     #particles {
         display: none !important;
     }
-    
+
     #cursorGlow {
         display: none !important;
     }
-    
+
     .aurora-grid {
         display: none !important;
     }
-    
-    /* Reveal animations - disable for performance */
+
     .reveal, .reveal-stagger, .project-card {
         opacity: 1 !important;
         transform: none !important;
     }
-    
-    /* Orbit animations - keep spinning but slower */
+
+    /* Orbit - keep spinning but slower for performance */
     .orbit {
         animation-duration: 60s !important;
     }
@@ -346,8 +374,7 @@
     .orbit-2 { animation-duration: 65s !important; }
     .orbit-3 { animation-duration: 80s !important; }
     .orbit-4 { animation-duration: 100s !important; }
-    
-    /* Avatars - visible immediately */
+
     .avatar {
         animation: none !important;
         opacity: 1 !important;
@@ -355,64 +382,95 @@
     }
 }
 
-/* ─── Small Mobile ─── */
+/* ═══════════════════════════════════════════
+   SMALL MOBILE - Extra Compact
+   ═══════════════════════════════════════════ */
 @media (max-width: 480px) {
     .hero-new {
-        padding: 80px 12px 20px !important;
+        padding: 70px 16px 32px !important;
     }
-    
+
+    .hero-heading {
+        font-size: clamp(24px, 7vw, 36px) !important;
+    }
+
     .hero-right {
-        max-width: 200px !important;
-        height: 200px !important;
+        max-width: 240px !important;
+        height: 240px !important;
     }
-    
+
     .circles-container {
-        width: 200px !important;
-        height: 200px !important;
-        transform: scale(0.5) !important;
+        width: 240px !important;
+        height: 240px !important;
+        transform: scale(0.65) !important;
     }
-    
+
     .hero-badge-intro {
         font-size: 11px !important;
-        padding: 8px 12px !important;
+        padding: 6px 12px !important;
     }
-    
+
     .hero-subtitle {
         display: none !important;
     }
-    
+
     .profile-photo-container {
         height: 260px !important;
     }
-    
+
     .stat-number {
-        font-size: 20px !important;
+        font-size: 18px !important;
     }
-    
+
     .stat-label {
-        font-size: 9px !important;
+        font-size: 8px !important;
     }
-    
-    .btn-primary {
+
+    .btn-primary, .btn-secondary {
         padding: 12px 20px !important;
         font-size: 14px !important;
     }
-    
-    .btn-secondary {
-        padding: 12px 20px !important;
-        font-size: 14px !important;
-    }
-    
+
     .btn-outline {
         padding: 10px 16px !important;
         font-size: 13px !important;
     }
-    
+
     .orbit-number {
-        font-size: 32px !important;
+        font-size: 30px !important;
     }
-    
+
     .orbit-label {
         font-size: 10px !important;
+    }
+}
+
+/* ═══════════════════════════════════════════
+   TABLET - Between Mobile and Desktop
+   ═══════════════════════════════════════════ */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .hero-new {
+        padding: 100px 32px 48px !important;
+    }
+
+    .hero-left {
+        flex: 0 1 55% !important;
+    }
+
+    .hero-right {
+        flex: 0 1 45% !important;
+    }
+
+    .circles-container {
+        transform: scale(0.7) !important;
+    }
+
+    .about-premium {
+        grid-template-columns: 1fr !important;
+        gap: 32px !important;
+    }
+
+    .profile-photo-container {
+        height: 360px !important;
     }
 }

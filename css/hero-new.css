@@ -702,27 +702,4 @@
 
 
 
-/* ─── Responsive ─── */
-
-/* Tablet — smaller orbit */
-@media (max-width: 1024px) {
-    .hero-new {
-        padding: 120px 24px 40px;
-        min-height: auto;
-    }
-    .hero-left { flex: 0 1 55%; }
-    .hero-right { flex: 0 1 45%; }
-    .circles-container { transform: scale(0.7); }
-    .hero-heading { font-size: clamp(32px, 5vw, 48px); }
-    .scroll-indicator { bottom: 20px; }
-}
-
-/* Mobile - handled by mobile-fix.css */
-@media (max-width: 768px) {
-    .scroll-indicator { animation: none !important; }
-    .hero-bg { animation: none !important; }
-    .scroll-indicator { bottom: 10px; }
-    .scroll-indicator span { font-size: 12px; }
-}
-
-
+/* Responsive handled by mobile-fix.css */
