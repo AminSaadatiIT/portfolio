@@ -170,36 +170,102 @@
 
     // ═══════ SITE SETTINGS ═══════
     function loadSettings() {
-        const settings = JSON.parse(localStorage.getItem('portfolio_settings') || '{}');
-        if (settings.heroTitle) $('#setHeroTitle').value = settings.heroTitle;
-        if (settings.heroDesc) $('#setHeroDesc').value = settings.heroDesc;
-        if (settings.aboutBio) $('#setAboutBio').value = settings.aboutBio;
-        if (settings.aboutName) $('#setAboutName').value = settings.aboutName;
-        if (settings.aboutEmail) $('#setAboutEmail').value = settings.aboutEmail;
-        if (settings.aboutLocation) $('#setAboutLocation').value = settings.aboutLocation;
-        if (settings.aboutPhone) $('#setAboutPhone').value = settings.aboutPhone;
-        if (settings.github) $('#setGithub').value = settings.github;
-        if (settings.linkedin) $('#setLinkedin').value = settings.linkedin;
-        if (settings.telegram) $('#setTelegram').value = settings.telegram;
+        const s = JSON.parse(localStorage.getItem('portfolio_settings') || '{}');
+        // Hero Badge
+        if (s.badgeName) $('#setBadgeName').value = s.badgeName;
+        if (s.badgeRole) $('#setBadgeRole').value = s.badgeRole;
+        if (s.badgeStatus) $('#setBadgeStatus').value = s.badgeStatus;
+        // Hero Heading
+        if (s.heroTitle) $('#setHeroTitle').value = s.heroTitle;
+        if (s.heroAccent) $('#setHeroAccent').value = s.heroAccent;
+        if (s.heroDesc) $('#setHeroDesc').value = s.heroDesc;
+        // Hero Stats
+        if (s.statProjects) $('#setStatProjects').value = s.statProjects;
+        if (s.statProjectsLabel) $('#setStatProjectsLabel').value = s.statProjectsLabel;
+        if (s.statClients) $('#setStatClients').value = s.statClients;
+        if (s.statClientsLabel) $('#setStatClientsLabel').value = s.statClientsLabel;
+        if (s.statYears) $('#setStatYears').value = s.statYears;
+        if (s.statYearsLabel) $('#setStatYearsLabel').value = s.statYearsLabel;
+        // CTA Buttons
+        if (s.ctaPrimary) $('#setCtaPrimary').value = s.ctaPrimary;
+        if (s.ctaPrimaryLink) $('#setCtaPrimaryLink').value = s.ctaPrimaryLink;
+        if (s.ctaSecondary) $('#setCtaSecondary').value = s.ctaSecondary;
+        if (s.ctaSecondaryLink) $('#setCtaSecondaryLink').value = s.ctaSecondaryLink;
+        if (s.ctaDownload) $('#setCtaDownload').value = s.ctaDownload;
+        // About
+        if (s.aboutName) $('#setAboutName').value = s.aboutName;
+        if (s.aboutTitle) $('#setAboutTitle').value = s.aboutTitle;
+        if (s.aboutBio) $('#setAboutBio').value = s.aboutBio;
+        if (s.aboutExpertise) $('#setAboutExpertise').value = s.aboutExpertise;
+        if (s.aboutCerts) $('#setAboutCerts').value = s.aboutCerts;
+        if (s.aboutEmail) $('#setAboutEmail').value = s.aboutEmail;
+        if (s.aboutLocation) $('#setAboutLocation').value = s.aboutLocation;
+        if (s.aboutPhone) $('#setAboutPhone').value = s.aboutPhone;
+        // About Stats
+        if (s.aboutProjects) $('#setAboutProjects').value = s.aboutProjects;
+        if (s.aboutClients) $('#setAboutClients').value = s.aboutClients;
+        if (s.aboutYears) $('#setAboutYears').value = s.aboutYears;
+        // Social
+        if (s.github) $('#setGithub').value = s.github;
+        if (s.linkedin) $('#setLinkedin').value = s.linkedin;
+        if (s.telegram) $('#setTelegram').value = s.telegram;
+        // Footer
+        if (s.footerName) $('#setFooterName').value = s.footerName;
+        if (s.footerTitle) $('#setFooterTitle').value = s.footerTitle;
+        if (s.footerCopy) $('#setFooterCopy').value = s.footerCopy;
+        if (s.footerCredit) $('#setFooterCredit').value = s.footerCredit;
     }
 
     function initSettingsListeners() {
         $('#saveSettings')?.addEventListener('click', () => {
             const data = {
-                _v: 2,
+                _v: 3,
+                // Hero Badge
+                badgeName: $('#setBadgeName').value,
+                badgeRole: $('#setBadgeRole').value,
+                badgeStatus: $('#setBadgeStatus').value,
+                // Hero Heading
                 heroTitle: $('#setHeroTitle').value,
+                heroAccent: $('#setHeroAccent').value,
                 heroDesc: $('#setHeroDesc').value,
-                aboutBio: $('#setAboutBio').value,
+                // Hero Stats
+                statProjects: $('#setStatProjects').value,
+                statProjectsLabel: $('#setStatProjectsLabel').value,
+                statClients: $('#setStatClients').value,
+                statClientsLabel: $('#setStatClientsLabel').value,
+                statYears: $('#setStatYears').value,
+                statYearsLabel: $('#setStatYearsLabel').value,
+                // CTA Buttons
+                ctaPrimary: $('#setCtaPrimary').value,
+                ctaPrimaryLink: $('#setCtaPrimaryLink').value,
+                ctaSecondary: $('#setCtaSecondary').value,
+                ctaSecondaryLink: $('#setCtaSecondaryLink').value,
+                ctaDownload: $('#setCtaDownload').value,
+                // About
                 aboutName: $('#setAboutName').value,
+                aboutTitle: $('#setAboutTitle').value,
+                aboutBio: $('#setAboutBio').value,
+                aboutExpertise: $('#setAboutExpertise').value,
+                aboutCerts: $('#setAboutCerts').value,
                 aboutEmail: $('#setAboutEmail').value,
                 aboutLocation: $('#setAboutLocation').value,
                 aboutPhone: $('#setAboutPhone').value,
+                // About Stats
+                aboutProjects: $('#setAboutProjects').value,
+                aboutClients: $('#setAboutClients').value,
+                aboutYears: $('#setAboutYears').value,
+                // Social
                 github: $('#setGithub').value,
                 linkedin: $('#setLinkedin').value,
-                telegram: $('#setTelegram').value
+                telegram: $('#setTelegram').value,
+                // Footer
+                footerName: $('#setFooterName').value,
+                footerTitle: $('#setFooterTitle').value,
+                footerCopy: $('#setFooterCopy').value,
+                footerCredit: $('#setFooterCredit').value
             };
             localStorage.setItem('portfolio_settings', JSON.stringify(data));
-            showToast('Settings saved!');
+            showToast('All settings saved!');
         });
     }
 

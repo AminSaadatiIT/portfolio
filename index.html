@@ -665,6 +665,72 @@
         </div>
     </div>
 
+    <!-- Apply Admin Settings -->
+    <script>
+    (function() {
+        const s = JSON.parse(localStorage.getItem('portfolio_settings') || '{}');
+        if (!s._v) return;
+
+        // Hero Badge
+        if (s.badgeName) { const el = document.querySelector('.hero-name'); if (el) el.textContent = s.badgeName; }
+        if (s.badgeRole) { const el = document.querySelector('.hero-role'); if (el) el.textContent = s.badgeRole; }
+        if (s.badgeStatus) { const el = document.querySelector('.hero-status'); if (el) el.innerHTML = '<span class="status-dot"></span> ' + s.badgeStatus; }
+
+        // Hero Heading
+        if (s.heroTitle) { const el = document.querySelector('.hero-heading-primary'); if (el) el.textContent = s.heroTitle; }
+        if (s.heroAccent) { const el = document.querySelector('.hero-heading-accent'); if (el) el.textContent = s.heroAccent; }
+        if (s.heroDesc) { const el = document.querySelector('.hero-subtitle'); if (el) el.textContent = s.heroDesc; }
+
+        // Hero Stats
+        const statNums = document.querySelectorAll('.hero-stats .stat-number');
+        const statLabels = document.querySelectorAll('.hero-stats .stat-label');
+        if (s.statProjects && statNums[0]) statNums[0].textContent = s.statProjects;
+        if (s.statProjectsLabel && statLabels[0]) statLabels[0].textContent = s.statProjectsLabel;
+        if (s.statClients && statNums[1]) statNums[1].textContent = s.statClients;
+        if (s.statClientsLabel && statLabels[1]) statLabels[1].textContent = s.statClientsLabel;
+        if (s.statYears && statNums[2]) statNums[2].textContent = s.statYears;
+        if (s.statYearsLabel && statLabels[2]) statLabels[2].textContent = s.statYearsLabel;
+
+        // CTA Buttons
+        if (s.ctaPrimary) { const el = document.querySelector('.hero-cta-group .btn-primary'); if (el) el.innerHTML = s.ctaPrimary + ' <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'; }
+        if (s.ctaPrimaryLink) { const el = document.querySelector('.hero-cta-group .btn-primary'); if (el) el.href = s.ctaPrimaryLink; }
+        if (s.ctaSecondary) { const el = document.querySelector('.hero-cta-group .btn-secondary'); if (el) el.textContent = s.ctaSecondary; }
+        if (s.ctaSecondaryLink) { const el = document.querySelector('.hero-cta-group .btn-secondary'); if (el) el.href = s.ctaSecondaryLink; }
+        if (s.ctaDownload) { const el = document.querySelector('.hero-cta-group .btn-outline'); if (el) { const svg = el.querySelector('svg'); el.textContent = ''; if (svg) el.appendChild(svg); el.appendChild(document.createTextNode(' ' + s.ctaDownload)); } }
+
+        // About Section
+        if (s.aboutName) { const el = document.querySelector('.profile-name'); if (el) el.textContent = s.aboutName; }
+        if (s.aboutTitle) { const el = document.querySelector('.profile-title'); if (el) el.textContent = s.aboutTitle; }
+        if (s.aboutBio) { const el = document.querySelector('.about-bio-premium'); if (el) el.innerHTML = s.aboutBio.replace(/network infrastructure/gi, '<span class="text-gradient">network infrastructure</span>').replace(/security systems/gi, '<span class="text-gradient">security systems</span>'); }
+        if (s.aboutExpertise) { const el = document.querySelectorAll('.about-bio-premium')[1]; if (el) el.innerHTML = '<strong>Core expertise:</strong> ' + s.aboutExpertise; }
+        if (s.aboutCerts) { const el = document.querySelectorAll('.about-bio-premium')[2]; if (el) el.innerHTML = '<strong>Certifications:</strong> ' + s.aboutCerts; }
+
+        // About Glass Cards
+        const glassValues = document.querySelectorAll('.glass-card-value');
+        if (s.aboutName && glassValues[0]) glassValues[0].textContent = s.aboutName;
+        if (s.aboutEmail && glassValues[1]) { glassValues[1].textContent = s.aboutEmail; glassValues[1].href = 'mailto:' + s.aboutEmail; }
+        if (s.aboutLocation && glassValues[2]) glassValues[2].textContent = s.aboutLocation;
+        if (s.aboutPhone && glassValues[3]) { glassValues[3].textContent = s.aboutPhone; glassValues[3].href = 'tel:' + s.aboutPhone.replace(/\s/g, ''); }
+
+        // About Stats
+        const aboutStatNums = document.querySelectorAll('.about-stats .stat-number');
+        if (s.aboutProjects && aboutStatNums[0]) aboutStatNums[0].setAttribute('data-count', s.aboutProjects);
+        if (s.aboutClients && aboutStatNums[1]) aboutStatNums[1].setAttribute('data-count', s.aboutClients);
+        if (s.aboutYears && aboutStatNums[2]) aboutStatNums[2].setAttribute('data-count', s.aboutYears);
+
+        // Social Links
+        if (s.github) { const el = document.querySelector('a[aria-label="GitHub"]'); if (el) el.href = s.github; }
+        if (s.linkedin) { const el = document.querySelector('a[aria-label="LinkedIn"]'); if (el) el.href = s.linkedin; }
+        if (s.telegram) { const el = document.querySelector('a[aria-label="Telegram"]'); if (el) el.href = s.telegram; }
+
+        // Footer
+        if (s.footerName) { const el = document.querySelector('.footer-name'); if (el) el.textContent = s.footerName; }
+        if (s.footerTitle) { const el = document.querySelector('.footer-title'); if (el) el.textContent = s.footerTitle; }
+        if (s.footerCopy) { const el = document.querySelector('.footer-copy'); if (el) el.textContent = s.footerCopy; }
+        if (s.footerCredit) { const el = document.querySelector('.footer-credit'); if (el) el.textContent = s.footerCredit; }
+    })();
+    </script>
+
     <script src="js/app.js?v=20260827" defer></script>
 </body>
 </html>

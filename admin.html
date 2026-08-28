@@ -200,30 +200,105 @@ a{color:inherit;text-decoration:none}button{border:none;background:none;cursor:p
 
       <!-- SETTINGS -->
       <section class="admin-section" id="sec-settings">
+        <!-- Hero Badge -->
         <div class="admin-card">
-          <h3 class="card-title">Hero Section</h3>
-          <div class="form-group"><label class="form-label">Main Title</label><input type="text" class="form-input" id="setHeroTitle" value="Hi, I'm Amin Saadati"></div>
-          <div class="form-group"><label class="form-label">Description</label><textarea class="form-input form-textarea" id="setHeroDesc" rows="3">Network infrastructure design and implementation specialist, security and surveillance systems</textarea></div>
-        </div>
-        <div class="admin-card">
-          <h3 class="card-title">About Section</h3>
-          <div class="form-group"><label class="form-label">Bio</label><textarea class="form-input form-textarea" id="setAboutBio" rows="4">I'm Amin Saadati, a specialist in designing and implementing network infrastructure and security systems.</textarea></div>
+          <h3 class="card-title">🏷️ Hero Badge</h3>
           <div class="form-row">
-            <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" id="setAboutName" value="Amin Saadati"></div>
-            <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="setAboutEmail" value="amin@example.com"></div>
+            <div class="form-group"><label class="form-label">Your Name</label><input type="text" class="form-input" id="setBadgeName" value="Amin Saadati"></div>
+            <div class="form-group"><label class="form-label">Your Role</label><input type="text" class="form-input" id="setBadgeRole" value="Network Infrastructure Specialist"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Status Text</label><input type="text" class="form-input" id="setBadgeStatus" value="Available for hire"></div>
+        </div>
+
+        <!-- Hero Heading -->
+        <div class="admin-card">
+          <h3 class="card-title">📝 Hero Heading</h3>
+          <div class="form-group"><label class="form-label">Primary Title</label><input type="text" class="form-input" id="setHeroTitle" value="Network Infrastructure"></div>
+          <div class="form-group"><label class="form-label">Accent Title</label><input type="text" class="form-input" id="setHeroAccent" value="Built with Precision"></div>
+          <div class="form-group"><label class="form-label">Subtitle</label><textarea class="form-input form-textarea" id="setHeroDesc" rows="2">Helping businesses build reliable network infrastructure and security systems.</textarea></div>
+        </div>
+
+        <!-- Hero Stats -->
+        <div class="admin-card">
+          <h3 class="card-title">📊 Hero Stats</h3>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Projects Count</label><input type="text" class="form-input" id="setStatProjects" value="50+"></div>
+            <div class="form-group"><label class="form-label">Projects Label</label><input type="text" class="form-input" id="setStatProjectsLabel" value="Projects"></div>
           </div>
           <div class="form-row">
-            <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="setAboutLocation" value="Tehran, Iran"></div>
-            <div class="form-group"><label class="form-label">Phone</label><input type="text" class="form-input" id="setAboutPhone" value="+98 912 345 6789"></div>
+            <div class="form-group"><label class="form-label">Clients Count</label><input type="text" class="form-input" id="setStatClients" value="35+"></div>
+            <div class="form-group"><label class="form-label">Clients Label</label><input type="text" class="form-input" id="setStatClientsLabel" value="Clients"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Years Count</label><input type="text" class="form-input" id="setStatYears" value="5+"></div>
+            <div class="form-group"><label class="form-label">Years Label</label><input type="text" class="form-input" id="setStatYearsLabel" value="Years"></div>
           </div>
         </div>
+
+        <!-- CTA Buttons -->
         <div class="admin-card">
-          <h3 class="card-title">Social Links</h3>
+          <h3 class="card-title">🔘 CTA Buttons</h3>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Primary Button Text</label><input type="text" class="form-input" id="setCtaPrimary" value="View My Work"></div>
+            <div class="form-group"><label class="form-label">Primary Button Link</label><input type="text" class="form-input" id="setCtaPrimaryLink" value="#projects"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Secondary Button Text</label><input type="text" class="form-input" id="setCtaSecondary" value="Contact Me"></div>
+            <div class="form-group"><label class="form-label">Secondary Button Link</label><input type="text" class="form-input" id="setCtaSecondaryLink" value="#contact"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Download Button Text</label><input type="text" class="form-input" id="setCtaDownload" value="Download Resume"></div>
+        </div>
+
+        <!-- About Section -->
+        <div class="admin-card">
+          <h3 class="card-title">👤 About Section</h3>
+          <div class="form-group"><label class="form-label">Profile Name</label><input type="text" class="form-input" id="setAboutName" value="Amin Saadati"></div>
+          <div class="form-group"><label class="form-label">Profile Title</label><input type="text" class="form-input" id="setAboutTitle" value="Network Infrastructure & Security Expert"></div>
+          <div class="form-group"><label class="form-label">Bio Paragraph 1</label><textarea class="form-input form-textarea" id="setAboutBio" rows="3">I'm a specialist in designing and implementing network infrastructure and security systems.</textarea></div>
+          <div class="form-group"><label class="form-label">Bio Paragraph 2 (Core Expertise)</label><textarea class="form-input form-textarea" id="setAboutExpertise" rows="2">Structured Cabling, Fiber Optic, CCTV, Access Control, Server Room Design</textarea></div>
+          <div class="form-group"><label class="form-label">Bio Paragraph 3 (Certifications)</label><input type="text" class="form-input" id="setAboutCerts" value="Cisco CCNA, MikroTik MTCNA, Fiber Optic Technician"></div>
+        </div>
+
+        <!-- About Glass Cards -->
+        <div class="admin-card">
+          <h3 class="card-title">📇 About Info Cards</h3>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="setAboutEmail" value="amin.saadati5195@gmail.com"></div>
+            <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="setAboutLocation" value="Mashhad, Iran"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Phone</label><input type="text" class="form-input" id="setAboutPhone" value="+98 999-971-8581"></div>
+        </div>
+
+        <!-- About Stats -->
+        <div class="admin-card">
+          <h3 class="card-title">📈 About Stats</h3>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Projects Done</label><input type="number" class="form-input" id="setAboutProjects" value="50"></div>
+            <div class="form-group"><label class="form-label">Happy Clients</label><input type="number" class="form-input" id="setAboutClients" value="30"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Years Experience</label><input type="number" class="form-input" id="setAboutYears" value="5"></div>
+        </div>
+
+        <!-- Social Links -->
+        <div class="admin-card">
+          <h3 class="card-title">🔗 Social Links</h3>
           <div class="form-group"><label class="form-label">GitHub URL</label><input type="url" class="form-input" id="setGithub" value="https://github.com/AminSaadatiIT"></div>
           <div class="form-group"><label class="form-label">LinkedIn URL</label><input type="url" class="form-input" id="setLinkedin"></div>
           <div class="form-group"><label class="form-label">Telegram URL</label><input type="url" class="form-input" id="setTelegram"></div>
         </div>
-        <button class="btn btn-primary" id="saveSettings">💾 Save Settings</button>
+
+        <!-- Footer -->
+        <div class="admin-card">
+          <h3 class="card-title">🦶 Footer</h3>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Footer Name</label><input type="text" class="form-input" id="setFooterName" value="Amin Saadati"></div>
+            <div class="form-group"><label class="form-label">Footer Title</label><input type="text" class="form-input" id="setFooterTitle" value="Network Infrastructure & Security Specialist"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Copyright Text</label><input type="text" class="form-input" id="setFooterCopy" value="© 2025 Amin Saadati. All rights reserved."></div>
+          <div class="form-group"><label class="form-label">Credit Text</label><input type="text" class="form-input" id="setFooterCredit" value="Designed & Built with ❤️"></div>
+        </div>
+
+        <button class="btn btn-primary" id="saveSettings">💾 Save All Settings</button>
       </section>
 
       <!-- SKILLS -->
