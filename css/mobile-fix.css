@@ -30,20 +30,19 @@
 
 /* ═══════════════════════════════════════════
    MOBILE (max-width: 768px)
-   Compact, professional, no wasted space
    ═══════════════════════════════════════════ */
 
 @media (max-width: 768px) {
 
-    /* ── Hero Section - Side by Side ── */
+    /* ── Hero Section ── */
     .hero-new {
         min-height: auto !important;
         height: auto !important;
-        padding: 80px 16px 24px !important;
-        flex-direction: row !important;
-        align-items: center !important;
+        padding: 80px 16px 20px !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
         text-align: left !important;
-        gap: 12px !important;
+        gap: 0 !important;
         overflow: hidden !important;
     }
 
@@ -52,23 +51,23 @@
     }
 
     .hero-left {
-        flex: 1 1 55% !important;
+        flex: none !important;
+        width: 100% !important;
         min-width: 0 !important;
         text-align: left !important;
         overflow: visible !important;
-        order: 1 !important;
     }
 
     /* ── Badge ── */
     .hero-badge-intro {
-        font-size: 11px !important;
-        padding: 8px 14px !important;
-        margin-bottom: 12px !important;
+        font-size: 10px !important;
+        padding: 6px 12px !important;
+        margin-bottom: 10px !important;
         justify-content: flex-start !important;
         border-radius: 50px !important;
         background: rgba(160,104,255,0.1) !important;
         border: 1px solid rgba(160,104,255,0.3) !important;
-        gap: 6px !important;
+        gap: 4px !important;
         flex-wrap: wrap !important;
     }
 
@@ -80,78 +79,111 @@
         display: flex !important;
         align-items: center !important;
         gap: 4px !important;
-        font-size: 11px !important;
+        font-size: 10px !important;
     }
 
     /* ── Heading ── */
     .hero-heading {
-        font-size: 28px !important;
+        font-size: 26px !important;
         line-height: 1.15 !important;
-        margin-bottom: 12px !important;
+        margin-bottom: 8px !important;
         letter-spacing: -0.5px !important;
     }
 
     .hero-heading-accent {
-        font-size: 24px !important;
+        font-size: 22px !important;
     }
 
     /* ── Subtitle ── */
     .hero-subtitle {
-        font-size: 13px !important;
+        font-size: 12px !important;
         line-height: 1.5 !important;
-        margin-bottom: 16px !important;
+        margin-bottom: 12px !important;
     }
 
-    /* ── Stats - Compact ── */
+    /* ── Stats - Full Width, No Overflow ── */
     .hero-stats {
-        padding: 14px 16px !important;
-        margin-bottom: 16px !important;
-        border-radius: 14px !important;
-        gap: 8px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        padding: 12px 8px !important;
+        margin-bottom: 12px !important;
+        border-radius: 12px !important;
+        gap: 0 !important;
         background: rgba(160,104,255,0.08) !important;
         border: 1px solid rgba(160,104,255,0.2) !important;
         box-shadow: 0 4px 24px rgba(0,0,0,0.3) !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    .stat-item {
+        flex: 1 !important;
+        text-align: center !important;
+        min-width: 0 !important;
     }
 
     .stat-number {
-        font-size: 22px !important;
+        font-size: 20px !important;
         font-weight: 700 !important;
+        display: block !important;
     }
 
     .stat-label {
-        font-size: 9px !important;
-        letter-spacing: 0.08em !important;
+        font-size: 8px !important;
+        letter-spacing: 0.05em !important;
         text-transform: uppercase !important;
+        display: block !important;
     }
 
     .stat-divider {
-        height: 32px !important;
+        width: 1px !important;
+        height: 28px !important;
+        flex: 0 0 1px !important;
     }
 
-    /* ── CTA Buttons ── */
+    /* ── CTA Buttons - Side by Side ── */
     .hero-cta-group {
+        display: flex !important;
         flex-direction: row !important;
         flex-wrap: wrap !important;
         gap: 8px !important;
         width: 100% !important;
-        margin-top: 16px !important;
+        margin-top: 12px !important;
         justify-content: flex-start !important;
-        align-items: flex-start !important;
+        align-items: stretch !important;
     }
 
-    .btn-primary, .btn-secondary {
-        padding: 12px 16px !important;
-        font-size: 12px !important;
-        border-radius: 10px !important;
-        flex: 0 0 auto !important;
+    .btn-primary {
+        display: inline-flex !important;
+        align-items: center !important;
         justify-content: center !important;
+        padding: 12px 16px !important;
+        font-size: 13px !important;
+        border-radius: 10px !important;
+        flex: 1 1 45% !important;
+        min-width: 0 !important;
+        gap: 6px !important;
+    }
+
+    .btn-secondary {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 12px 16px !important;
+        font-size: 13px !important;
+        border-radius: 10px !important;
+        flex: 1 1 45% !important;
+        min-width: 0 !important;
     }
 
     .download-wrap {
         width: 100% !important;
+        flex: 1 1 100% !important;
     }
 
     .btn-outline {
+        display: inline-flex !important;
         width: 100% !important;
         justify-content: center !important;
         padding: 10px 16px !important;
@@ -159,33 +191,32 @@
         border-radius: 10px !important;
     }
 
-    /* ── Orbit Section - Next to text ── */
+    /* ── Orbit Section - Below CTA, Centered ── */
     .hero-right {
-        flex: 0 0 45% !important;
-        width: 180px !important;
-        height: 180px !important;
-        margin: 0 !important;
+        flex: none !important;
+        width: 200px !important;
+        height: 200px !important;
+        margin: 20px auto 0 !important;
         overflow: visible !important;
-        order: 2 !important;
         position: relative !important;
     }
 
     .circles-container {
-        width: 180px !important;
-        height: 180px !important;
-        transform: scale(0.5) !important;
+        width: 200px !important;
+        height: 200px !important;
+        transform: scale(0.55) !important;
         transform-origin: center center !important;
     }
 
     .network-icon {
-        width: 48px !important;
-        height: 48px !important;
-        border-radius: 14px !important;
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 10px !important;
     }
 
     .network-icon svg {
-        width: 20px !important;
-        height: 20px !important;
+        width: 18px !important;
+        height: 18px !important;
     }
 
     .network-icon span {
@@ -193,12 +224,12 @@
     }
 
     .orbit-number {
-        font-size: 36px !important;
+        font-size: 28px !important;
         font-weight: 800 !important;
     }
 
     .orbit-label {
-        font-size: 11px !important;
+        font-size: 9px !important;
         letter-spacing: 0.05em !important;
     }
 
@@ -210,19 +241,19 @@
     /* ═══ ABOUT SECTION ═══ */
     .about-premium {
         grid-template-columns: 1fr !important;
-        gap: 24px !important;
-        padding: 40px 16px !important;
+        gap: 20px !important;
+        padding: 32px 16px !important;
     }
 
     .about-profile-card {
         max-width: 100% !important;
-        border-radius: 20px !important;
+        border-radius: 16px !important;
         overflow: hidden !important;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.5) !important;
+        box-shadow: 0 16px 48px rgba(0,0,0,0.5) !important;
     }
 
     .profile-photo-container {
-        height: 300px !important;
+        height: 280px !important;
     }
 
     .profile-photo {
@@ -232,15 +263,15 @@
     }
 
     .profile-floating-content {
-        padding: 20px !important;
+        padding: 16px !important;
     }
 
     .profile-name {
-        font-size: 22px !important;
+        font-size: 20px !important;
     }
 
     .profile-title {
-        font-size: 13px !important;
+        font-size: 12px !important;
     }
 
     .about-glass-grid {
@@ -248,8 +279,8 @@
     }
 
     .about-bio-premium {
-        font-size: 14px !important;
-        line-height: 1.7 !important;
+        font-size: 13px !important;
+        line-height: 1.6 !important;
     }
 
     /* ═══ SKILLS ═══ */
@@ -264,12 +295,12 @@
 
     /* ═══ SECTIONS ═══ */
     .section {
-        padding: 40px 16px !important;
+        padding: 32px 16px !important;
     }
 
     .section-title {
-        font-size: 24px !important;
-        margin-bottom: 12px !important;
+        font-size: 22px !important;
+        margin-bottom: 10px !important;
     }
 
     /* ═══ CONTACT ═══ */
@@ -352,8 +383,7 @@
    ═══════════════════════════════════════════ */
 @media (max-width: 480px) {
     .hero-new {
-        padding: 70px 12px 20px !important;
-        gap: 8px !important;
+        padding: 70px 12px 16px !important;
     }
 
     .hero-heading {
@@ -365,25 +395,25 @@
     }
 
     .hero-badge-intro {
-        font-size: 10px !important;
-        padding: 6px 10px !important;
+        font-size: 9px !important;
+        padding: 5px 10px !important;
     }
 
     .hero-right {
-        width: 140px !important;
-        height: 140px !important;
-        flex: 0 0 35% !important;
+        width: 160px !important;
+        height: 160px !important;
+        margin: 16px auto 0 !important;
     }
 
     .circles-container {
-        width: 140px !important;
-        height: 140px !important;
-        transform: scale(0.4) !important;
+        width: 160px !important;
+        height: 160px !important;
+        transform: scale(0.45) !important;
     }
 
     .btn-primary, .btn-secondary {
-        padding: 10px 14px !important;
-        font-size: 11px !important;
+        padding: 10px 12px !important;
+        font-size: 12px !important;
     }
 
     .stat-number {
@@ -391,7 +421,7 @@
     }
 
     .profile-photo-container {
-        height: 260px !important;
+        height: 240px !important;
     }
 }
 
