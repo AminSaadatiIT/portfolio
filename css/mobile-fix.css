@@ -403,6 +403,10 @@
 
     .hero-right {
         flex: 0 1 45% !important;
+        width: 400px !important;
+        height: 400px !important;
+        max-width: 45vw !important;
+        max-height: 45vw !important;
     }
 
     .circles-container {
