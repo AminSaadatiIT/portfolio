@@ -29,24 +29,26 @@
 }
 
 /* ═══════════════════════════════════════════
-   MATERIAL DESIGN MOBILE LAYOUT
+   MOBILE (max-width: 768px)
+   Compact, professional, no wasted space
    ═══════════════════════════════════════════ */
 
 @media (max-width: 768px) {
-    /* ─── Global Reset ─── */
-    html, body {
-        overflow-x: hidden !important;
-        max-width: 100vw !important;
-    }
 
-    /* ─── Hero Section - Compact Material Layout ─── */
+    /* ── Hero Section - Compact ── */
     .hero-new {
-        padding: 80px 20px 40px !important;
+        min-height: auto !important;
+        height: auto !important;
+        padding: 80px 16px 24px !important;
         flex-direction: column !important;
         align-items: center !important;
         text-align: center !important;
         gap: 0 !important;
-        min-height: auto !important;
+        overflow: hidden !important;
+    }
+
+    .hero-new::after {
+        display: none !important;
     }
 
     .hero-left {
@@ -55,52 +57,50 @@
         min-width: 0 !important;
         text-align: center !important;
         overflow: visible !important;
+        order: 1 !important;
     }
 
-    /* ─── Terminal - Compact ─── */
-    .terminal-window {
-        text-align: left !important;
-        margin-bottom: 16px !important;
-        border-radius: 16px !important;
-    }
-
-    .terminal-body {
-        padding: 12px 16px !important;
-        font-size: 12px !important;
-    }
-
-    /* ─── Badge - Pill Shape ─── */
+    /* ── Badge ── */
     .hero-badge-intro {
-        font-size: 12px !important;
-        padding: 8px 16px !important;
+        font-size: 11px !important;
+        padding: 8px 14px !important;
         margin-bottom: 12px !important;
         justify-content: center !important;
         border-radius: 50px !important;
         background: rgba(160,104,255,0.1) !important;
         border: 1px solid rgba(160,104,255,0.3) !important;
+        gap: 6px !important;
+        flex-wrap: wrap !important;
     }
 
-    /* ─── Heading - Fluid Typography ─── */
+    .hero-divider, .hero-status {
+        display: none !important;
+    }
+
+    /* ── Heading ── */
     .hero-heading {
-        font-size: clamp(28px, 8vw, 42px) !important;
+        font-size: 28px !important;
         line-height: 1.15 !important;
-        margin-bottom: 16px !important;
+        margin-bottom: 12px !important;
         letter-spacing: -0.5px !important;
     }
 
-    .hero-heading-primary {
-        font-size: 1em !important;
-    }
-
     .hero-heading-accent {
-        font-size: 0.9em !important;
+        font-size: 24px !important;
     }
 
-    /* ─── Stats - Material Card ─── */
+    /* ── Subtitle ── */
+    .hero-subtitle {
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+        margin-bottom: 16px !important;
+    }
+
+    /* ── Stats - Compact ── */
     .hero-stats {
-        padding: 12px 16px !important;
-        margin-bottom: 20px !important;
-        border-radius: 16px !important;
+        padding: 14px 16px !important;
+        margin-bottom: 16px !important;
+        border-radius: 14px !important;
         gap: 8px !important;
         background: rgba(160,104,255,0.08) !important;
         border: 1px solid rgba(160,104,255,0.2) !important;
@@ -115,80 +115,90 @@
     .stat-label {
         font-size: 9px !important;
         letter-spacing: 0.08em !important;
+        text-transform: uppercase !important;
     }
 
     .stat-divider {
-        height: 30px !important;
+        height: 32px !important;
     }
 
-    /* ─── CTA Buttons - Full Width Material ─── */
+    /* ── CTA Buttons ── */
     .hero-cta-group {
         flex-direction: column !important;
+        flex-wrap: wrap !important;
         gap: 10px !important;
         width: 100% !important;
         margin-top: 16px !important;
-        padding: 0 8px !important;
+        justify-content: center !important;
+        align-items: center !important;
     }
 
     .btn-primary, .btn-secondary {
-        width: 100% !important;
-        justify-content: center !important;
         padding: 14px 24px !important;
-        font-size: 15px !important;
+        font-size: 14px !important;
         border-radius: 12px !important;
-        box-shadow: 0 4px 16px rgba(160,104,255,0.3) !important;
+        width: 100% !important;
+        max-width: 280px !important;
+        justify-content: center !important;
+    }
+
+    .download-wrap {
+        width: 100% !important;
+        max-width: 280px !important;
     }
 
     .btn-outline {
         width: 100% !important;
         justify-content: center !important;
         padding: 12px 20px !important;
-        font-size: 14px !important;
+        font-size: 13px !important;
         border-radius: 12px !important;
     }
 
-    /* ─── Orbit Section - Inline with Hero ─── */
+    /* ── Orbit Section - Bigger, Integrated ── */
     .hero-right {
         flex: none !important;
-        width: 100% !important;
-        max-width: 280px !important;
-        height: 280px !important;
+        width: 320px !important;
+        height: 320px !important;
         margin: 24px auto 0 !important;
         overflow: visible !important;
+        order: 2 !important;
+        position: relative !important;
     }
 
     .circles-container {
-        width: 280px !important;
-        height: 280px !important;
-        transform: scale(0.75) !important;
+        width: 320px !important;
+        height: 320px !important;
+        transform: scale(0.85) !important;
         transform-origin: center center !important;
     }
 
-    /* Orbit icons - smaller but visible */
     .network-icon {
-        width: 44px !important;
-        height: 44px !important;
-        border-radius: 12px !important;
+        width: 48px !important;
+        height: 48px !important;
+        border-radius: 14px !important;
     }
 
     .network-icon svg {
-        width: 18px !important;
-        height: 18px !important;
+        width: 20px !important;
+        height: 20px !important;
     }
 
     .network-icon span {
-        font-size: 6px !important;
+        display: none !important;
     }
 
     .orbit-number {
         font-size: 36px !important;
+        font-weight: 800 !important;
     }
 
     .orbit-label {
         font-size: 11px !important;
+        letter-spacing: 0.05em !important;
     }
 
-    /* ─── Scroll Indicator - Minimal ─── */
+    /* ── Scroll Indicator - Hidden ── */
     .scroll-indicator {
         display: none !important;
     }
@@ -196,69 +206,46 @@
     /* ═══ ABOUT SECTION ═══ */
     .about-premium {
         grid-template-columns: 1fr !important;
-        gap: 20px !important;
+        gap: 24px !important;
+        padding: 40px 16px !important;
     }
 
     .about-profile-card {
         max-width: 100% !important;
         border-radius: 20px !important;
         overflow: hidden !important;
-        box-shadow: 0 16px 48px rgba(0,0,0,0.5) !important;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5) !important;
     }
 
     .profile-photo-container {
         height: 300px !important;
-        position: relative !important;
     }
 
     .profile-photo {
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
-        object-position: center 20% !important;
     }
 
     .profile-floating-content {
         padding: 20px !important;
-        position: absolute !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        z-index: 5 !important;
-        background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%) !important;
     }
 
     .profile-name {
-        font-size: 24px !important;
-        font-weight: 700 !important;
-        color: #fff !important;
-        margin-bottom: 4px !important;
+        font-size: 22px !important;
     }
 
     .profile-title {
         font-size: 13px !important;
-        color: rgba(255,255,255,0.85) !important;
-    }
-
-    .profile-badge {
-        top: 12px !important;
-        left: 12px !important;
-        padding: 6px 14px !important;
-        font-size: 11px !important;
-        border-radius: 50px !important;
-    }
-
-    .about-info-side {
-        min-height: auto !important;
-    }
-
-    .about-bio-premium {
-        font-size: 15px !important;
-        line-height: 1.7 !important;
     }
 
     .about-glass-grid {
         grid-template-columns: 1fr !important;
+    }
+
+    .about-bio-premium {
+        font-size: 14px !important;
+        line-height: 1.7 !important;
     }
 
     /* ═══ SKILLS ═══ */
@@ -271,6 +258,16 @@
         grid-template-columns: 1fr !important;
     }
 
+    /* ═══ SECTIONS ═══ */
+    .section {
+        padding: 40px 16px !important;
+    }
+
+    .section-title {
+        font-size: 24px !important;
+        margin-bottom: 12px !important;
+    }
+
     /* ═══ CONTACT ═══ */
     .contact-grid {
         grid-template-columns: 1fr !important;
@@ -278,21 +275,6 @@
 
     .form-row {
         grid-template-columns: 1fr !important;
-    }
-
-    /* ═══ SECTIONS ═══ */
-    .section {
-        padding: 32px 16px !important;
-    }
-
-    .section-title {
-        font-size: clamp(22px, 6vw, 32px) !important;
-        margin-bottom: 8px !important;
-    }
-
-    .section-desc {
-        font-size: 14px !important;
-        margin-bottom: 24px !important;
     }
 
     /* ═══ FOOTER ═══ */
@@ -304,7 +286,6 @@
     .footer-bottom {
         flex-direction: column !important;
         text-align: center !important;
-        gap: 12px !important;
     }
 
     /* ═══ NAVIGATION ═══ */
@@ -316,13 +297,13 @@
         display: flex !important;
         flex-direction: column !important;
         position: fixed !important;
-        top: var(--header-h, 60px) !important;
+        top: 60px !important;
         right: 0 !important;
         left: 0 !important;
-        padding: 24px !important;
+        padding: 20px !important;
         background: rgba(5,5,5,0.95) !important;
         backdrop-filter: blur(20px) !important;
-        border-bottom: 1px solid var(--border-1, rgba(232,168,56,0.1)) !important;
+        border-bottom: 1px solid rgba(255,255,255,0.1) !important;
         gap: 4px !important;
         z-index: 100 !important;
     }
@@ -331,32 +312,25 @@
         display: grid !important;
     }
 
-    /* ═══ PERFORMANCE - DISABLE HEAVY EFFECTS ═══ */
+    /* ═══ PERFORMANCE ═══ */
     .particle, .meteor {
         display: none !important;
     }
-
     #particles {
         display: none !important;
     }
-
     #cursorGlow {
         display: none !important;
     }
-
     .aurora-grid {
         display: none !important;
     }
-
     .reveal, .reveal-stagger, .project-card {
         opacity: 1 !important;
         transform: none !important;
     }
 
-    /* Orbit - keep spinning but slower for performance */
-    .orbit {
-        animation-duration: 60s !important;
-    }
+    .orbit { animation-duration: 60s !important; }
     .orbit-1 { animation-duration: 50s !important; }
     .orbit-2 { animation-duration: 65s !important; }
     .orbit-3 { animation-duration: 80s !important; }
@@ -370,70 +344,53 @@
 }
 
 /* ═══════════════════════════════════════════
-   SMALL MOBILE - Extra Compact
+   SMALL MOBILE (max-width: 480px)
    ═══════════════════════════════════════════ */
 @media (max-width: 480px) {
     .hero-new {
-        padding: 70px 16px 32px !important;
+        padding: 70px 12px 20px !important;
     }
 
     .hero-heading {
-        font-size: clamp(24px, 7vw, 36px) !important;
+        font-size: 24px !important;
     }
 
-    .hero-right {
-        max-width: 240px !important;
-        height: 240px !important;
-    }
-
-    .circles-container {
-        width: 240px !important;
-        height: 240px !important;
-        transform: scale(0.65) !important;
+    .hero-heading-accent {
+        font-size: 20px !important;
     }
 
     .hero-badge-intro {
-        font-size: 11px !important;
-        padding: 6px 12px !important;
+        font-size: 10px !important;
+        padding: 6px 10px !important;
     }
 
-    .hero-subtitle {
-        display: none !important;
+    .hero-right {
+        width: 280px !important;
+        height: 280px !important;
+    }
+
+    .circles-container {
+        width: 280px !important;
+        height: 280px !important;
+        transform: scale(0.75) !important;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 12px 20px !important;
+        font-size: 13px !important;
+    }
+
+    .stat-number {
+        font-size: 20px !important;
     }
 
     .profile-photo-container {
         height: 260px !important;
     }
-
-    .stat-number {
-        font-size: 18px !important;
-    }
-
-    .stat-label {
-        font-size: 8px !important;
-    }
-
-    .btn-primary, .btn-secondary {
-        padding: 12px 20px !important;
-        font-size: 14px !important;
-    }
-
-    .btn-outline {
-        padding: 10px 16px !important;
-        font-size: 13px !important;
-    }
-
-    .orbit-number {
-        font-size: 30px !important;
-    }
-
-    .orbit-label {
-        font-size: 10px !important;
-    }
 }
 
 /* ═══════════════════════════════════════════
-   TABLET - Between Mobile and Desktop
+   TABLET (769px - 1024px)
    ═══════════════════════════════════════════ */
 @media (min-width: 769px) and (max-width: 1024px) {
     .hero-new {
