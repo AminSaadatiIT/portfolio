@@ -13,19 +13,6 @@
     transform: translateZ(0);
 }
 
-.hero-new {
-    contain: layout style;
-}
-
-.section {
-    contain: layout style;
-}
-
-.section:nth-child(n+3) {
-    content-visibility: auto;
-    contain-intrinsic-size: 0 600px;
-}
-
 .circles-container {
     contain: layout paint;
     will-change: transform;
