@@ -40,6 +40,7 @@
     inset: 0;
     background: url('https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260624_111401_56af5012-2263-45d3-849a-8688084d7c2a.png&w=1280&q=85') center center / cover no-repeat;
     z-index: 0;
+    pointer-events: none;
 }
 
 
@@ -564,6 +565,7 @@
     position: relative;
     width: 720px;
     height: 720px;
+    z-index: 20;
 }
 
 /* ─── Orbits ─── */
@@ -572,6 +574,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 20;
 }
 
 .orbit-1 { width: 353px; height: 353px; animation: spinRight 30s linear infinite; }
@@ -630,6 +633,7 @@
     transform: translate(-50%, -50%) rotate(var(--angle)) translateY(calc(var(--radius) * -1)) rotate(calc(var(--angle) * -1));
     opacity: 0;
     animation: avatarFlyIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    z-index: 25;
 }
 
 .network-icon {
