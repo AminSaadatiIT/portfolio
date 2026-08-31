@@ -192,6 +192,7 @@
         if (s.ctaSecondary) $('#setCtaSecondary').value = s.ctaSecondary;
         if (s.ctaSecondaryLink) $('#setCtaSecondaryLink').value = s.ctaSecondaryLink;
         if (s.ctaDownload) $('#setCtaDownload').value = s.ctaDownload;
+        if (s.ctaDownloadUrl) $('#setCtaDownloadUrl').value = s.ctaDownloadUrl;
         // About
         if (s.aboutName) $('#setAboutName').value = s.aboutName;
         if (s.aboutTitle) $('#setAboutTitle').value = s.aboutTitle;
@@ -241,6 +242,7 @@
                 ctaSecondary: $('#setCtaSecondary').value,
                 ctaSecondaryLink: $('#setCtaSecondaryLink').value,
                 ctaDownload: $('#setCtaDownload').value,
+                ctaDownloadUrl: $('#setCtaDownloadUrl').value,
                 // About
                 aboutName: $('#setAboutName').value,
                 aboutTitle: $('#setAboutTitle').value,

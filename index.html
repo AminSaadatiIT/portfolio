@@ -151,29 +151,12 @@
                     <a href="#contact" class="btn-secondary">
                         Contact Me
                     </a>
-                    <div class="download-wrap" id="downloadWrap">
-                        <a href="#" class="btn-outline" id="downloadResume">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-                            </svg>
-                            Download Resume
-                        </a>
-                        <div class="download-menu" id="downloadMenu">
-                            <div class="download-menu-title">Choose format:</div>
-                            <a href="#" class="download-option" data-format="pdf">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                                PDF Document
-                            </a>
-                            <a href="#" class="download-option" data-format="html">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-                                HTML Page
-                            </a>
-                            <a href="#" class="download-option" data-format="txt">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                                Plain Text
-                            </a>
-                        </div>
-                    </div>
+                    <a href="https://github.com/aminsaadatiit/resume-cv" target="_blank" class="btn-outline" id="downloadResume">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                        </svg>
+                        Download Resume
+                    </a>
                 </div>
             </div>
             
@@ -697,6 +680,7 @@
         if (s.ctaSecondary) { const el = document.querySelector('.hero-cta-group .btn-secondary'); if (el) el.textContent = s.ctaSecondary; }
         if (s.ctaSecondaryLink) { const el = document.querySelector('.hero-cta-group .btn-secondary'); if (el) el.href = s.ctaSecondaryLink; }
         if (s.ctaDownload) { const el = document.querySelector('.hero-cta-group .btn-outline'); if (el) { const svg = el.querySelector('svg'); el.textContent = ''; if (svg) el.appendChild(svg); el.appendChild(document.createTextNode(' ' + s.ctaDownload)); } }
+        if (s.ctaDownloadUrl) { const el = document.querySelector('.hero-cta-group .btn-outline'); if (el) el.href = s.ctaDownloadUrl; }
 
         // About Section
         if (s.aboutName) { const el = document.querySelector('.profile-name'); if (el) el.textContent = s.aboutName; }
