@@ -320,17 +320,22 @@ a{color:inherit;text-decoration:none}button{border:none;background:none;cursor:p
           <div id="projectsList"></div>
         </div>
         <div class="editor-modal" id="projectEditor" hidden>
-          <div class="editor-card">
+          <div class="editor-card" style="max-width:700px">
             <h3 id="editorTitle">New Project</h3>
             <input type="hidden" id="projEditId">
+            
+            <!-- Basic Info -->
             <div class="form-group"><label class="form-label">Title *</label><input type="text" class="form-input" id="projTitle" required></div>
             <div class="form-row">
               <div class="form-group"><label class="form-label">Client</label><input type="text" class="form-input" id="projClient"></div>
               <div class="form-group"><label class="form-label">Date</label><input type="text" class="form-input" id="projDate" placeholder="2025-01"></div>
             </div>
-            <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="projLocation"></div>
-            <div class="form-group"><label class="form-label">Short Description</label><textarea class="form-input form-textarea" id="projShort" rows="2"></textarea></div>
-            <div class="form-group"><label class="form-label">Long Description <button type="button" class="btn-ai" id="aiGenerateBtn">🤖 AI Generate</button></label><textarea class="form-input form-textarea" id="projLong" rows="4"></textarea></div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="projLocation"></div>
+              <div class="form-group"><label class="form-label">Duration</label><input type="text" class="form-input" id="projDuration" placeholder="3 months"></div>
+            </div>
+            
+            <!-- Categories -->
             <div class="form-group">
               <label class="form-label">Categories</label>
               <div class="checkbox-group">
@@ -341,8 +346,108 @@ a{color:inherit;text-decoration:none}button{border:none;background:none;cursor:p
                 <label><input type="checkbox" value="security"> Security</label>
               </div>
             </div>
+            
+            <!-- AI Text Generation -->
+            <div class="admin-card" style="margin-top:16px;background:rgba(121,40,202,0.08);border-color:rgba(121,40,202,0.3)">
+              <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+                <h4 style="font-size:14px;color:#c99bff">🤖 AI Text Generator</h4>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <label style="font-size:12px;color:#a1a1a1">Language:</label>
+                  <select id="aiLanguage" class="form-input" style="width:auto;height:32px;padding:0 10px;font-size:12px;background:#1a1a1a">
+                    <option value="fa">🇮🇷 فارسی</option>
+                    <option value="en">🇬🇧 English</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group"><label class="form-label" style="font-size:12px">Summary</label><textarea class="form-input form-textarea" id="projSummary" rows="2" placeholder="Brief project overview"></textarea></div>
+                <div class="form-group"><label class="form-label" style="font-size:12px">Challenge</label><textarea class="form-input form-textarea" id="projChallenge" rows="2" placeholder="What problem needed solving"></textarea></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label" style="font-size:12px">Solution</label><textarea class="form-input form-textarea" id="projSolution" rows="2" placeholder="How it was solved"></textarea></div>
+                <div class="form-group"><label class="form-label" style="font-size:12px">Results</label><textarea class="form-input form-textarea" id="projResults" rows="2" placeholder="Measurable outcomes"></textarea></div>
+              </div>
+              
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button type="button" class="btn-ai" id="aiGenSummary">📝 Generate Summary</button>
+                <button type="button" class="btn-ai" id="aiGenChallenge">🎯 Generate Challenge</button>
+                <button type="button" class="btn-ai" id="aiGenSolution">💡 Generate Solution</button>
+                <button type="button" class="btn-ai" id="aiGenResults">📊 Generate Results</button>
+                <button type="button" class="btn-ai" id="aiGenAll" style="background:rgba(0,200,83,0.2);border-color:rgba(0,200,83,0.4);color:#00c853">✨ Generate All</button>
+              </div>
+            </div>
+            
+            <!-- Descriptions -->
+            <div class="form-group"><label class="form-label">Short Description</label><textarea class="form-input form-textarea" id="projShort" rows="2"></textarea></div>
+            <div class="form-group"><label class="form-label">Long Description</label><textarea class="form-input form-textarea" id="projLong" rows="4"></textarea></div>
+            
+            <!-- Image Upload -->
+            <div class="admin-card" style="margin-top:16px;background:rgba(0,112,243,0.08);border-color:rgba(0,112,243,0.3)">
+              <h4 style="font-size:14px;color:#0070f3;margin-bottom:12px">🖼️ Project Images</h4>
+              <div class="form-group">
+                <label class="form-label" style="font-size:12px">Upload Images (Auto-sync with sections)</label>
+                <input type="file" id="projImages" multiple accept="image/*" style="display:none">
+                <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('projImages').click()">📷 Upload Images</button>
+                <small class="form-hint">Images auto-detected: Hero, Gallery, Technical, Results</small>
+              </div>
+              <div id="imagePreview" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px"></div>
+            </div>
+            
+            <!-- Video Upload -->
+            <div class="admin-card" style="margin-top:16px;background:rgba(255,184,0,0.08);border-color:rgba(255,184,0,0.3)">
+              <h4 style="font-size:14px;color:#ffb800;margin-bottom:12px">🎬 Project Video</h4>
+              <div class="form-group">
+                <label class="form-label" style="font-size:12px">Upload Video</label>
+                <input type="file" id="projVideo" accept="video/*" style="display:none">
+                <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('projVideo').click()">🎥 Upload Video</button>
+                <small class="form-hint">Supports: MP4, WebM (Max 50MB)</small>
+              </div>
+              <div id="videoPreview" style="margin-top:12px"></div>
+              
+              <div style="margin-top:12px">
+                <label class="form-label" style="font-size:12px">Video Settings</label>
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label" style="font-size:11px;color:#666">Trim Start (sec)</label><input type="number" class="form-input" id="videoTrimStart" value="0" min="0"></div>
+                  <div class="form-group"><label class="form-label" style="font-size:11px;color:#666">Trim End (sec)</label><input type="number" class="form-input" id="videoTrimEnd" value="0" min="0"></div>
+                </div>
+                <div class="checkbox-group" style="margin-top:8px">
+                  <label><input type="checkbox" id="videoAddTitle"> Add Title</label>
+                  <label><input type="checkbox" id="videoAddFade"> Fade Effects</label>
+                  <label><input type="checkbox" id="videoAddWatermark"> Watermark</label>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Testimonial -->
+            <div class="admin-card" style="margin-top:16px">
+              <h4 style="font-size:14px;margin-bottom:12px">💬 Client Testimonial</h4>
+              <div class="form-group"><label class="form-label" style="font-size:12px">Testimonial Text</label><textarea class="form-input form-textarea" id="projTestimonial" rows="2"></textarea></div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label" style="font-size:12px">Author Name</label><input type="text" class="form-input" id="projTestimonialAuthor"></div>
+                <div class="form-group"><label class="form-label" style="font-size:12px">Author Role</label><input type="text" class="form-input" id="projTestimonialRole"></div>
+              </div>
+            </div>
+            
+            <!-- Results Metrics -->
+            <div class="admin-card" style="margin-top:16px">
+              <h4 style="font-size:14px;margin-bottom:12px">📊 Results Metrics</h4>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label" style="font-size:12px">Metric 1 (e.g. 50+)</label><input type="text" class="form-input" id="projMetric1"></div>
+                <div class="form-group"><label class="form-label" style="font-size:12px">Label 1 (e.g. Users)</label><input type="text" class="form-input" id="projMetric1Label"></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label" style="font-size:12px">Metric 2 (e.g. 99%)</label><input type="text" class="form-input" id="projMetric2"></div>
+                <div class="form-group"><label class="form-label" style="font-size:12px">Label 2 (e.g. Uptime)</label><input type="text" class="form-input" id="projMetric2Label"></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label class="form-label" style="font-size:12px">Metric 3 (e.g. 3x)</label><input type="text" class="form-input" id="projMetric3"></div>
+                <div class="form-group"><label class="form-label" style="font-size:12px">Label 3 (e.g. Performance)</label><input type="text" class="form-input" id="projMetric3Label"></div>
+              </div>
+            </div>
+            
             <div class="editor-actions">
-              <button class="btn btn-primary" id="saveProject">💾 Save</button>
+              <button class="btn btn-primary" id="saveProject">💾 Save Project</button>
               <button class="btn btn-outline" id="cancelProject">Cancel</button>
             </div>
           </div>

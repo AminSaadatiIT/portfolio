@@ -409,19 +409,78 @@
         $('#projClient').value = project?.client || '';
         $('#projDate').value = project?.date || '';
         $('#projLocation').value = project?.location || '';
+        if ($('#projDuration')) $('#projDuration').value = project?.duration || '';
         $('#projShort').value = project?.short || '';
         $('#projLong').value = project?.long || '';
+        if ($('#projSummary')) $('#projSummary').value = project?.summary || '';
+        if ($('#projChallenge')) $('#projChallenge').value = project?.challenge || '';
+        if ($('#projSolution')) $('#projSolution').value = project?.solution || '';
+        if ($('#projResults')) $('#projResults').value = project?.results || '';
+        if ($('#projTestimonial')) $('#projTestimonial').value = project?.testimonial || '';
+        if ($('#projTestimonialAuthor')) $('#projTestimonialAuthor').value = project?.testimonialAuthor || '';
+        if ($('#projTestimonialRole')) $('#projTestimonialRole').value = project?.testimonialRole || '';
+        if ($('#projMetric1')) $('#projMetric1').value = project?.metric1 || '';
+        if ($('#projMetric1Label')) $('#projMetric1Label').value = project?.metric1Label || '';
+        if ($('#projMetric2')) $('#projMetric2').value = project?.metric2 || '';
+        if ($('#projMetric2Label')) $('#projMetric2Label').value = project?.metric2Label || '';
+        if ($('#projMetric3')) $('#projMetric3').value = project?.metric3 || '';
+        if ($('#projMetric3Label')) $('#projMetric3Label').value = project?.metric3Label || '';
 
         $$('.checkbox-group input', editor).forEach(cb => {
             cb.checked = project?.categories?.includes(cb.value) || false;
         });
 
-        $('#aiGenerateBtn').onclick = () => {
-            const title = $('#projTitle').value;
-            const cats = $$('.checkbox-group input:checked', editor).map(cb => cb.value);
-            if (window.AIGenerator) {
-                $('#projLong').value = window.AIGenerator.generate(title, cats);
-            }
+        // AI Generate buttons
+        function getAILang() { return ($('#aiLanguage') && $('#aiLanguage').value) || 'fa'; }
+        function getAICats() { return $$('.checkbox-group input:checked', editor).map(cb => cb.value); }
+        function getAITitle() { return $('#projTitle').value; }
+
+        if ($('#aiGenSummary')) $('#aiGenSummary').onclick = () => {
+            if (window.AIGenerator) $('#projSummary').value = window.AIGenerator.generateSummary(getAITitle(), getAICats(), getAILang());
+        };
+        if ($('#aiGenChallenge')) $('#aiGenChallenge').onclick = () => {
+            if (window.AIGenerator) $('#projChallenge').value = window.AIGenerator.generateChallenge(getAITitle(), getAICats(), getAILang());
+        };
+        if ($('#aiGenSolution')) $('#aiGenSolution').onclick = () => {
+            if (window.AIGenerator) $('#projSolution').value = window.AIGenerator.generateSolution(getAITitle(), getAICats(), getAILang());
+        };
+        if ($('#aiGenResults')) $('#aiGenResults').onclick = () => {
+            if (window.AIGenerator) $('#projResults').value = window.AIGenerator.generateResults(getAITitle(), getAICats(), getAILang());
+        };
+        if ($('#aiGenAll')) $('#aiGenAll').onclick = () => {
+            if (!window.AIGenerator) return;
+            var lang = getAILang(), cats = getAICats(), title = getAITitle();
+            $('#projSummary').value = window.AIGenerator.generateSummary(title, cats, lang);
+            $('#projChallenge').value = window.AIGenerator.generateChallenge(title, cats, lang);
+            $('#projSolution').value = window.AIGenerator.generateSolution(title, cats, lang);
+            $('#projResults').value = window.AIGenerator.generateResults(title, cats, lang);
+            $('#projLong').value = window.AIGenerator.generate(title, cats, lang);
+            showToast('AI content generated!');
+        };
+        // Legacy button
+        if ($('#aiGenerateBtn')) $('#aiGenerateBtn').onclick = () => {
+            if (window.AIGenerator) $('#projLong').value = window.AIGenerator.generate(getAITitle(), getAICats(), getAILang());
+        };
+
+        // Image upload preview
+        if ($('#projImages')) $('#projImages').onchange = (e) => {
+            var preview = $('#imagePreview');
+            if (!preview) return;
+            preview.innerHTML = '';
+            Array.from(e.target.files).forEach(f => {
+                var img = document.createElement('img');
+                img.src = URL.createObjectURL(f);
+                img.style.cssText = 'width:100px;height:70px;object-fit:cover;border-radius:8px;border:2px solid rgba(255,255,255,0.1)';
+                preview.appendChild(img);
+            });
+        };
+
+        // Video upload preview
+        if ($('#projVideo')) $('#projVideo').onchange = (e) => {
+            var preview = $('#videoPreview');
+            if (!preview || !e.target.files[0]) return;
+            var url = URL.createObjectURL(e.target.files[0]);
+            preview.innerHTML = '<video controls style="width:100%;max-height:200px;border-radius:8px"><source src="' + url + '"></video>';
         };
 
         $('#saveProject').onclick = () => {
@@ -431,8 +490,22 @@
                 client: $('#projClient').value.trim(),
                 date: $('#projDate').value.trim(),
                 location: $('#projLocation').value.trim(),
+                duration: $('#projDuration') ? $('#projDuration').value.trim() : '',
                 short: $('#projShort').value.trim(),
                 long: $('#projLong').value.trim(),
+                summary: $('#projSummary') ? $('#projSummary').value.trim() : '',
+                challenge: $('#projChallenge') ? $('#projChallenge').value.trim() : '',
+                solution: $('#projSolution') ? $('#projSolution').value.trim() : '',
+                results: $('#projResults') ? $('#projResults').value.trim() : '',
+                testimonial: $('#projTestimonial') ? $('#projTestimonial').value.trim() : '',
+                testimonialAuthor: $('#projTestimonialAuthor') ? $('#projTestimonialAuthor').value.trim() : '',
+                testimonialRole: $('#projTestimonialRole') ? $('#projTestimonialRole').value.trim() : '',
+                metric1: $('#projMetric1') ? $('#projMetric1').value.trim() : '',
+                metric1Label: $('#projMetric1Label') ? $('#projMetric1Label').value.trim() : '',
+                metric2: $('#projMetric2') ? $('#projMetric2').value.trim() : '',
+                metric2Label: $('#projMetric2Label') ? $('#projMetric2Label').value.trim() : '',
+                metric3: $('#projMetric3') ? $('#projMetric3').value.trim() : '',
+                metric3Label: $('#projMetric3Label') ? $('#projMetric3Label').value.trim() : '',
                 categories: $$('.checkbox-group input:checked', editor).map(cb => cb.value),
                 gradient: project?.gradient || 'linear-gradient(135deg, #0070f3, #7928ca)',
                 images: project?.images || [],
