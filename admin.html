@@ -394,8 +394,7 @@ a{color:inherit;text-decoration:none}button{border:none;background:none;cursor:p
               <h4 style="font-size:14px;color:#0070f3;margin-bottom:12px">🖼️ Project Images</h4>
               <div class="form-group">
                 <label class="form-label" style="font-size:12px">Upload Images (Auto-sync with sections)</label>
-                <input type="file" id="projImages" multiple accept="image/*" style="display:none">
-                <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('projImages').click()">📷 Upload Images</button>
+                <button type="button" class="btn btn-outline btn-sm" id="uploadImagesBtn">📷 Upload Images</button>
                 <small class="form-hint">Images auto-detected: Hero, Gallery, Technical, Results</small>
               </div>
               <div id="imagePreview" style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px"></div>
@@ -408,8 +407,7 @@ a{color:inherit;text-decoration:none}button{border:none;background:none;cursor:p
               <!-- Upload -->
               <div class="form-group">
                 <label class="form-label" style="font-size:12px">Upload Video</label>
-                <input type="file" id="projVideo" accept="video/*" style="display:none">
-                <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById(&apos;projVideo&apos;).click()">🎥 Upload Video</button>
+                <button type="button" class="btn btn-outline btn-sm" id="uploadVideoBtn">🎥 Upload Video</button>
                 <small class="form-hint">MP4, WebM | Max 50MB</small>
               </div>
               <div id="videoPreview" style="margin-top:12px"></div>
