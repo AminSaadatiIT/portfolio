@@ -20,7 +20,7 @@
         const div = document.createElement('div');
         div.textContent = str || '';
         return div.innerHTML;
-    }
+    }
     function fileToBase64(file) {
         return new Promise(function(resolve) {
             var reader = new FileReader();
@@ -368,6 +368,16 @@
         $('#saveSkills').onclick = () => showToast('Skills saved!');
     }
 
+    // ═══════ SHARED STATE (used by openProjectEditor + initVideoEditor + initAIButtons) ═══════
+    var pendingImages = [];
+    var pendingVideo = null;
+
+    // Shared AI helper functions (usable from initAIButtons AND openProjectEditor)
+    function getAILang() { return ($('#aiLanguage') && $('#aiLanguage').value) || 'fa'; }
+    function getAICats() { return $$('.checkbox-group input:checked').map(function(cb) { return cb.value; }); }
+    function getAITitle() { return ($('#projTitle') && $('#projTitle').value) || ''; }
+    function getAIContext() { var t = getAITitle(); var s = ($('#projShort') ? $('#projShort').value.trim() : ''); return [t, s].filter(Boolean).join(' - '); }
+
     // ═══════ PROJECTS ═══════
     function getProjects() {
         try { return JSON.parse(localStorage.getItem('portfolio_projects')) || []; }
@@ -491,11 +501,7 @@
             cb.checked = project?.categories?.includes(cb.value) || false;
         });
 
-        // AI Generate buttons
-        function getAILang() { return ($('#aiLanguage') && $('#aiLanguage').value) || 'fa'; }
-        function getAICats() { return $$('.checkbox-group input:checked', editor).map(cb => cb.value); }
-        function getAITitle() { return $('#projTitle').value; }
-        function getAIContext() { var t = getAITitle(); var s = $('#projShort') ? $('#projShort').value.trim() : ''; return [t, s].filter(Boolean).join(' - '); }
+        // AI buttons use shared getAILang/getAICats/getAITitle/getAIContext from IIFE scope
 
         if ($('#aiGenSummary')) $('#aiGenSummary').onclick = function() {
             if (!window.AIGenerator) return;
@@ -545,9 +551,9 @@
             }
         };
 
-        // Image upload — convert to base64 for localStorage persistence
-        var pendingImages = project?.images ? project.images.slice() : [];
-        // Show saved images on load
+        // pendingImages/pendingVideo are shared state from IIFE scope — reset on editor open
+        pendingImages = project?.images ? project.images.slice() : [];
+        pendingVideo = project?.video || null;
         var imgPrev = $('#imagePreview');
         if (imgPrev && pendingImages.length) {
             imgPrev.innerHTML = '';
@@ -567,54 +573,72 @@
             });
         }
         if ($('#projImages')) $('#projImages').onchange = async function(e) {
-            var preview = $('#imagePreview');
-            if (!preview) { showToast('Preview area not found!'); return; }
-            var files = Array.from(e.target.files);
-            if (!files.length) return;
-            showToast('Processing ' + files.length + ' image(s)...');
-            for (var i = 0; i < files.length; i++) {
-                var b64 = await fileToBase64(files[i]);
-                if (b64) {
-                    var compressed = await compressImage(b64, 800, 600, 0.7);
-                    pendingImages.push(compressed || b64);
+            try {
+                var preview = $('#imagePreview');
+                if (!preview) { console.error('[Upload] imagePreview not found'); showToast('Preview area not found!'); return; }
+                var files = Array.from(e.target.files);
+                console.log('[Upload] Files selected:', files.length);
+                if (!files.length) return;
+                showToast('Processing ' + files.length + ' image(s)...');
+                for (var i = 0; i < files.length; i++) {
+                    console.log('[Upload] Converting file', i+1, files[i].name, files[i].size, 'bytes');
+                    var b64 = await fileToBase64(files[i]);
+                    console.log('[Upload] Base64 length:', b64 ? b64.length : 0);
+                    if (b64) {
+                        var compressed = await compressImage(b64, 800, 600, 0.7);
+                        console.log('[Upload] Compressed length:', compressed ? compressed.length : 0);
+                        pendingImages.push(compressed || b64);
+                    }
                 }
+                preview.innerHTML = '';
+                pendingImages.forEach(function(src, idx) {
+                    var wrap = document.createElement('div');
+                    wrap.style.cssText = 'display:inline-block;position:relative;margin:4px';
+                    var img = document.createElement('img');
+                    img.src = src;
+                    img.style.cssText = 'width:100px;height:70px;object-fit:cover;border-radius:8px;border:2px solid rgba(255,255,255,0.1)';
+                    var rm = document.createElement('button');
+                    rm.textContent = 'x';
+                    rm.style.cssText = 'position:absolute;top:-6px;right:-6px;background:red;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:10px;cursor:pointer;line-height:1';
+                    (function(i){ rm.onclick = function(){ pendingImages.splice(i,1); wrap.remove(); }; })(idx);
+                    wrap.appendChild(img);
+                    wrap.appendChild(rm);
+                    preview.appendChild(wrap);
+                });
+                console.log('[Upload] Total images:', pendingImages.length);
+                showToast(pendingImages.length + ' image(s) added!');
+            } catch(err) {
+                console.error('[Upload] Image upload error:', err);
+                showToast('Image upload failed: ' + err.message);
             }
-            preview.innerHTML = '';
-            pendingImages.forEach(function(src, idx) {
-                var wrap = document.createElement('div');
-                wrap.style.cssText = 'display:inline-block;position:relative;margin:4px';
-                var img = document.createElement('img');
-                img.src = src;
-                img.style.cssText = 'width:100px;height:70px;object-fit:cover;border-radius:8px;border:2px solid rgba(255,255,255,0.1)';
-                var rm = document.createElement('button');
-                rm.textContent = 'x';
-                rm.style.cssText = 'position:absolute;top:-6px;right:-6px;background:red;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:10px;cursor:pointer;line-height:1';
-                (function(i){ rm.onclick = function(){ pendingImages.splice(i,1); wrap.remove(); }; })(idx);
-                wrap.appendChild(img);
-                wrap.appendChild(rm);
-                preview.appendChild(wrap);
-            });
-            showToast(pendingImages.length + ' image(s) added!');
         };
 
-        // Video upload — convert to base64 for localStorage persistence
-        var pendingVideo = project?.video || null;
+        // Video upload — shared pendingVideo from IIFE scope
         // Show saved video on load
         var vidPrev = $('#videoPreview');
         if (vidPrev && pendingVideo) {
             vidPrev.innerHTML = '<video controls style="width:100%;max-height:200px;border-radius:8px"><source src="' + pendingVideo + '"></video>';
         }
         if ($('#projVideo')) $('#projVideo').onchange = async function(e) {
-            var preview = $('#videoPreview');
-            if (!preview || !e.target.files[0]) return;
-            preview.innerHTML = 'Converting video (may take a moment)...';
-            var b64 = await fileToBase64(e.target.files[0]);
-            if (b64) {
-                pendingVideo = b64;
-                preview.innerHTML = '<video controls style="width:100%;max-height:200px;border-radius:8px"><source src="' + b64 + '"></video>';
-                showToast('Video uploaded!');
-            } else {
-                preview.innerHTML = 'Error converting video';
+            try {
+                var preview = $('#videoPreview');
+                if (!preview || !e.target.files[0]) return;
+                var file = e.target.files[0];
+                console.log('[Upload] Video selected:', file.name, file.size, 'bytes');
+                preview.innerHTML = 'Converting video to base64 (may take a moment)...';
+                var b64 = await fileToBase64(file);
+                console.log('[Upload] Video base64 length:', b64 ? b64.length : 0);
+                if (b64) {
+                    pendingVideo = b64;
+                    preview.innerHTML = '<video controls style="width:100%;max-height:200px;border-radius:8px"><source src="' + b64 + '"></video>';
+                    showToast('Video uploaded!');
+                } else {
+                    preview.innerHTML = 'Error converting video';
+                    showToast('Video conversion failed!');
+                }
+            } catch(err) {
+                console.error('[Upload] Video upload error:', err);
+                showToast('Video upload failed: ' + err.message);
             }
         };
 
