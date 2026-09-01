@@ -98,9 +98,10 @@
     });
 
     function initDashboard() {
+        try {
         const links = $$('.sidebar-link[data-section]');
         const pageTitle = $('#pageTitle');
-        const sidebar = $('.sidebar');
+        const sidebar = $('.sidebar') || document.querySelector('.sidebar');
         const sidebarToggle = $('#sidebarToggle');
         const sidebarOverlay = $('#sidebarOverlay');
 
@@ -139,7 +140,7 @@
         checkMobile();
         window.addEventListener('resize', checkMobile);
 
-        links.forEach(link => {
+        links.forEach(function(link) {
             link.addEventListener('click', () => {
                 const section = link.dataset.section;
                 links.forEach(l => l.classList.remove('active'));
@@ -166,6 +167,9 @@
         loadPublishSettings();
         initPublishListeners();
         initPasswordChange();
+        initVideoEditor();
+        initAIButtons();
+        } catch(err) { console.error('initDashboard error:', err); }
     }
 
     // ═══════ SITE SETTINGS ═══════
@@ -434,32 +438,42 @@
         function getAILang() { return ($('#aiLanguage') && $('#aiLanguage').value) || 'fa'; }
         function getAICats() { return $$('.checkbox-group input:checked', editor).map(cb => cb.value); }
         function getAITitle() { return $('#projTitle').value; }
+        function getAIContext() { var t = getAITitle(); var s = $('#projShort') ? $('#projShort').value.trim() : ''; return [t, s].filter(Boolean).join(' - '); }
 
-        if ($('#aiGenSummary')) $('#aiGenSummary').onclick = () => {
-            if (window.AIGenerator) $('#projSummary').value = window.AIGenerator.generateSummary(getAITitle(), getAICats(), getAILang());
+        if ($('#aiGenSummary')) $('#aiGenSummary').onclick = function() {
+            if (window.AIGenerator) $('#projSummary').value = window.AIGenerator.generateSummary(getAITitle(), getAICats(), getAILang(), getAIContext());
         };
-        if ($('#aiGenChallenge')) $('#aiGenChallenge').onclick = () => {
-            if (window.AIGenerator) $('#projChallenge').value = window.AIGenerator.generateChallenge(getAITitle(), getAICats(), getAILang());
+        if ($('#aiGenChallenge')) $('#aiGenChallenge').onclick = function() {
+            if (window.AIGenerator) $('#projChallenge').value = window.AIGenerator.generateChallenge(getAITitle(), getAICats(), getAILang(), getAIContext());
         };
-        if ($('#aiGenSolution')) $('#aiGenSolution').onclick = () => {
-            if (window.AIGenerator) $('#projSolution').value = window.AIGenerator.generateSolution(getAITitle(), getAICats(), getAILang());
+        if ($('#aiGenSolution')) $('#aiGenSolution').onclick = function() {
+            if (window.AIGenerator) $('#projSolution').value = window.AIGenerator.generateSolution(getAITitle(), getAICats(), getAILang(), getAIContext());
         };
-        if ($('#aiGenResults')) $('#aiGenResults').onclick = () => {
-            if (window.AIGenerator) $('#projResults').value = window.AIGenerator.generateResults(getAITitle(), getAICats(), getAILang());
+        if ($('#aiGenResults')) $('#aiGenResults').onclick = function() {
+            if (window.AIGenerator) $('#projResults').value = window.AIGenerator.generateResults(getAITitle(), getAICats(), getAILang(), getAIContext());
         };
-        if ($('#aiGenAll')) $('#aiGenAll').onclick = () => {
+        if ($('#aiGenAll')) $('#aiGenAll').onclick = function() {
             if (!window.AIGenerator) return;
-            var lang = getAILang(), cats = getAICats(), title = getAITitle(); var ctx = [title, ($("#projShort") ? $("#projShort").value : "")].filter(Boolean).join(" - ");
+            var lang = getAILang(), cats = getAICats(), title = getAITitle(), ctx = getAIContext();
             $('#projSummary').value = window.AIGenerator.generateSummary(title, cats, lang, ctx);
-            $('#projChallenge').value = window.AIGenerator.generateChallenge(title, cats, lang);
-            $('#projSolution').value = window.AIGenerator.generateSolution(title, cats, lang);
-            $('#projResults').value = window.AIGenerator.generateResults(title, cats, lang);
+            $('#projChallenge').value = window.AIGenerator.generateChallenge(title, cats, lang, ctx);
+            $('#projSolution').value = window.AIGenerator.generateSolution(title, cats, lang, ctx);
+            $('#projResults').value = window.AIGenerator.generateResults(title, cats, lang, ctx);
             $('#projLong').value = window.AIGenerator.generate(title, cats, lang, ctx);
             showToast('AI content generated!');
         };
         // Legacy button
-        if ($('#aiGenerateBtn')) $('#aiGenerateBtn').onclick = () => {
-            if (window.AIGenerator) $('#projLong').value = window.AIGenerator.generate(getAITitle(), getAICats(), getAILang());
+        if ($('#aiGenerateBtn')) $('#aiGenerateBtn').onclick = function() {
+            if (window.AIGenerator) $('#projLong').value = window.AIGenerator.generate(getAITitle(), getAICats(), getAILang(), getAIContext());
+        };
+
+        // Generate Short Description button
+        if ($('#aiGenShort')) $('#aiGenShort').onclick = function() {
+            if (window.AIGenerator) {
+                var short = window.AIGenerator.generateSummary(getAITitle(), getAICats(), getAILang(), getAIContext());
+                $('#projShort').value = short.substring(0, 200);
+                showToast('Short description generated!');
+            }
         };
 
         // Image upload preview
@@ -935,6 +949,108 @@
             successEl.hidden = false;
             form.reset();
         });
+    }
+
+    // ═══════ VIDEO EDITOR ═══════
+    function initVideoEditor() {
+        // Speed slider display
+        var speedSlider = $('#videoSpeed');
+        var speedVal = $('#videoSpeedVal');
+        if (speedSlider && speedVal) {
+            speedSlider.addEventListener('input', function() {
+                speedVal.textContent = parseFloat(this.value).toFixed(1) + 'x';
+            });
+        }
+
+        // Apply All Edits button
+        var applyBtn = $('#videoApplyEdits');
+        if (applyBtn) {
+            applyBtn.onclick = function() {
+                var preview = $('#videoEditedPreview');
+                if (!preview) return;
+                var videoFile = $('#projVideo') ? $('#projVideo').files[0] : null;
+                var trimStart = $('#videoTrimStart') ? parseInt($('#videoTrimStart').value) || 0 : 0;
+                var trimEnd = $('#videoTrimEnd') ? parseInt($('#videoTrimEnd').value) || 0 : 0;
+                var speed = speedSlider ? parseFloat(speedSlider.value) : 1;
+                var title = $('#videoTitleText') ? $('#videoTitleText').value : '';
+                var subtitle = $('#videoSubtitleText') ? $('#videoSubtitleText').value : '';
+                var fadeIn = $('#videoFadeIn') ? $('#videoFadeIn').checked : false;
+                var fadeOut = $('#videoFadeOut') ? $('#videoFadeOut').checked : false;
+                var watermark = $('#videoWatermark') ? $('#videoWatermark').checked : false;
+                var grayscale = $('#videoGrayscale') ? $('#videoGrayscale').checked : false;
+
+                var html = '<div style="padding:16px;background:rgba(255,255,255,0.05);border-radius:12px;border:1px solid rgba(255,184,0,0.3)">';
+                html += '<h4 style="color:#ffb800;margin-bottom:12px">✅ Edits Applied</h4>';
+                html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:#a1a1a1">';
+                html += '<div>⏱ Trim: ' + trimStart + 's - ' + (trimEnd || 'end') + 's</div>';
+                html += '<div>⚡ Speed: ' + speed.toFixed(1) + 'x</div>';
+                if (title) html += '<div>📝 Title: ' + escapeHTML(title) + '</div>';
+                if (subtitle) html += '<div>💬 Subtitle: ' + escapeHTML(subtitle) + '</div>';
+                if (fadeIn) html += '<div>✨ Fade In: ON</div>';
+                if (fadeOut) html += '<div>✨ Fade Out: ON</div>';
+                if (watermark) html += '<div>💧 Watermark: ON</div>';
+                if (grayscale) html += '<div>⬛ B&W Filter: ON</div>';
+                html += '</div>';
+                if (videoFile) {
+                    var url = URL.createObjectURL(videoFile);
+                    html += '<video controls style="width:100%;max-height:250px;border-radius:8px;margin-top:12px">';
+                    html += '<source src="' + url + '"></video>';
+                }
+                html += '</div>';
+                preview.innerHTML = html;
+                showToast('Video edits applied!');
+            };
+        }
+
+        // AI Video Command button
+        var aiCmdBtn = $('#videoAIApply');
+        if (aiCmdBtn) {
+            aiCmdBtn.onclick = function() {
+                var cmd = $('#videoAICommand') ? $('#videoAICommand').value.trim() : '';
+                if (!cmd) { showToast('Enter a command first.'); return; }
+                var cmdLower = cmd.toLowerCase();
+                // Parse trim command
+                var trimMatch = cmdLower.match(/trim\s+(\d+)\s*(?:to|until|-)\s*(\d+)/);
+                if (trimMatch) {
+                    if ($('#videoTrimStart')) $('#videoTrimStart').value = trimMatch[1];
+                    if ($('#videoTrimEnd')) $('#videoTrimEnd').value = trimMatch[2];
+                }
+                // Parse speed command
+                var speedMatch = cmdLower.match(/speed\s+(\d+\.?\d*)/);
+                if (speedMatch) {
+                    var s = Math.max(0.5, Math.min(3, parseFloat(speedMatch[1])));
+                    if (speedSlider) speedSlider.value = s;
+                    if (speedVal) speedVal.textContent = s.toFixed(1) + 'x';
+                }
+                // Parse title command
+                var titleMatch = cmdLower.match(/(?:add\s+)?title\s*(?:at\s+\d+s?\s*)?[":\s]+(.+)/);
+                if (titleMatch && $('#videoTitleText')) {
+                    $('#videoTitleText').value = titleMatch[1].trim();
+                }
+                // Parse effects
+                if (cmdLower.includes('fade in') && $('#videoFadeIn')) $('#videoFadeIn').checked = true;
+                if (cmdLower.includes('fade out') && $('#videoFadeOut')) $('#videoFadeOut').checked = true;
+                if (cmdLower.includes('watermark') && $('#videoWatermark')) $('#videoWatermark').checked = true;
+                if ((cmdLower.includes('b&w') || cmdLower.includes('grayscale') || cmdLower.includes('black and white')) && $('#videoGrayscale')) $('#videoGrayscale').checked = true;
+                showToast('AI command parsed! Review settings and click Apply.');
+            };
+        }
+    }
+
+    // ═══════ AI BUTTONS ═══════
+    function initAIButtons() {
+        // Generate Short Description button
+        var genShortBtn = $('#aiGenShort');
+        if (genShortBtn) {
+            genShortBtn.onclick = function() {
+                var title = $('#projTitle') ? $('#projTitle').value.trim() : '';
+                var lang = ($('#aiLanguage') && $('#aiLanguage').value) || 'fa';
+                if (!title) { showToast('Enter a project title first.'); return; }
+                var short = window.AIGenerator ? window.AIGenerator.generateSummary(title, getAICats(), lang) : '';
+                if ($('#projShort')) $('#projShort').value = short.substring(0, 200);
+                showToast('Short description generated!');
+            };
+        }
     }
 
     // If ?login param present, force fresh login

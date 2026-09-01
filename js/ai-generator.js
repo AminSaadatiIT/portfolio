@@ -221,22 +221,40 @@ window.AIGenerator = (function() {
     return s.slice(0, Math.min(count, arr.length));
   }
   function pickCatRandom(cats, cat) { return pickRandom(cats[cat] || cats.cabling); }
-  function generateSummary(title, categories, lang) {
+  function generateSummary(title, categories, lang, context) {
     var t = lang === 'en' ? en : fa;
     var intro = pickRandom(t.intros).replace('{title}', title);
     var catTexts = categories.map(function(c) { return pickCatRandom(t, c); });
-    return intro + '\n\n' + catTexts.join(' ');
+    var result = intro + '\n\n' + catTexts.join(' ');
+    if (context && context.length > title.length) {
+      var extra = context.replace(title, '').replace(/^-\s*/, '').trim();
+      if (extra) result += '\n\n' + extra;
+    }
+    return result;
   }
-  function generateChallenge(t, c, lang) { return pickMultiple((lang === 'en' ? en : fa).challenges, 2).join('\n\n'); }
-  function generateSolution(t, c, lang) { return pickMultiple((lang === 'en' ? en : fa).solutions, 2).join('\n\n'); }
-  function generateResults(t, c, lang) { return pickMultiple((lang === 'en' ? en : fa).results, 3).join('\n\n'); }
-  function generate(title, categories, lang) {
+  function generateChallenge(t, c, lang, context) {
+    var items = pickMultiple((lang === 'en' ? en : fa).challenges, 2);
+    if (context) items.unshift('Addressing requirements for: ' + context.substring(0, 80));
+    return items.join('\n\n');
+  }
+  function generateSolution(t, c, lang, context) {
+    var items = pickMultiple((lang === 'en' ? en : fa).solutions, 2);
+    if (context) items.unshift('Solution approach for: ' + context.substring(0, 80));
+    return items.join('\n\n');
+  }
+  function generateResults(t, c, lang, context) {
+    var items = pickMultiple((lang === 'en' ? en : fa).results, 3);
+    if (context) items.unshift('Key outcomes for ' + context.substring(0, 50) + ':');
+    return items.join('\n\n');
+  }
+  function generate(title, categories, lang, context) {
     lang = lang || 'fa';
     if (!title) title = lang === 'en' ? 'Project' : 'پروژه';
     if (!categories || !categories.length) categories = ['cabling'];
     var t = lang === 'en' ? en : fa;
     var d = pickRandom(t.intros).replace('{title}', title) + '\n\n';
     categories.forEach(function(c) { d += pickCatRandom(t, c) + ' '; });
+    if (context) { var extra = context.replace(title, '').replace(/^-\s*/, '').trim(); if (extra) d += '\n\n' + extra; }
     d += '\n\n' + pickRandom(t.conclusions);
     return d;
   }
