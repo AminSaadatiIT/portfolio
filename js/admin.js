@@ -23,34 +23,32 @@
     }
     function fileToBase64(file) {
         return new Promise(function(resolve) {
-            // If it's an image, compress it first
-            if (file.type && file.type.startsWith('image/')) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    var img = new Image();
-                    img.onload = function() {
+            var reader = new FileReader();
+            reader.onload = function() { resolve(reader.result); };
+            reader.onerror = function() { console.error('FileReader error'); resolve(''); };
+            reader.readAsDataURL(file);
+        });
+    }
+    function compressImage(b64, maxW, maxH, quality) {
+        return new Promise(function(resolve) {
+            if (!b64 || !b64.startsWith('data:image')) { resolve(b64); return; }
+            try {
+                var img = new Image();
+                img.onload = function() {
+                    try {
                         var canvas = document.createElement('canvas');
-                        var maxW = 800, maxH = 600;
-                        var w = img.width, h = img.height;
+                        var w = img.naturalWidth, h = img.naturalHeight;
                         if (w > maxW) { h = h * maxW / w; w = maxW; }
                         if (h > maxH) { w = w * maxH / h; h = maxH; }
-                        canvas.width = w;
-                        canvas.height = h;
-                        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-                        resolve(canvas.toDataURL('image/jpeg', 0.7));
-                    };
-                    img.onerror = function() { resolve(''); };
-                    img.src = e.target.result;
+                        canvas.width = Math.round(w);
+                        canvas.height = Math.round(h);
+                        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                        resolve(canvas.toDataURL('image/jpeg', quality || 0.7));
+                    } catch(err) { resolve(b64); }
                 };
-                reader.onerror = function() { resolve(''); };
-                reader.readAsDataURL(file);
-            } else {
-                // For non-image files (video etc), store as-is but warn
-                var reader2 = new FileReader();
-                reader2.onload = function() { resolve(reader2.result); };
-                reader2.onerror = function() { resolve(''); };
-                reader2.readAsDataURL(file);
-            }
+                img.onerror = function() { resolve(b64); };
+                img.src = b64;
+            } catch(err) { resolve(b64); }
         });
     }
 
@@ -570,11 +568,16 @@
         }
         if ($('#projImages')) $('#projImages').onchange = async function(e) {
             var preview = $('#imagePreview');
-            if (!preview) return;
+            if (!preview) { showToast('Preview area not found!'); return; }
             var files = Array.from(e.target.files);
+            if (!files.length) return;
+            showToast('Processing ' + files.length + ' image(s)...');
             for (var i = 0; i < files.length; i++) {
                 var b64 = await fileToBase64(files[i]);
-                if (b64) pendingImages.push(b64);
+                if (b64) {
+                    var compressed = await compressImage(b64, 800, 600, 0.7);
+                    pendingImages.push(compressed || b64);
+                }
             }
             preview.innerHTML = '';
             pendingImages.forEach(function(src, idx) {
