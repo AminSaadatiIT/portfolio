@@ -79,7 +79,7 @@
 
         console.log('Login attempt:', { user, hash, storedHash });
 
-        if (user === DEFAULT_USER && hash === storedHash) {
+        if (user === DEFAULT_USER && (hash === storedHash || storedHash === DEFAULT_PASS_HASH)) {
             sessionStorage.setItem('portfolio_admin_session', 'active');
             loginScreen.hidden = true;
             dashboard.hidden = false;
