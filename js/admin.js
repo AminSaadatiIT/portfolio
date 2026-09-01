@@ -449,7 +449,7 @@
         };
         if ($('#aiGenAll')) $('#aiGenAll').onclick = () => {
             if (!window.AIGenerator) return;
-            var lang = getAILang(), cats = getAICats(), title = getAITitle(); var ctx = [title,  ? .value : ""].filter(Boolean).join(" - ");
+            var lang = getAILang(), cats = getAICats(), title = getAITitle(); var ctx = [title, ($("#projShort") ? $("#projShort").value : "")].filter(Boolean).join(" - ");
             $('#projSummary').value = window.AIGenerator.generateSummary(title, cats, lang, ctx);
             $('#projChallenge').value = window.AIGenerator.generateChallenge(title, cats, lang);
             $('#projSolution').value = window.AIGenerator.generateSolution(title, cats, lang);
