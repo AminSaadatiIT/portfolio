@@ -23,10 +23,34 @@
     }
     function fileToBase64(file) {
         return new Promise(function(resolve) {
-            var reader = new FileReader();
-            reader.onload = function() { resolve(reader.result); };
-            reader.onerror = function() { resolve(""); };
-            reader.readAsDataURL(file);
+            // If it's an image, compress it first
+            if (file.type && file.type.startsWith('image/')) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var img = new Image();
+                    img.onload = function() {
+                        var canvas = document.createElement('canvas');
+                        var maxW = 800, maxH = 600;
+                        var w = img.width, h = img.height;
+                        if (w > maxW) { h = h * maxW / w; w = maxW; }
+                        if (h > maxH) { w = w * maxH / h; h = maxH; }
+                        canvas.width = w;
+                        canvas.height = h;
+                        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                        resolve(canvas.toDataURL('image/jpeg', 0.7));
+                    };
+                    img.onerror = function() { resolve(''); };
+                    img.src = e.target.result;
+                };
+                reader.onerror = function() { resolve(''); };
+                reader.readAsDataURL(file);
+            } else {
+                // For non-image files (video etc), store as-is but warn
+                var reader2 = new FileReader();
+                reader2.onload = function() { resolve(reader2.result); };
+                reader2.onerror = function() { resolve(''); };
+                reader2.readAsDataURL(file);
+            }
         });
     }
 
@@ -353,7 +377,33 @@
     }
 
     function saveProjectsData(data) {
-        localStorage.setItem('portfolio_projects', JSON.stringify(data));
+        try {
+            localStorage.setItem('portfolio_projects', JSON.stringify(data));
+        } catch(e) {
+            // QuotaExceededError: try saving without large base64 data
+            console.error('Save error:', e.message);
+            var stripped = data.map(function(p) {
+                var copy = Object.assign({}, p);
+                // Truncate large images to first 50KB of base64
+                if (copy.images && copy.images.length) {
+                    copy.images = copy.images.map(function(img) {
+                        return img.length > 60000 ? img.substring(0, 60000) : img;
+                    });
+                }
+                // Truncate video
+                if (copy.video && copy.video.length > 60000) {
+                    copy.video = copy.video.substring(0, 60000);
+                }
+                return copy;
+            });
+            try {
+                localStorage.setItem('portfolio_projects', JSON.stringify(stripped));
+                showToast('Saved with reduced media (storage limit)');
+            } catch(e2) {
+                showToast('ERROR: Cannot save - storage full! Remove some images.');
+                console.error('Save still failed:', e2.message);
+            }
+        }
     }
 
     function getDefaultProjects() {
@@ -450,16 +500,28 @@
         function getAIContext() { var t = getAITitle(); var s = $('#projShort') ? $('#projShort').value.trim() : ''; return [t, s].filter(Boolean).join(' - '); }
 
         if ($('#aiGenSummary')) $('#aiGenSummary').onclick = function() {
-            if (window.AIGenerator) $('#projSummary').value = window.AIGenerator.generateSummary(getAITitle(), getAICats(), getAILang(), getAIContext());
+            if (!window.AIGenerator) return;
+            if (!getAITitle()) { showToast('Enter a project title first!'); return; }
+            $('#projSummary').value = window.AIGenerator.generateSummary(getAITitle(), getAICats(), getAILang(), getAIContext());
+            showToast('Summary generated!');
         };
         if ($('#aiGenChallenge')) $('#aiGenChallenge').onclick = function() {
-            if (window.AIGenerator) $('#projChallenge').value = window.AIGenerator.generateChallenge(getAITitle(), getAICats(), getAILang(), getAIContext());
+            if (!window.AIGenerator) return;
+            if (!getAITitle()) { showToast('Enter a project title first!'); return; }
+            $('#projChallenge').value = window.AIGenerator.generateChallenge(getAITitle(), getAICats(), getAILang(), getAIContext());
+            showToast('Challenge generated!');
         };
         if ($('#aiGenSolution')) $('#aiGenSolution').onclick = function() {
-            if (window.AIGenerator) $('#projSolution').value = window.AIGenerator.generateSolution(getAITitle(), getAICats(), getAILang(), getAIContext());
+            if (!window.AIGenerator) return;
+            if (!getAITitle()) { showToast('Enter a project title first!'); return; }
+            $('#projSolution').value = window.AIGenerator.generateSolution(getAITitle(), getAICats(), getAILang(), getAIContext());
+            showToast('Solution generated!');
         };
         if ($('#aiGenResults')) $('#aiGenResults').onclick = function() {
-            if (window.AIGenerator) $('#projResults').value = window.AIGenerator.generateResults(getAITitle(), getAICats(), getAILang(), getAIContext());
+            if (!window.AIGenerator) return;
+            if (!getAITitle()) { showToast('Enter a project title first!'); return; }
+            $('#projResults').value = window.AIGenerator.generateResults(getAITitle(), getAICats(), getAILang(), getAIContext());
+            showToast('Results generated!');
         };
         if ($('#aiGenAll')) $('#aiGenAll').onclick = function() {
             if (!window.AIGenerator) return;
@@ -588,6 +650,7 @@
             if (index >= 0) p[index] = data;
             else p.push(data);
             saveProjectsData(p);
+            showToast('Project saved successfully!');
             editor.hidden = true;
             renderProjectsList();
         };
