@@ -198,7 +198,6 @@
         loadPublishSettings();
         initPublishListeners();
         initPasswordChange();
-        initVideoEditor();
         initAIButtons();
         } catch(err) { console.error('initDashboard error:', err); }
     }
@@ -370,7 +369,6 @@
 
     // ═══════ SHARED STATE (used by openProjectEditor + initVideoEditor + initAIButtons) ═══════
     var pendingImages = [];
-    var pendingVideo = null;
 
     // Shared AI helper functions (usable from initAIButtons AND openProjectEditor)
     function getAILang() { return ($('#aiLanguage') && $('#aiLanguage').value) || 'fa'; }
@@ -553,7 +551,6 @@
 
         // pendingImages/pendingVideo are shared state from IIFE scope — reset on editor open
         pendingImages = project?.images ? project.images.slice() : [];
-        pendingVideo = project?.video || null;
         // Helper: render image previews from pendingImages
         function renderImagePreviews() {
             var preview = $('#imagePreview');
@@ -618,49 +615,6 @@
             };
         }
 
-        // Video upload — shared pendingVideo from IIFE scope
-        // Show saved video on load
-        var vidPrev = $('#videoPreview');
-        if (vidPrev && pendingVideo) {
-            vidPrev.innerHTML = '<video controls style="width:100%;max-height:200px;border-radius:8px"><source src="' + pendingVideo + '"></video>';
-        }
-        // ═══ VIDEO UPLOAD — Dynamic file input (Android-safe) ═══
-        var uploadVidBtn = $('#uploadVideoBtn');
-        if (uploadVidBtn) {
-            uploadVidBtn.onclick = function() {
-                console.log('[Upload] Video button clicked');
-                var input = document.createElement('input');
-                input.type = 'file';
-                input.accept = 'video/*';
-                input.style.display = 'none';
-                document.body.appendChild(input);
-                input.onchange = async function(e) {
-                    try {
-                        var preview = $('#videoPreview');
-                        if (!preview || !e.target.files[0]) return;
-                        var file = e.target.files[0];
-                        console.log('[Upload] Video selected:', file.name, file.size, 'bytes');
-                        preview.innerHTML = 'Converting video to base64 (may take a moment)...';
-                        var b64 = await fileToBase64(file);
-                        console.log('[Upload] Video base64 length:', b64 ? b64.length : 0);
-                        if (b64) {
-                            pendingVideo = b64;
-                            preview.innerHTML = '<video controls style="width:100%;max-height:200px;border-radius:8px"><source src="' + b64 + '"></video>';
-                            showToast('Video uploaded!');
-                        } else {
-                            preview.innerHTML = 'Error converting video';
-                            showToast('Video conversion failed!');
-                        }
-                    } catch(err) {
-                        console.error('[Upload] Video upload error:', err);
-                        showToast('Video upload failed: ' + err.message);
-                    }
-                    input.remove();
-                };
-                input.click();
-            };
-        }
-
         $('#saveProject').onclick = () => {
             const data = {
                 id: project?.id || Date.now(),
@@ -686,8 +640,7 @@
                 metric3Label: $('#projMetric3Label') ? $('#projMetric3Label').value.trim() : '',
                 categories: $$('.checkbox-group input:checked', editor).map(cb => cb.value),
                 gradient: project?.gradient || 'linear-gradient(135deg, #0070f3, #7928ca)',
-                images: pendingImages,
-                video: pendingVideo
+                images: pendingImages
             };
 
             if (!data.title) { showToast('Title is required.'); return; }
@@ -1114,135 +1067,6 @@
             successEl.hidden = false;
             form.reset();
         });
-    }
-
-    // ═══════ VIDEO EDITOR ═══════
-    function initVideoEditor() {
-        // Speed slider display
-        var speedSlider = $('#videoSpeed');
-        var speedVal = $('#videoSpeedVal');
-        if (speedSlider && speedVal) {
-            speedSlider.addEventListener('input', function() {
-                speedVal.textContent = parseFloat(this.value).toFixed(1) + 'x';
-            });
-        }
-
-        // Apply All Edits button
-        var applyBtn = $('#videoApplyEdits');
-        if (applyBtn) {
-            applyBtn.onclick = function() {
-                var preview = $('#videoEditedPreview');
-                if (!preview) return;
-                var trimStart = $('#videoTrimStart') ? parseInt($('#videoTrimStart').value) || 0 : 0;
-                var trimEnd = $('#videoTrimEnd') ? parseInt($('#videoTrimEnd').value) || 0 : 0;
-                var speed = speedSlider ? parseFloat(speedSlider.value) : 1;
-                var title = $('#videoTitleText') ? $('#videoTitleText').value : '';
-                var subtitle = $('#videoSubtitleText') ? $('#videoSubtitleText').value : '';
-                var fadeIn = $('#videoFadeIn') ? $('#videoFadeIn').checked : false;
-                var fadeOut = $('#videoFadeOut') ? $('#videoFadeOut').checked : false;
-                var watermark = $('#videoWatermark') ? $('#videoWatermark').checked : false;
-                var grayscale = $('#videoGrayscale') ? $('#videoGrayscale').checked : false;
-
-                if (!pendingVideo) { showToast('Upload a video first!'); return; }
-
-                // Apply ALL effects to video preview
-                var vidEl = $('#videoPreview video');
-                if (vidEl) {
-                    vidEl.playbackRate = speed;
-                    // CSS filters: grayscale, fade (via opacity)
-                    var filters = [];
-                    if (grayscale) filters.push('grayscale(1)');
-                    vidEl.style.filter = filters.join(' ') || 'none';
-                    // Fade In: start at opacity 0, animate to 1
-                    if (fadeIn) {
-                        vidEl.style.opacity = '0';
-                        vidEl.style.transition = 'opacity 1.5s ease-in';
-                        setTimeout(function() { vidEl.style.opacity = '1'; }, 100);
-                    }
-                    // Fade Out: animate opacity to 0 near end
-                    if (fadeOut && trimEnd > 0) {
-                        var fadeOutStart = (trimEnd - 2) * 1000;
-                        if (fadeOutStart > 0) setTimeout(function() { vidEl.style.transition = 'opacity 2s ease-out'; vidEl.style.opacity = '0'; }, fadeOutStart);
-                    }
-                    // Watermark: add overlay text
-                    if (watermark) {
-                        var existingWm = $('#videoPreview .watermark-overlay');
-                        if (!existingWm) {
-                            var wm = document.createElement('div');
-                            wm.className = 'watermark-overlay';
-                            wm.textContent = '© Portfolio';
-                            wm.style.cssText = 'position:absolute;bottom:10px;right:10px;color:rgba(255,255,255,0.4);font-size:14px;font-weight:bold;pointer-events:none;text-shadow:1px 1px 2px rgba(0,0,0,0.8)';
-                            $('#videoPreview').style.position = 'relative';
-                            $('#videoPreview').appendChild(wm);
-                        }
-                    } else {
-                        var oldWm = $('#videoPreview .watermark-overlay');
-                        if (oldWm) oldWm.remove();
-                    }
-                    // Trim: seek to start position
-                    if (trimStart > 0) vidEl.currentTime = trimStart;
-                    if (trimEnd > 0) vidEl.onseeked = function() { vidEl.pause(); };
-                    showToast('All edits applied: speed ' + speed.toFixed(1) + 'x' + (grayscale ? ', B&W' : '') + (fadeIn ? ', fade-in' : '') + (fadeOut ? ', fade-out' : '') + (watermark ? ', watermark' : ''));
-                }
-
-                // Show edit summary
-                var html = '<div style="padding:16px;background:rgba(255,255,255,0.05);border-radius:12px;border:1px solid rgba(255,184,0,0.3)">';
-                html += '<h4 style="color:#ffb800;margin-bottom:12px">✅ Edits Applied to Preview</h4>';
-                html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:#a1a1a1">';
-                html += '<div>⏱ Trim: ' + trimStart + 's - ' + (trimEnd || 'end') + 's</div>';
-                html += '<div>⚡ Speed: ' + speed.toFixed(1) + 'x</div>';
-                if (title) html += '<div>📝 Title Overlay: ' + escapeHTML(title) + '</div>';
-                if (subtitle) html += '<div>💬 Subtitle: ' + escapeHTML(subtitle) + '</div>';
-                if (fadeIn) html += '<div>✨ Fade In: ON</div>';
-                if (fadeOut) html += '<div>✨ Fade Out: ON</div>';
-                if (watermark) html += '<div>💧 Watermark: ON</div>';
-                if (grayscale) html += '<div>⬛ B&W Filter: ON</div>';
-                html += '</div>';
-                html += '<p style="font-size:11px;color:#666;margin-top:8px">Note: Title/subtitle overlays apply during video playback. Effects are visible in the preview above.</p>';
-                html += '</div>';
-                preview.innerHTML = html;
-            };
-        }
-
-        // AI Video Command button
-        var aiCmdBtn = $('#videoAIApply');
-        if (aiCmdBtn) {
-            aiCmdBtn.onclick = function() {
-                var cmd = $('#videoAICommand') ? $('#videoAICommand').value.trim() : '';
-                if (!cmd) { showToast('Enter a command first.'); return; }
-                var cmdLower = cmd.toLowerCase();
-                // Parse trim — EN: trim 5 to 30 | FA: برش 5 تا 30، از 5 تا 30
-                var trimMatch = cmdLower.match(/(?:trim|برش|cut| cuts )\s+(\d+)\s*(?:to|until|تا|الی|-|\u0640)\s*(\d+)/);
-                if (trimMatch) {
-                    if ($('#videoTrimStart')) $('#videoTrimStart').value = trimMatch[1];
-                    if ($('#videoTrimEnd')) $('#videoTrimEnd').value = trimMatch[2];
-                }
-                // Parse speed — EN: speed 1.5 | FA: سرعت ۱.۵ یا speed 1.5
-                var speedMatch = cmdLower.match(/(?:speed|سرعت)\s+(\d+[\.,]?\d*)/);
-                if (speedMatch) {
-                    var s = Math.max(0.5, Math.min(3, parseFloat(speedMatch[1].replace(',', '.'))));
-                    if (speedSlider) speedSlider.value = s;
-                    if (speedVal) speedVal.textContent = s.toFixed(1) + 'x';
-                }
-                // Parse title — EN: add title at 10s: My Title | FA: عنوان: متن عنوان
-                // Use original cmd (not cmdLower) to preserve case in title/subtitle
-                var titleMatch = cmd.match(/(?:add\s+)?(?:title|عنوان)\s*(?:at\s+\d+s?\s*|در\s+\d+\s*ثانیه\s*)?[":\s]+([^،,]+)/i);
-                if (titleMatch && $('#videoTitleText')) {
-                    $('#videoTitleText').value = titleMatch[1].trim();
-                }
-                // Parse subtitle — EN: subtitle: text | FA: زیرنویس: متن
-                var subMatch = cmd.match(/(?:subtitle|زیرنویس)\s*[":\s]+([^،,]+)/i);
-                if (subMatch && $('#videoSubtitleText')) {
-                    $('#videoSubtitleText').value = subMatch[1].trim();
-                }
-                // Parse effects — EN + FA
-                if ((cmdLower.includes('fade in') || cmdLower.includes('افزایش تدریجی') || cmdLower.includes('fade-in')) && $('#videoFadeIn')) $('#videoFadeIn').checked = true;
-                if ((cmdLower.includes('fade out') || cmdLower.includes('کاهش تدریجی') || cmdLower.includes('fade-out')) && $('#videoFadeOut')) $('#videoFadeOut').checked = true;
-                if ((cmdLower.includes('watermark') || cmdLower.includes('نشان آبی')) && $('#videoWatermark')) $('#videoWatermark').checked = true;
-                if ((cmdLower.includes('b&w') || cmdLower.includes('grayscale') || cmdLower.includes('black and white') || cmdLower.includes('سیاه و سفید')) && $('#videoGrayscale')) $('#videoGrayscale').checked = true;
-                showToast('AI command parsed! Review settings and click Apply.');
-            };
-        }
     }
 
     // ═══════ AI BUTTONS ═══════
