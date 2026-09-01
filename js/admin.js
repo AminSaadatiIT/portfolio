@@ -1225,12 +1225,13 @@
                     if (speedVal) speedVal.textContent = s.toFixed(1) + 'x';
                 }
                 // Parse title — EN: add title at 10s: My Title | FA: عنوان: متن عنوان
-                var titleMatch = cmdLower.match(/(?:add\s+)?(?:title|عنوان)\s*(?:at\s+\d+s?\s*|در\s+\d+\s*ثانیه\s*)?[":\s]+(.+)/);
+                // Use original cmd (not cmdLower) to preserve case in title/subtitle
+                var titleMatch = cmd.match(/(?:add\s+)?(?:title|عنوان)\s*(?:at\s+\d+s?\s*|در\s+\d+\s*ثانیه\s*)?[":\s]+([^،,]+)/i);
                 if (titleMatch && $('#videoTitleText')) {
                     $('#videoTitleText').value = titleMatch[1].trim();
                 }
                 // Parse subtitle — EN: subtitle: text | FA: زیرنویس: متن
-                var subMatch = cmdLower.match(/(?:subtitle|زیرنویس)\s*[":\s]+(.+)/);
+                var subMatch = cmd.match(/(?:subtitle|زیرنویس)\s*[":\s]+([^،,]+)/i);
                 if (subMatch && $('#videoSubtitleText')) {
                     $('#videoSubtitleText').value = subMatch[1].trim();
                 }
