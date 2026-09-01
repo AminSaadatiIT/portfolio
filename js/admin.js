@@ -1145,16 +1145,44 @@
 
                 if (!pendingVideo) { showToast('Upload a video first!'); return; }
 
-                // Apply CSS filters to video preview
+                // Apply ALL effects to video preview
                 var vidEl = $('#videoPreview video');
                 if (vidEl) {
                     vidEl.playbackRate = speed;
+                    // CSS filters: grayscale, fade (via opacity)
                     var filters = [];
                     if (grayscale) filters.push('grayscale(1)');
                     vidEl.style.filter = filters.join(' ') || 'none';
+                    // Fade In: start at opacity 0, animate to 1
+                    if (fadeIn) {
+                        vidEl.style.opacity = '0';
+                        vidEl.style.transition = 'opacity 1.5s ease-in';
+                        setTimeout(function() { vidEl.style.opacity = '1'; }, 100);
+                    }
+                    // Fade Out: animate opacity to 0 near end
+                    if (fadeOut && trimEnd > 0) {
+                        var fadeOutStart = (trimEnd - 2) * 1000;
+                        if (fadeOutStart > 0) setTimeout(function() { vidEl.style.transition = 'opacity 2s ease-out'; vidEl.style.opacity = '0'; }, fadeOutStart);
+                    }
+                    // Watermark: add overlay text
+                    if (watermark) {
+                        var existingWm = $('#videoPreview .watermark-overlay');
+                        if (!existingWm) {
+                            var wm = document.createElement('div');
+                            wm.className = 'watermark-overlay';
+                            wm.textContent = '© Portfolio';
+                            wm.style.cssText = 'position:absolute;bottom:10px;right:10px;color:rgba(255,255,255,0.4);font-size:14px;font-weight:bold;pointer-events:none;text-shadow:1px 1px 2px rgba(0,0,0,0.8)';
+                            $('#videoPreview').style.position = 'relative';
+                            $('#videoPreview').appendChild(wm);
+                        }
+                    } else {
+                        var oldWm = $('#videoPreview .watermark-overlay');
+                        if (oldWm) oldWm.remove();
+                    }
+                    // Trim: seek to start position
                     if (trimStart > 0) vidEl.currentTime = trimStart;
                     if (trimEnd > 0) vidEl.onseeked = function() { vidEl.pause(); };
-                    showToast('Video edits applied to preview!');
+                    showToast('All edits applied: speed ' + speed.toFixed(1) + 'x' + (grayscale ? ', B&W' : '') + (fadeIn ? ', fade-in' : '') + (fadeOut ? ', fade-out' : '') + (watermark ? ', watermark' : ''));
                 }
 
                 // Show edit summary
@@ -1183,29 +1211,34 @@
                 var cmd = $('#videoAICommand') ? $('#videoAICommand').value.trim() : '';
                 if (!cmd) { showToast('Enter a command first.'); return; }
                 var cmdLower = cmd.toLowerCase();
-                // Parse trim command
-                var trimMatch = cmdLower.match(/trim\s+(\d+)\s*(?:to|until|-)\s*(\d+)/);
+                // Parse trim — EN: trim 5 to 30 | FA: برش 5 تا 30، از 5 تا 30
+                var trimMatch = cmdLower.match(/(?:trim|برش|cut| cuts )\s+(\d+)\s*(?:to|until|تا|الی|-|\u0640)\s*(\d+)/);
                 if (trimMatch) {
                     if ($('#videoTrimStart')) $('#videoTrimStart').value = trimMatch[1];
                     if ($('#videoTrimEnd')) $('#videoTrimEnd').value = trimMatch[2];
                 }
-                // Parse speed command
-                var speedMatch = cmdLower.match(/speed\s+(\d+\.?\d*)/);
+                // Parse speed — EN: speed 1.5 | FA: سرعت ۱.۵ یا speed 1.5
+                var speedMatch = cmdLower.match(/(?:speed|سرعت)\s+(\d+[\.,]?\d*)/);
                 if (speedMatch) {
-                    var s = Math.max(0.5, Math.min(3, parseFloat(speedMatch[1])));
+                    var s = Math.max(0.5, Math.min(3, parseFloat(speedMatch[1].replace(',', '.'))));
                     if (speedSlider) speedSlider.value = s;
                     if (speedVal) speedVal.textContent = s.toFixed(1) + 'x';
                 }
-                // Parse title command
-                var titleMatch = cmdLower.match(/(?:add\s+)?title\s*(?:at\s+\d+s?\s*)?[":\s]+(.+)/);
+                // Parse title — EN: add title at 10s: My Title | FA: عنوان: متن عنوان
+                var titleMatch = cmdLower.match(/(?:add\s+)?(?:title|عنوان)\s*(?:at\s+\d+s?\s*|در\s+\d+\s*ثانیه\s*)?[":\s]+(.+)/);
                 if (titleMatch && $('#videoTitleText')) {
                     $('#videoTitleText').value = titleMatch[1].trim();
                 }
-                // Parse effects
-                if (cmdLower.includes('fade in') && $('#videoFadeIn')) $('#videoFadeIn').checked = true;
-                if (cmdLower.includes('fade out') && $('#videoFadeOut')) $('#videoFadeOut').checked = true;
-                if (cmdLower.includes('watermark') && $('#videoWatermark')) $('#videoWatermark').checked = true;
-                if ((cmdLower.includes('b&w') || cmdLower.includes('grayscale') || cmdLower.includes('black and white')) && $('#videoGrayscale')) $('#videoGrayscale').checked = true;
+                // Parse subtitle — EN: subtitle: text | FA: زیرنویس: متن
+                var subMatch = cmdLower.match(/(?:subtitle|زیرنویس)\s*[":\s]+(.+)/);
+                if (subMatch && $('#videoSubtitleText')) {
+                    $('#videoSubtitleText').value = subMatch[1].trim();
+                }
+                // Parse effects — EN + FA
+                if ((cmdLower.includes('fade in') || cmdLower.includes('افزایش تدریجی') || cmdLower.includes('fade-in')) && $('#videoFadeIn')) $('#videoFadeIn').checked = true;
+                if ((cmdLower.includes('fade out') || cmdLower.includes('کاهش تدریجی') || cmdLower.includes('fade-out')) && $('#videoFadeOut')) $('#videoFadeOut').checked = true;
+                if ((cmdLower.includes('watermark') || cmdLower.includes('نشان آبی')) && $('#videoWatermark')) $('#videoWatermark').checked = true;
+                if ((cmdLower.includes('b&w') || cmdLower.includes('grayscale') || cmdLower.includes('black and white') || cmdLower.includes('سیاه و سفید')) && $('#videoGrayscale')) $('#videoGrayscale').checked = true;
                 showToast('AI command parsed! Review settings and click Apply.');
             };
         }

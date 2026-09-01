@@ -234,17 +234,26 @@ window.AIGenerator = (function() {
   }
   function generateChallenge(t, c, lang, context) {
     var items = pickMultiple((lang === 'en' ? en : fa).challenges, 2);
-    if (context) items.unshift('Addressing requirements for: ' + context.substring(0, 80));
+    if (context) {
+      var prefix = lang === 'en' ? 'Addressing requirements for: ' : 'بررسی الزامات: ';
+      items.unshift(prefix + context.substring(0, 80));
+    }
     return items.join('\n\n');
   }
   function generateSolution(t, c, lang, context) {
     var items = pickMultiple((lang === 'en' ? en : fa).solutions, 2);
-    if (context) items.unshift('Solution approach for: ' + context.substring(0, 80));
+    if (context) {
+      var prefix = lang === 'en' ? 'Solution approach for: ' : 'رویکرد راه‌حل: ';
+      items.unshift(prefix + context.substring(0, 80));
+    }
     return items.join('\n\n');
   }
   function generateResults(t, c, lang, context) {
     var items = pickMultiple((lang === 'en' ? en : fa).results, 3);
-    if (context) items.unshift('Key outcomes for ' + context.substring(0, 50) + ':');
+    if (context) {
+      var prefix = lang === 'en' ? 'Key outcomes for ' : 'دستاوردهای کلیدی: ';
+      items.unshift(prefix + context.substring(0, 50) + ':');
+    }
     return items.join('\n\n');
   }
   function generate(title, categories, lang, context) {
