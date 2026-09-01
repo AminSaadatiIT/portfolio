@@ -20,7 +20,16 @@
         const div = document.createElement('div');
         div.textContent = str || '';
         return div.innerHTML;
+    }
+    function fileToBase64(file) {
+        return new Promise(function(resolve) {
+            var reader = new FileReader();
+            reader.onload = function() { resolve(reader.result); };
+            reader.onerror = function() { resolve(""); };
+            reader.readAsDataURL(file);
+        });
     }
+
 
     function simpleHash(str) {
         let hash = 0;
@@ -430,7 +439,7 @@
         if ($('#projMetric3')) $('#projMetric3').value = project?.metric3 || '';
         if ($('#projMetric3Label')) $('#projMetric3Label').value = project?.metric3Label || '';
 
-        $$('.checkbox-group input', editor).forEach(cb => {
+        $('.checkbox-group input', editor).forEach(cb => {
             cb.checked = project?.categories?.includes(cb.value) || false;
         });
 
@@ -476,25 +485,72 @@
             }
         };
 
-        // Image upload preview
-        if ($('#projImages')) $('#projImages').onchange = (e) => {
+        // Image upload — convert to base64 for localStorage persistence
+        var pendingImages = project?.images ? project.images.slice() : [];
+        // Show saved images on load
+        var imgPrev = $('#imagePreview');
+        if (imgPrev && pendingImages.length) {
+            imgPrev.innerHTML = '';
+            pendingImages.forEach(function(src, idx) {
+                var wrap = document.createElement('div');
+                wrap.style.cssText = 'display:inline-block;position:relative;margin:4px';
+                var img = document.createElement('img');
+                img.src = src;
+                img.style.cssText = 'width:100px;height:70px;object-fit:cover;border-radius:8px;border:2px solid rgba(255,255,255,0.1)';
+                var rm = document.createElement('button');
+                rm.textContent = 'x';
+                rm.style.cssText = 'position:absolute;top:-6px;right:-6px;background:red;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:10px;cursor:pointer;line-height:1';
+                (function(i){ rm.onclick = function(){ pendingImages.splice(i,1); wrap.remove(); }; })(idx);
+                wrap.appendChild(img);
+                wrap.appendChild(rm);
+                imgPrev.appendChild(wrap);
+            });
+        }
+        if ($('#projImages')) $('#projImages').onchange = async function(e) {
             var preview = $('#imagePreview');
             if (!preview) return;
+            var files = Array.from(e.target.files);
+            for (var i = 0; i < files.length; i++) {
+                var b64 = await fileToBase64(files[i]);
+                if (b64) pendingImages.push(b64);
+            }
             preview.innerHTML = '';
-            Array.from(e.target.files).forEach(f => {
+            pendingImages.forEach(function(src, idx) {
+                var wrap = document.createElement('div');
+                wrap.style.cssText = 'display:inline-block;position:relative;margin:4px';
                 var img = document.createElement('img');
-                img.src = URL.createObjectURL(f);
+                img.src = src;
                 img.style.cssText = 'width:100px;height:70px;object-fit:cover;border-radius:8px;border:2px solid rgba(255,255,255,0.1)';
-                preview.appendChild(img);
+                var rm = document.createElement('button');
+                rm.textContent = 'x';
+                rm.style.cssText = 'position:absolute;top:-6px;right:-6px;background:red;color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:10px;cursor:pointer;line-height:1';
+                (function(i){ rm.onclick = function(){ pendingImages.splice(i,1); wrap.remove(); }; })(idx);
+                wrap.appendChild(img);
+                wrap.appendChild(rm);
+                preview.appendChild(wrap);
             });
+            showToast(pendingImages.length + ' image(s) added!');
         };
 
-        // Video upload preview
-        if ($('#projVideo')) $('#projVideo').onchange = (e) => {
+        // Video upload — convert to base64 for localStorage persistence
+        var pendingVideo = project?.video || null;
+        // Show saved video on load
+        var vidPrev = $('#videoPreview');
+        if (vidPrev && pendingVideo) {
+            vidPrev.innerHTML = '<video controls style="width:100%;max-height:200px;border-radius:8px"><source src="' + pendingVideo + '"></video>';
+        }
+        if ($('#projVideo')) $('#projVideo').onchange = async function(e) {
             var preview = $('#videoPreview');
             if (!preview || !e.target.files[0]) return;
-            var url = URL.createObjectURL(e.target.files[0]);
-            preview.innerHTML = '<video controls style="width:100%;max-height:200px;border-radius:8px"><source src="' + url + '"></video>';
+            preview.innerHTML = 'Converting video (may take a moment)...';
+            var b64 = await fileToBase64(e.target.files[0]);
+            if (b64) {
+                pendingVideo = b64;
+                preview.innerHTML = '<video controls style="width:100%;max-height:200px;border-radius:8px"><source src="' + b64 + '"></video>';
+                showToast('Video uploaded!');
+            } else {
+                preview.innerHTML = 'Error converting video';
+            }
         };
 
         $('#saveProject').onclick = () => {
@@ -522,8 +578,8 @@
                 metric3Label: $('#projMetric3Label') ? $('#projMetric3Label').value.trim() : '',
                 categories: $$('.checkbox-group input:checked', editor).map(cb => cb.value),
                 gradient: project?.gradient || 'linear-gradient(135deg, #0070f3, #7928ca)',
-                images: project?.images || [],
-                videos: project?.videos || []
+                images: pendingImages,
+                video: pendingVideo
             };
 
             if (!data.title) { showToast('Title is required.'); return; }
@@ -968,7 +1024,6 @@
             applyBtn.onclick = function() {
                 var preview = $('#videoEditedPreview');
                 if (!preview) return;
-                var videoFile = $('#projVideo') ? $('#projVideo').files[0] : null;
                 var trimStart = $('#videoTrimStart') ? parseInt($('#videoTrimStart').value) || 0 : 0;
                 var trimEnd = $('#videoTrimEnd') ? parseInt($('#videoTrimEnd').value) || 0 : 0;
                 var speed = speedSlider ? parseFloat(speedSlider.value) : 1;
@@ -979,26 +1034,36 @@
                 var watermark = $('#videoWatermark') ? $('#videoWatermark').checked : false;
                 var grayscale = $('#videoGrayscale') ? $('#videoGrayscale').checked : false;
 
+                if (!pendingVideo) { showToast('Upload a video first!'); return; }
+
+                // Apply CSS filters to video preview
+                var vidEl = $('#videoPreview video');
+                if (vidEl) {
+                    vidEl.playbackRate = speed;
+                    var filters = [];
+                    if (grayscale) filters.push('grayscale(1)');
+                    vidEl.style.filter = filters.join(' ') || 'none';
+                    if (trimStart > 0) vidEl.currentTime = trimStart;
+                    if (trimEnd > 0) vidEl.onseeked = function() { vidEl.pause(); };
+                    showToast('Video edits applied to preview!');
+                }
+
+                // Show edit summary
                 var html = '<div style="padding:16px;background:rgba(255,255,255,0.05);border-radius:12px;border:1px solid rgba(255,184,0,0.3)">';
-                html += '<h4 style="color:#ffb800;margin-bottom:12px">✅ Edits Applied</h4>';
+                html += '<h4 style="color:#ffb800;margin-bottom:12px">✅ Edits Applied to Preview</h4>';
                 html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:#a1a1a1">';
                 html += '<div>⏱ Trim: ' + trimStart + 's - ' + (trimEnd || 'end') + 's</div>';
                 html += '<div>⚡ Speed: ' + speed.toFixed(1) + 'x</div>';
-                if (title) html += '<div>📝 Title: ' + escapeHTML(title) + '</div>';
+                if (title) html += '<div>📝 Title Overlay: ' + escapeHTML(title) + '</div>';
                 if (subtitle) html += '<div>💬 Subtitle: ' + escapeHTML(subtitle) + '</div>';
                 if (fadeIn) html += '<div>✨ Fade In: ON</div>';
                 if (fadeOut) html += '<div>✨ Fade Out: ON</div>';
                 if (watermark) html += '<div>💧 Watermark: ON</div>';
                 if (grayscale) html += '<div>⬛ B&W Filter: ON</div>';
                 html += '</div>';
-                if (videoFile) {
-                    var url = URL.createObjectURL(videoFile);
-                    html += '<video controls style="width:100%;max-height:250px;border-radius:8px;margin-top:12px">';
-                    html += '<source src="' + url + '"></video>';
-                }
+                html += '<p style="font-size:11px;color:#666;margin-top:8px">Note: Title/subtitle overlays apply during video playback. Effects are visible in the preview above.</p>';
                 html += '</div>';
                 preview.innerHTML = html;
-                showToast('Video edits applied!');
             };
         }
 
