@@ -497,7 +497,7 @@
         if ($('#projMetric3')) $('#projMetric3').value = project?.metric3 || '';
         if ($('#projMetric3Label')) $('#projMetric3Label').value = project?.metric3Label || '';
 
-        $('.checkbox-group input', editor).forEach(cb => {
+        $$('.checkbox-group input', editor).forEach(cb => {
             cb.checked = project?.categories?.includes(cb.value) || false;
         });
 
