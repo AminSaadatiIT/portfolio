@@ -449,12 +449,12 @@
         };
         if ($('#aiGenAll')) $('#aiGenAll').onclick = () => {
             if (!window.AIGenerator) return;
-            var lang = getAILang(), cats = getAICats(), title = getAITitle();
-            $('#projSummary').value = window.AIGenerator.generateSummary(title, cats, lang);
+            var lang = getAILang(), cats = getAICats(), title = getAITitle(); var ctx = [title,  ? .value : ""].filter(Boolean).join(" - ");
+            $('#projSummary').value = window.AIGenerator.generateSummary(title, cats, lang, ctx);
             $('#projChallenge').value = window.AIGenerator.generateChallenge(title, cats, lang);
             $('#projSolution').value = window.AIGenerator.generateSolution(title, cats, lang);
             $('#projResults').value = window.AIGenerator.generateResults(title, cats, lang);
-            $('#projLong').value = window.AIGenerator.generate(title, cats, lang);
+            $('#projLong').value = window.AIGenerator.generate(title, cats, lang, ctx);
             showToast('AI content generated!');
         };
         // Legacy button
