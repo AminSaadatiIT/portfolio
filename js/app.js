@@ -1246,6 +1246,28 @@
             });
         }
 
+        // Reliable in-page anchor scroll. scrollBy/scrollTo with an options object
+        // is the only scroll API that works consistently across browsers and
+        // embedded webviews — plain scrollTo(x, y) and rAF loops can be dropped
+        // by the compositor, and native anchor scroll can be cancelled.
+        function scrollToY(targetY) {
+            window.scrollTo({ top: Math.max(targetY, 0), behavior: 'instant' });
+        }
+
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a[href^="#"]');
+            if (!link) return;
+            const id = link.getAttribute('href').slice(1);
+            if (!id) return;
+            const target = document.getElementById(id);
+            if (!target) return;
+            e.preventDefault();
+            const headerH = 80;
+            const targetY = target.getBoundingClientRect().top + window.scrollY - headerH;
+            scrollToY(targetY);
+            history.pushState(null, '', '#' + id);
+        });
+
         const sections = $$('section[id]');
 
         function updateActive() {
