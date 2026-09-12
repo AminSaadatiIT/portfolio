@@ -358,24 +358,59 @@
         }, { passive: true });
     }
 
-    // ═══════ CURSOR GLOW ═══════
+    // ═══════ CUSTOM CURSOR SYSTEM ═══════
     function initCursorGlow() {
         if (prefersReducedMotion || isMobile) return;
-        const glow = $('#cursorGlow');
-        if (!glow || !window.matchMedia('(pointer: fine)').matches) return;
+        if (!window.matchMedia('(pointer: fine)').matches) return;
 
-        let mx = 0, my = 0, gx = 0, gy = 0;
+        var cursor = $('#rj45Cursor');
+        var glow = $('#cursorGlow');
+        if (!cursor) return;
 
-        document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+        // cursor:none is handled in CSS via @media (pointer: fine)
 
-        function animate() {
-            gx += (mx - gx) * 0.07;
-            gy += (my - gy) * 0.07;
-            glow.style.left = gx + 'px';
-            glow.style.top = gy + 'px';
-            requestAnimationFrame(animate);
+        // Direct position via transform — zero delay, GPU composited
+        document.addEventListener('mousemove', function(e) {
+            cursor.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px) translate(-50%,-50%)';
+            if (glow) { glow.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px) translate(-50%,-50%)'; }
+        });
+
+        document.addEventListener('mousedown', function() { cursor.classList.add('rj45-click'); });
+        document.addEventListener('mouseup', function() { cursor.classList.remove('rj45-click'); });
+
+        var ripples = $('#cursorRipples');
+        var rippleTimer = null;
+
+        function spawnRipples() {
+            if (!ripples) return;
+            // Clear old ripples
+            ripples.innerHTML = '';
+            // Create 3 ripple rings
+            for (var i = 0; i < 3; i++) {
+                var r = document.createElement('div');
+                r.className = 'cursor-ripple';
+                ripples.appendChild(r);
+            }
+            // Auto-remove after animation
+            clearTimeout(rippleTimer);
+            rippleTimer = setTimeout(function() { ripples.innerHTML = ''; }, 1200);
         }
-        animate();
+
+        var interactives = 'a, button, [role="button"], .nav-link, .filter-btn, .btn, .project-card, .modal-close, .slider-btn, .social-link, input, textarea, select, .custom-select-trigger, .tag';
+        document.addEventListener('mouseover', function(e) {
+            var el = e.target.closest(interactives);
+            if (!el) { cursor.className = 'custom-cursor'; if (glow) glow.classList.remove('hover-glow'); return; }
+            cursor.className = 'custom-cursor';
+            if (el.matches('input, textarea, select')) cursor.classList.add('rj45-text');
+            else {
+                cursor.classList.add('rj45-hover');
+                spawnRipples();
+            }
+            if (glow) glow.classList.add('hover-glow');
+        });
+        document.addEventListener('mouseout', function(e) {
+            if (e.target.closest(interactives)) { cursor.className = 'custom-cursor'; if (glow) glow.classList.remove('hover-glow'); }
+        });
     }
 
     // ═══════ PARTICLES & METEORS ═══════
@@ -384,7 +419,7 @@
         const container = $('#particles');
         if (!container) return;
 
-        for (let i = 0; i < 35; i++) {
+        for (let i = 0; i < 12; i++) {
             const p = document.createElement('div');
             p.className = 'particle';
             p.style.left = Math.random() * 100 + '%';
@@ -615,6 +650,9 @@
     }
 
     // ═══════ PROJECT MODAL ═══════
+    var currentGalleryImages = [];
+    var currentGalleryIndex = 0;
+
     function openProjectModal(id) {
         const project = siteData.projects.find(p => p.id === id);
         if (!project) return;
@@ -625,20 +663,84 @@
         const meta = $('#modalMeta');
         const desc = $('#modalDesc');
         const tags = $('#modalTags');
+        const prevBtn = $('#galleryPrev');
+        const nextBtn = $('#galleryNext');
+        const counter = $('#galleryCounter');
 
-        gallery.innerHTML = `<div style="width:100%;height:100%;background:${project.gradient || 'linear-gradient(135deg, #0070f3, #7928ca)'}"></div>`;
+        // Collect images: uploaded images + gradient fallback
+        currentGalleryImages = [];
+        if (project.images && project.images.length > 0) {
+            currentGalleryImages = project.images.slice();
+        }
+        currentGalleryIndex = 0;
+
+        // Render gallery
+        renderModalGallery(project);
+
+        // Show/hide nav buttons
+        var hasMultiple = currentGalleryImages.length > 1;
+        if (prevBtn) prevBtn.hidden = !hasMultiple;
+        if (nextBtn) nextBtn.hidden = !hasMultiple;
+        if (counter) {
+            counter.hidden = !hasMultiple;
+            if (hasMultiple) counter.textContent = '1 / ' + currentGalleryImages.length;
+        }
+
         title.textContent = project.title;
-        meta.innerHTML = `
-            ${project.client ? `<span>🏢 ${escapeHTML(project.client)}</span>` : ''}
-            ${project.location ? `<span>📍 ${escapeHTML(project.location)}</span>` : ''}
-            ${project.date ? `<span>📅 ${escapeHTML(project.date)}</span>` : ''}
-        `;
+        meta.innerHTML = '';
+        if (project.client) meta.innerHTML += '<span>🏢 ' + escapeHTML(project.client) + '</span>';
+        if (project.location) meta.innerHTML += '<span>📍 ' + escapeHTML(project.location) + '</span>';
+        if (project.date) meta.innerHTML += '<span>📅 ' + escapeHTML(project.date) + '</span>';
+        if (project.duration) meta.innerHTML += '<span>⏱️ ' + escapeHTML(project.duration) + '</span>';
         desc.textContent = project.long || project.short || '';
-        tags.innerHTML = (project.categories || []).map(c => `<span class="tag">${escapeHTML(c)}</span>`).join('');
+        tags.innerHTML = (project.categories || []).map(c => '<span class="tag">' + escapeHTML(c) + '</span>').join('');
 
         modal.hidden = false;
         document.body.style.overflow = 'hidden';
         modal.focus();
+    }
+
+    function renderModalGallery(project) {
+        var gallery = $('#modalGallery');
+        if (!gallery) return;
+
+        // Keep nav buttons, replace content
+        var prevBtn = $('#galleryPrev');
+        var nextBtn = $('#galleryNext');
+        var counter = $('#galleryCounter');
+
+        // Remove old content (but keep nav elements)
+        var oldContent = gallery.querySelectorAll('.gallery-img, .gallery-gradient');
+        oldContent.forEach(function(el) { el.remove(); });
+
+        if (currentGalleryImages.length > 0) {
+            var img = document.createElement('img');
+            img.className = 'gallery-img';
+            img.src = currentGalleryImages[currentGalleryIndex];
+            img.alt = project.title + ' — Image ' + (currentGalleryIndex + 1);
+            img.addEventListener('click', function() {
+                openLightbox(currentGalleryImages, currentGalleryIndex, project.title);
+            });
+            gallery.insertBefore(img, prevBtn);
+        } else {
+            var grad = document.createElement('div');
+            grad.className = 'gallery-gradient';
+            grad.style.background = project.gradient || 'linear-gradient(135deg, #0070f3, #7928ca)';
+            grad.innerHTML = '📁';
+            gallery.insertBefore(grad, prevBtn);
+        }
+
+        if (counter && currentGalleryImages.length > 1) {
+            counter.textContent = (currentGalleryIndex + 1) + ' / ' + currentGalleryImages.length;
+        }
+    }
+
+    function galleryNav(dir) {
+        if (currentGalleryImages.length < 2) return;
+        currentGalleryIndex += dir;
+        if (currentGalleryIndex < 0) currentGalleryIndex = currentGalleryImages.length - 1;
+        if (currentGalleryIndex >= currentGalleryImages.length) currentGalleryIndex = 0;
+        renderModalGallery({ title: $('#modalTitle').textContent });
     }
 
     function closeProjectModal() {
@@ -647,9 +749,92 @@
         document.body.style.overflow = '';
     }
 
+    // ═══════ LIGHTBOX (Full-screen image viewer) ═══════
+    var lightboxImages = [];
+    var lightboxIndex = 0;
+
+    function openLightbox(images, startIndex, title) {
+        lightboxImages = images || [];
+        lightboxIndex = startIndex || 0;
+        if (lightboxImages.length === 0) return;
+
+        var overlay = $('#lightboxOverlay');
+        var img = $('#lightboxImg');
+        var counter = $('#lightboxCounter');
+        var thumbs = $('#lightboxThumbnails');
+        var prevBtn = $('#lightboxPrev');
+        var nextBtn = $('#lightboxNext');
+
+        // Set image
+        img.src = lightboxImages[lightboxIndex];
+        img.alt = (title || 'Project') + ' — Image ' + (lightboxIndex + 1);
+
+        // Single image mode
+        var isSingle = lightboxImages.length <= 1;
+        overlay.classList.toggle('lightbox-single', isSingle);
+        if (prevBtn) prevBtn.style.display = isSingle ? 'none' : '';
+        if (nextBtn) nextBtn.style.display = isSingle ? 'none' : '';
+
+        // Counter
+        if (counter) {
+            counter.textContent = isSingle ? '' : (lightboxIndex + 1) + ' / ' + lightboxImages.length;
+        }
+
+        // Thumbnails
+        if (thumbs && lightboxImages.length > 1) {
+            thumbs.innerHTML = lightboxImages.map(function(src, i) {
+                return '<div class="lightbox-thumb' + (i === lightboxIndex ? ' active' : '') + '" data-index="' + i + '"><img src="' + src + '" alt="Thumb ' + (i + 1) + '"></div>';
+            }).join('');
+            thumbs.querySelectorAll('.lightbox-thumb').forEach(function(t) {
+                t.addEventListener('click', function() {
+                    lightboxIndex = parseInt(t.dataset.index, 10);
+                    updateLightbox();
+                });
+            });
+        } else if (thumbs) {
+            thumbs.innerHTML = '';
+        }
+
+        overlay.hidden = false;
+        document.body.style.overflow = 'hidden';
+    }
+
+    function updateLightbox() {
+        var img = $('#lightboxImg');
+        var counter = $('#lightboxCounter');
+        var thumbs = $('#lightboxThumbnails');
+
+        if (img) img.src = lightboxImages[lightboxIndex];
+        if (counter) counter.textContent = (lightboxIndex + 1) + ' / ' + lightboxImages.length;
+        if (thumbs) {
+            thumbs.querySelectorAll('.lightbox-thumb').forEach(function(t, i) {
+                t.classList.toggle('active', i === lightboxIndex);
+            });
+        }
+    }
+
+    function lightboxNav(dir) {
+        lightboxIndex += dir;
+        if (lightboxIndex < 0) lightboxIndex = lightboxImages.length - 1;
+        if (lightboxIndex >= lightboxImages.length) lightboxIndex = 0;
+        updateLightbox();
+    }
+
+    function closeLightbox() {
+        var overlay = $('#lightboxOverlay');
+        if (overlay) overlay.hidden = true;
+        // Only restore scroll if project modal is also closed
+        var modal = $('#projectModal');
+        if (!modal || modal.hidden) {
+            document.body.style.overflow = '';
+        }
+    }
+
     function initModal() {
         const modal = $('#projectModal');
         const closeBtn = $('#modalClose');
+        const prevBtn = $('#galleryPrev');
+        const nextBtn = $('#galleryNext');
 
         if (closeBtn) closeBtn.addEventListener('click', closeProjectModal);
         if (modal) {
@@ -657,8 +842,40 @@
                 if (e.target === modal) closeProjectModal();
             });
         }
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') closeProjectModal();
+        if (prevBtn) prevBtn.addEventListener('click', function() { galleryNav(-1); });
+        if (nextBtn) nextBtn.addEventListener('click', function() { galleryNav(1); });
+
+        // Lightbox controls
+        var lbClose = $('#lightboxClose');
+        var lbPrev = $('#lightboxPrev');
+        var lbNext = $('#lightboxNext');
+        var lbOverlay = $('#lightboxOverlay');
+
+        if (lbClose) lbClose.addEventListener('click', closeLightbox);
+        if (lbPrev) lbPrev.addEventListener('click', function() { lightboxNav(-1); });
+        if (lbNext) lbNext.addEventListener('click', function() { lightboxNav(1); });
+        if (lbOverlay) {
+            lbOverlay.addEventListener('click', function(e) {
+                if (e.target === lbOverlay) closeLightbox();
+            });
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            var lbVisible = lbOverlay && !lbOverlay.hidden;
+            var modalVisible = modal && !modal.hidden;
+
+            if (e.key === 'Escape') {
+                if (lbVisible) closeLightbox();
+                else if (modalVisible) closeProjectModal();
+            }
+            if (lbVisible) {
+                if (e.key === 'ArrowLeft') lightboxNav(-1);
+                if (e.key === 'ArrowRight') lightboxNav(1);
+            } else if (modalVisible) {
+                if (e.key === 'ArrowLeft') galleryNav(-1);
+                if (e.key === 'ArrowRight') galleryNav(1);
+            }
         });
     }
 
@@ -839,6 +1056,11 @@
             pending.push(review);
             localStorage.setItem('portfolio_testimonials_pending', JSON.stringify(pending));
 
+            // Track review submission
+            if (window.trackFormSubmit) {
+                window.trackFormSubmit('review');
+            }
+
             try {
                 const emailConfig = JSON.parse(localStorage.getItem('portfolio_emailjs') || '{}');
                 const adminEmail = localStorage.getItem('portfolio_admin_email') || '';
@@ -985,6 +1207,11 @@
                             console.warn('Email failed:', err);
                         }
                     })();
+
+                    // Track form submission
+                    if (window.trackFormSubmit) {
+                        window.trackFormSubmit(form.id === 'hireForm' ? 'hire' : 'contact');
+                    }
 
                     form.innerHTML = `
                         <div class="form-success" style="text-align:center;padding:40px 20px;">
@@ -1193,6 +1420,56 @@
         });
     }
 
+    // ═══════ ANALYTICS TRACKER ═══════
+    function initAnalytics() {
+        try {
+            var analytics = JSON.parse(localStorage.getItem('portfolio_analytics') || '{}');
+            if (!analytics.views) analytics.views = { total: 0, daily: {} };
+            if (!analytics.forms) analytics.forms = { contact: 0, hire: 0, review: 0 };
+            if (!analytics.sessions) analytics.sessions = 0;
+            if (!analytics.firstVisit) analytics.firstVisit = new Date().toISOString();
+            if (!analytics.dailyHistory) analytics.dailyHistory = [];
+
+            // Track page view
+            analytics.views.total = (analytics.views.total || 0) + 1;
+            var today = new Date().toISOString().split('T')[0];
+            analytics.views.daily[today] = (analytics.views.daily[today] || 0) + 1;
+
+            // Keep only last 30 days of daily data
+            var dates = Object.keys(analytics.views.daily).sort();
+            while (dates.length > 30) {
+                delete analytics.views.daily[dates.shift()];
+            }
+
+            // Track session (unique per tab refresh)
+            if (!sessionStorage.getItem('portfolio_tracked')) {
+                analytics.sessions = (analytics.sessions || 0) + 1;
+                sessionStorage.setItem('portfolio_tracked', '1');
+            }
+
+            // Store referrer
+            if (document.referrer && !analytics.lastReferrer) {
+                analytics.lastReferrer = document.referrer;
+            }
+
+            analytics.lastVisit = new Date().toISOString();
+            localStorage.setItem('portfolio_analytics', JSON.stringify(analytics));
+        } catch (e) { /* ignore */ }
+    }
+
+    function trackFormSubmit(type) {
+        try {
+            var analytics = JSON.parse(localStorage.getItem('portfolio_analytics') || '{}');
+            if (!analytics.forms) analytics.forms = { contact: 0, hire: 0, review: 0 };
+            analytics.forms[type] = (analytics.forms[type] || 0) + 1;
+            analytics.lastFormSubmit = new Date().toISOString();
+            localStorage.setItem('portfolio_analytics', JSON.stringify(analytics));
+        } catch (e) { /* ignore */ }
+    }
+
+    // Expose for form handlers
+    window.trackFormSubmit = trackFormSubmit;
+
     // ═══════ INIT ═══════
     function init() {
         // Initialize EmailJS with stored public key
@@ -1228,6 +1505,7 @@
         initReveal();
 
         initLiveSync();       // Enable live sync with admin
+        initAnalytics();      // Track page views & form submissions
     }
 
     if (document.readyState === 'loading') {

@@ -28,10 +28,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="css/styles.css?v=2026082702">
+    <link rel="stylesheet" href="css/styles.css?v=20260915">
     <link rel="stylesheet" href="css/custom-select.css">
-    <link rel="stylesheet" href="css/hero-new.css?v=20260828">
-    <link rel="stylesheet" href="css/mobile-fix.css?v=20260828">
+    <link rel="stylesheet" href="css/hero-new.css?v=20260911">
+    <link rel="stylesheet" href="css/mobile-fix.css?v=20260911">
 
     <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -49,6 +49,22 @@
     </div>
 
     <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+    <!-- Custom cursor: Neon Arrow -->
+    <div class="custom-cursor" id="rj45Cursor" aria-hidden="true">
+        <svg viewBox="0 0 48 56" width="36" height="42" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="cursorGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#00D4FF"/>
+                    <stop offset="100%" stop-color="#D946EF"/>
+                </linearGradient>
+            </defs>
+            <!-- Arrow (outline by default, filled on hover via CSS) -->
+            <path class="cursor-arrow" d="M4,4 L4,36 L14,28 L24,46 L30,42 L20,24 L32,24 Z" fill="none" stroke="url(#cursorGrad)" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+        <!-- Ripple rings (added via JS on hover) -->
+        <div class="cursor-ripples" id="cursorRipples"></div>
+    </div>
 
     <div class="aurora" id="aurora" aria-hidden="true">
         <div class="aurora-grid" id="auroraGrid"></div>
@@ -575,7 +591,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p class="footer-copy">© 2025 Amin Saadati. All rights reserved.</p>
+                <p class="footer-copy">© 2026 Amin Saadati. All rights reserved.</p>
                 <p class="footer-credit">Designed & Built with ❤️</p>
             </div>
         </div>
@@ -585,7 +601,11 @@
     <div class="modal-overlay" id="projectModal" role="dialog" aria-modal="true" hidden>
         <div class="modal">
             <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
-            <div class="modal-gallery" id="modalGallery"></div>
+            <div class="modal-gallery" id="modalGallery">
+                <button class="gallery-nav gallery-prev" id="galleryPrev" aria-label="Previous image" hidden>‹</button>
+                <button class="gallery-nav gallery-next" id="galleryNext" aria-label="Next image" hidden>›</button>
+                <div class="gallery-counter" id="galleryCounter" hidden></div>
+            </div>
             <div class="modal-body">
                 <h2 class="modal-title" id="modalTitle"></h2>
                 <div class="modal-meta" id="modalMeta"></div>
@@ -593,6 +613,18 @@
                 <div class="modal-tags" id="modalTags"></div>
             </div>
         </div>
+    </div>
+
+    <!-- Lightbox (full-screen image viewer) -->
+    <div class="lightbox-overlay" id="lightboxOverlay" hidden>
+        <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous">‹</button>
+        <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next">›</button>
+        <div class="lightbox-image-wrap">
+            <img class="lightbox-img" id="lightboxImg" src="" alt="">
+        </div>
+        <div class="lightbox-counter" id="lightboxCounter"></div>
+        <div class="lightbox-thumbnails" id="lightboxThumbnails"></div>
     </div>
 
     <!-- Review Submission Modal -->
@@ -715,6 +747,6 @@
     })();
     </script>
 
-    <script src="js/app.js?v=20260827" defer></script>
+    <script src="js/app.js?v=20260915" defer></script>
 </body>
 </html>
