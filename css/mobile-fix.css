@@ -180,13 +180,66 @@
         border-radius: 10px !important;
     }
 
-    /* ── Hero Right (Orbit) - Hidden on mobile ── */
+    /* ── Hero Right (Orbit) - Center counter only on mobile ── */
     .hero-right {
-        display: none !important;
+        width: 100% !important;
+        max-width: 160px !important;
+        height: auto !important;
+        margin: 16px auto 0 !important;
+        flex: none !important;
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        overflow: visible !important;
     }
 
     .circles-container {
+        position: relative !important;
+        width: auto !important;
+        height: auto !important;
+        transform: none !important;
+    }
+
+    /* Hide all orbiting icons and rings */
+    .orbit-1, .orbit-2, .orbit-3, .orbit-4 {
         display: none !important;
+    }
+
+    /* Style the center counter */
+    .orbit-center {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: 110px !important;
+        height: 110px !important;
+        border-radius: 50% !important;
+        background: rgba(160,104,255,0.12) !important;
+        border: 1px solid rgba(160,104,255,0.4) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: 0 0 40px rgba(160,104,255,0.25) !important;
+        margin: 0 auto !important;
+    }
+
+    .orbit-number {
+        font-size: 36px !important;
+        font-weight: 800 !important;
+        color: #A068FF !important;
+        line-height: 1 !important;
+        font-family: 'Space Grotesk', sans-serif !important;
+    }
+
+    .orbit-label {
+        font-size: 9px !important;
+        letter-spacing: 0.05em !important;
+        text-transform: uppercase !important;
+        color: rgba(255,255,255,0.7) !important;
+        margin-top: 4px !important;
+        font-family: 'Space Grotesk', sans-serif !important;
     }
 
     /* ── Network Icons - Glow Effect ── */
@@ -439,21 +492,8 @@
    ═══════════════════════════════════════════ */
 @media (max-width: 480px) {
     .hero-new {
-        padding: 70px 10px 16px !important;
-        gap: 6px !important;
-    }
-
-    .hero-heading {
-        font-size: 17px !important;
-    }
-
-    .hero-heading-accent {
-        font-size: 14px !important;
-    }
-
-    .hero-badge-intro {
-        font-size: 9px !important;
-        padding: 4px 8px !important;
+        padding: 70px 12px 24px !important;
+        gap: 0 !important;
     }
 
     .hero-heading {
@@ -464,8 +504,24 @@
         font-size: 20px !important;
     }
 
+    .hero-badge-intro {
+        font-size: 9px !important;
+        padding: 5px 10px !important;
+    }
+
     .hero-subtitle {
         font-size: 13px !important;
+    }
+
+    .hero-right {
+        width: 160px !important;
+        height: 160px !important;
+    }
+
+    .circles-container {
+        width: 160px !important;
+        height: 160px !important;
+        transform: scale(0.4) !important;
     }
 
     .stat-number {
