@@ -35,15 +35,15 @@
 
 @media (max-width: 768px) {
 
-    /* ── Hero Section - Side by Side ── */
+    /* ── Hero Section - Stacked ── */
     .hero-new {
         min-height: auto !important;
         height: auto !important;
-        padding: 80px 12px 20px !important;
-        flex-direction: row !important;
+        padding: 80px 16px 32px !important;
+        flex-direction: column !important;
         align-items: flex-start !important;
         text-align: left !important;
-        gap: 8px !important;
+        gap: 0 !important;
         overflow: hidden !important;
     }
 
@@ -53,8 +53,7 @@
 
     /* ── Hero Left (Text) ── */
     .hero-left {
-        flex: 1 1 60% !important;
-        min-width: 0 !important;
+        width: 100% !important;
         text-align: left !important;
         overflow: visible !important;
     }
@@ -62,13 +61,13 @@
     /* ── Badge ── */
     .hero-badge-intro {
         font-size: 10px !important;
-        padding: 5px 10px !important;
-        margin-bottom: 8px !important;
+        padding: 6px 12px !important;
+        margin-bottom: 12px !important;
         justify-content: flex-start !important;
         border-radius: 50px !important;
         background: rgba(160,104,255,0.1) !important;
         border: 1px solid rgba(160,104,255,0.3) !important;
-        gap: 4px !important;
+        gap: 6px !important;
         flex-wrap: wrap !important;
     }
 
@@ -79,27 +78,27 @@
     .hero-status {
         display: flex !important;
         align-items: center !important;
-        gap: 3px !important;
+        gap: 4px !important;
         font-size: 10px !important;
     }
 
     /* ── Heading ── */
     .hero-heading {
-        font-size: 20px !important;
-        line-height: 1.1 !important;
-        margin-bottom: 6px !important;
-        letter-spacing: -0.3px !important;
+        font-size: 28px !important;
+        line-height: 1.15 !important;
+        margin-bottom: 12px !important;
+        letter-spacing: -0.5px !important;
     }
 
     .hero-heading-accent {
-        font-size: 17px !important;
+        font-size: 24px !important;
     }
 
     /* ── Subtitle ── */
     .hero-subtitle {
-        font-size: 11px !important;
-        line-height: 1.4 !important;
-        margin-bottom: 10px !important;
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        margin-bottom: 20px !important;
     }
 
     /* ── Stats - Compact ── */
@@ -107,15 +106,13 @@
         display: flex !important;
         justify-content: space-between !important;
         width: 100% !important;
-        padding: 10px 6px !important;
-        margin-bottom: 10px !important;
-        border-radius: 10px !important;
+        padding: 14px 12px !important;
+        margin-bottom: 20px !important;
+        border-radius: 12px !important;
         gap: 0 !important;
         background: rgba(160,104,255,0.08) !important;
         border: 1px solid rgba(160,104,255,0.2) !important;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.3) !important;
         box-sizing: border-box !important;
-        overflow: hidden !important;
     }
 
     .stat-item {
@@ -125,7 +122,7 @@
     }
 
     .stat-number {
-        font-size: 16px !important;
+        font-size: 20px !important;
         font-weight: 700 !important;
         display: block !important;
     }
@@ -135,80 +132,61 @@
         letter-spacing: 0.05em !important;
         text-transform: uppercase !important;
         display: block !important;
+        margin-top: 2px !important;
     }
 
     .stat-divider {
         width: 1px !important;
-        height: 24px !important;
+        height: 28px !important;
         flex: 0 0 1px !important;
     }
 
-    /* ── CTA Buttons - Side by Side ── */
+    /* ── CTA Buttons ── */
     .hero-cta-group {
         display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: wrap !important;
-        gap: 6px !important;
+        flex-direction: column !important;
+        gap: 10px !important;
         width: 100% !important;
-        margin-top: 10px !important;
-        justify-content: flex-start !important;
-        align-items: stretch !important;
+        margin-top: 8px !important;
     }
 
     .btn-primary {
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        padding: 10px 12px !important;
-        font-size: 11px !important;
-        border-radius: 8px !important;
-        flex: 1 1 45% !important;
-        min-width: 0 !important;
-        gap: 4px !important;
+        padding: 14px 20px !important;
+        font-size: 14px !important;
+        border-radius: 10px !important;
+        width: 100% !important;
+        gap: 6px !important;
     }
 
     .btn-secondary {
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        padding: 10px 12px !important;
-        font-size: 11px !important;
-        border-radius: 8px !important;
-        flex: 1 1 45% !important;
-        min-width: 0 !important;
-    }
-
-    .download-wrap {
+        padding: 14px 20px !important;
+        font-size: 14px !important;
+        border-radius: 10px !important;
         width: 100% !important;
-        flex: 1 1 100% !important;
     }
 
     .btn-outline {
         display: inline-flex !important;
         width: 100% !important;
         justify-content: center !important;
-        padding: 8px 12px !important;
-        font-size: 11px !important;
-        border-radius: 8px !important;
+        padding: 12px 20px !important;
+        font-size: 13px !important;
+        border-radius: 10px !important;
     }
 
-    /* ── Hero Right (Orbit) - Next to text ── */
+    /* ── Hero Right (Orbit) - Hidden on mobile ── */
     .hero-right {
-        flex: 0 0 38% !important;
-        width: 140px !important;
-        height: 140px !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow: visible !important;
-        position: relative !important;
-        align-self: center !important;
+        display: none !important;
     }
 
     .circles-container {
-        width: 140px !important;
-        height: 140px !important;
-        transform: scale(0.4) !important;
-        transform-origin: center center !important;
+        display: none !important;
     }
 
     /* ── Network Icons - Glow Effect ── */
@@ -478,25 +456,25 @@
         padding: 4px 8px !important;
     }
 
-    .hero-right {
-        width: 120px !important;
-        height: 120px !important;
-        flex: 0 0 32% !important;
+    .hero-heading {
+        font-size: 24px !important;
     }
 
-    .circles-container {
-        width: 120px !important;
-        height: 120px !important;
-        transform: scale(0.35) !important;
+    .hero-heading-accent {
+        font-size: 20px !important;
     }
 
-    .btn-primary, .btn-secondary {
-        padding: 8px 10px !important;
-        font-size: 10px !important;
+    .hero-subtitle {
+        font-size: 13px !important;
     }
 
     .stat-number {
-        font-size: 14px !important;
+        font-size: 18px !important;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 12px 16px !important;
+        font-size: 13px !important;
     }
 
     .profile-photo-container {
