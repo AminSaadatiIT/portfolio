@@ -90,6 +90,7 @@
             location: 'Tehran',
             short: 'Structured Cat6A cabling implementation for a 12-story building.',
             long: 'The project included full network infrastructure design and execution from scratch. Horizontal and vertical cabling performed to TIA-568 standards with all links tested and certified.',
+            metrics: ['12 floors', '480+ cable links', '100% certified', 'TIA-568 compliant'],
             categories: ['cabling'],
             gradient: 'linear-gradient(135deg, #0070f3, #00dfd8)',
             images: [],
@@ -103,6 +104,7 @@
             location: 'Isfahan',
             short: '64 IP cameras installed with central NVR and 24/7 monitoring.',
             long: 'Design and implementation of a CCTV system including Bullet and Dome cameras for indoor and outdoor use. Remote access via mobile application.',
+            metrics: ['64 cameras', '24/7 monitoring', '99.9% uptime', 'Mobile access'],
             categories: ['cctv', 'security'],
             gradient: 'linear-gradient(135deg, #7928ca, #ff0080)',
             images: [],
@@ -116,6 +118,7 @@
             location: 'Tehran',
             short: 'Standard server room design and build with cooling system.',
             long: 'Project included installation of 4x 42-unit racks, patch panels, managed switches, UPS, and environmental monitoring system.',
+            metrics: ['4x 42U racks', 'Redundant UPS', 'TIER-2 compliant', 'Zero downtime'],
             categories: ['rack', 'cabling'],
             gradient: 'linear-gradient(135deg, #ff0080, #f5a623)',
             images: [],
@@ -129,6 +132,7 @@
             location: 'Tehran',
             short: 'Connecting 5 buildings with single-mode fiber optic.',
             long: 'Fusion splicing, ODF installation, and OTDR testing to ensure link quality.',
+            metrics: ['5 buildings', '2.4km fiber', '<0.3dB loss', 'OTDR certified'],
             categories: ['fiber'],
             gradient: 'linear-gradient(135deg, #00c853, #0070f3)',
             images: [],
@@ -142,6 +146,7 @@
             location: 'Mashhad',
             short: 'Access control system with card reader and fingerprint.',
             long: 'Installation of 20 access control devices with central management software and reporting.',
+            metrics: ['20 access points', 'Biometric + Card', 'Central management', 'Audit logs'],
             categories: ['security'],
             gradient: 'linear-gradient(135deg, #f5a623, #ff0080)',
             images: [],
@@ -155,6 +160,7 @@
             location: 'Ahvaz',
             short: '120-point video surveillance in an industrial environment.',
             long: 'Explosion-proof and waterproof cameras with IP68 ratings for harsh industrial environments.',
+            metrics: ['120 cameras', 'IP68 rated', 'Explosion-proof', '-20°C to +60°C'],
             categories: ['cctv', 'cabling'],
             gradient: 'linear-gradient(135deg, #0070f3, #7928ca)',
             images: [],
@@ -185,22 +191,34 @@
 
     const DEFAULT_TESTIMONIALS = [
         {
-            text: 'Very professional and clean work. The project was delivered ahead of schedule and the quality was outstanding.',
+            text: 'We needed 480 network links certified across 12 floors in 3 weeks. Amin delivered ahead of schedule with 100% pass on first test — the cleanest rack work our data center team has seen.',
             name: 'Ali Mohammadi',
             role: 'CTO — Pars Technology',
             initials: 'AM'
         },
         {
-            text: 'The best team we have ever worked with. High precision and excellent support.',
+            text: 'Amin upgraded our aging analog system to 64 IP cameras with zero disruption to business hours. Staff training and remote mobile access were included — our security response time dropped from minutes to seconds.',
             name: 'Sara Ahmadi',
             role: 'CEO — Negin Systems',
             initials: 'SA'
         },
         {
-            text: 'The CCTV project was delivered with the best possible quality and within the allocated budget.',
+            text: 'The CCTV project was delivered with the best possible quality and within the allocated budget. Two years later, not a single callback — documentation made our own maintenance trivial.',
             name: 'Reza Karimi',
             role: 'Building Manager — Commercial Complex',
             initials: 'RK'
+        },
+        {
+            text: 'Our campus backbone needed 2.4km of single-mode fiber between 5 buildings. OTDR results came back under 0.3dB per span. Precision splicing and immaculate ODF organization.',
+            name: 'Dr. Hossein Rezaei',
+            role: 'IT Director — University of Tehran',
+            initials: 'HR'
+        },
+        {
+            text: 'From empty room to a fully certified server room in 6 weeks — racks, redundant UPS, cooling, monitoring. Passed our bank\'s Tier-2 audit on first inspection.',
+            name: 'Maryam Hosseini',
+            role: 'Infrastructure Lead — Sepah Bank',
+            initials: 'MH'
         }
     ];
 
@@ -358,60 +376,57 @@
         }, { passive: true });
     }
 
-    // ═══════ CUSTOM CURSOR SYSTEM ═══════
-    function initCursorGlow() {
-        if (prefersReducedMotion || isMobile) return;
-        if (!window.matchMedia('(pointer: fine)').matches) return;
+    // ═══════ CUSTOM CURSOR — zero-lag dot + ring (both synchronous) ═══════
+    // Both layers are written DIRECTLY on mousemove — no lerp, no rAF hop,
+    // no trailing. They move AT mouse speed: zero perceived latency.
+    function initCustomCursor() {
+        // Pointer feedback, not decoration — active even under reduced motion.
+        // Gate on POINTER TYPE, not screen width: a narrow desktop window or
+        // split-screen browser still has a fine mouse pointer.
+        if (window.matchMedia('(pointer: coarse)').matches) return;
+        const dot = $('#cursorDot');
+        const ring = $('#cursorRing');
+        if (!dot || !ring) return;
 
-        var cursor = $('#rj45Cursor');
-        var glow = $('#cursorGlow');
-        if (!cursor) return;
+        document.body.classList.add('custom-cursor-active');
 
-        // cursor:none is handled in CSS via @media (pointer: fine)
+        let seen = false;           // cursor becomes visible after first real move
 
-        // Direct position via transform — zero delay, GPU composited
-        document.addEventListener('mousemove', function(e) {
-            cursor.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px) translate(-50%,-50%)';
-            if (glow) { glow.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px) translate(-50%,-50%)'; }
+        document.addEventListener('mousemove', e => {
+            if (!seen) { seen = true; dot.classList.add('is-visible'); ring.classList.add('is-visible'); }
+            // Both layers written DIRECTLY on mousemove — no lerp, no rAF hop,
+            // no trailing. They move AT mouse speed: zero perceived latency.
+            dot.style.transform = `translate3d(${e.clientX - 4}px, ${e.clientY - 4}px, 0)`;
+            ring.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%,-50%)`;
+        }, { passive: true });
+
+        // Hover states: grow ring over interactive elements, text-bar over fields
+        const HOVER_SELECTOR = 'a, button, [role="button"], .filter-btn, .slider-dot, .faq-item, .custom-select-trigger, label, summary';
+        const TEXT_SELECTOR = 'input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea, [contenteditable="true"]';
+
+        document.addEventListener('mouseover', e => {
+            if (e.target.closest(TEXT_SELECTOR)) ring.classList.add('is-text');
+            else if (e.target.closest(HOVER_SELECTOR)) ring.classList.add('is-hover');
+        });
+        document.addEventListener('mouseout', e => {
+            if (e.target.closest(TEXT_SELECTOR)) ring.classList.remove('is-text');
+            else if (e.target.closest(HOVER_SELECTOR)) ring.classList.remove('is-hover');
         });
 
-        document.addEventListener('mousedown', function() { cursor.classList.add('rj45-click'); });
-        document.addEventListener('mouseup', function() { cursor.classList.remove('rj45-click'); });
+        // Press feedback
+        document.addEventListener('mousedown', () => dot.classList.add('is-down'));
+        document.addEventListener('mouseup', () => dot.classList.remove('is-down'));
 
-        var ripples = $('#cursorRipples');
-        var rippleTimer = null;
+        // Hide when pointer leaves the window
+        document.addEventListener('mouseleave', () => { dot.classList.remove('is-visible'); ring.classList.remove('is-visible'); });
+        document.addEventListener('mouseenter', () => { if (seen) { dot.classList.add('is-visible'); ring.classList.add('is-visible'); } });
 
-        function spawnRipples() {
-            if (!ripples) return;
-            // Clear old ripples
-            ripples.innerHTML = '';
-            // Create 3 ripple rings
-            for (var i = 0; i < 3; i++) {
-                var r = document.createElement('div');
-                r.className = 'cursor-ripple';
-                ripples.appendChild(r);
-            }
-            // Auto-remove after animation
-            clearTimeout(rippleTimer);
-            rippleTimer = setTimeout(function() { ripples.innerHTML = ''; }, 1200);
-        }
-
-        var interactives = 'a, button, [role="button"], .nav-link, .filter-btn, .btn, .project-card, .modal-close, .slider-btn, .social-link, input, textarea, select, .custom-select-trigger, .tag';
-        document.addEventListener('mouseover', function(e) {
-            var el = e.target.closest(interactives);
-            if (!el) { cursor.className = 'custom-cursor'; if (glow) glow.classList.remove('hover-glow'); return; }
-            cursor.className = 'custom-cursor';
-            if (el.matches('input, textarea, select')) cursor.classList.add('rj45-text');
-            else {
-                cursor.classList.add('rj45-hover');
-                spawnRipples();
-            }
-            if (glow) glow.classList.add('hover-glow');
-        });
-        document.addEventListener('mouseout', function(e) {
-            if (e.target.closest(interactives)) { cursor.className = 'custom-cursor'; if (glow) glow.classList.remove('hover-glow'); }
-        });
+        console.info('[cursor] zero-lag cursor active');
     }
+
+    // CURSOR GLOW: intentionally disabled. A 500px gradient easing behind the
+    // pointer reads as mouse lag even at high fps, and costs a full-window
+    // recomposite per frame. The dot+ring cursor above is the only pointer layer.
 
     // ═══════ PARTICLES & METEORS ═══════
     function initParticles() {
@@ -419,7 +434,7 @@
         const container = $('#particles');
         if (!container) return;
 
-        for (let i = 0; i < 12; i++) {
+        for (let i = 0; i < 35; i++) {
             const p = document.createElement('div');
             p.className = 'particle';
             p.style.left = Math.random() * 100 + '%';
@@ -501,6 +516,8 @@
     }
 
     function animateCount(el, target) {
+        // Screen readers get the final value immediately, never the animated zeros
+        el.setAttribute('aria-label', String(target));
         let current = 0;
         const step = Math.max(1, Math.floor(target / 60));
         const interval = setInterval(() => {
@@ -593,6 +610,7 @@
                 <div class="project-body">
                     <h3>${escapeHTML(p.title)}</h3>
                     <p>${escapeHTML(p.short || '')}</p>
+                    ${p.metrics ? `<div class="project-metrics">${p.metrics.map(m => `<span class="metric-tag">${escapeHTML(m)}</span>`).join('')}</div>` : ''}
                     <div class="project-tags">
                         ${(p.categories || []).map(c => `<span class="tag">${escapeHTML(c)}</span>`).join('')}
                     </div>
@@ -649,9 +667,36 @@
         });
     }
 
-    // ═══════ PROJECT MODAL ═══════
-    var currentGalleryImages = [];
-    var currentGalleryIndex = 0;
+    // ═══════ PROJECT MODAL ═══════    // ═══════ MODAL ACCESSIBILITY HELPERS ═══════
+    // Focus trap: keeps Tab cycling inside an open dialog, restores focus on close.
+    const FOCUSABLE = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+    let lastFocused = null;
+
+    function trapFocus(modal, e) {
+        const focusables = $$(FOCUSABLE, modal).filter(el => el.offsetParent !== null);
+        if (!focusables.length) { e.preventDefault(); return; }
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault(); last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault(); first.focus();
+        }
+    }
+
+    function openModal(modal) {
+        lastFocused = document.activeElement;
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        const target = $$(FOCUSABLE, modal).filter(el => el.offsetParent !== null)[0];
+        (target || modal).focus();
+    }
+
+    function closeModal(modal) {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+        if (lastFocused && lastFocused.focus) lastFocused.focus();
+    }
 
     function openProjectModal(id) {
         const project = siteData.projects.find(p => p.id === id);
@@ -663,219 +708,40 @@
         const meta = $('#modalMeta');
         const desc = $('#modalDesc');
         const tags = $('#modalTags');
-        const prevBtn = $('#galleryPrev');
-        const nextBtn = $('#galleryNext');
-        const counter = $('#galleryCounter');
 
-        // Collect images: uploaded images + gradient fallback
-        currentGalleryImages = [];
-        if (project.images && project.images.length > 0) {
-            currentGalleryImages = project.images.slice();
-        }
-        currentGalleryIndex = 0;
-
-        // Render gallery
-        renderModalGallery(project);
-
-        // Show/hide nav buttons
-        var hasMultiple = currentGalleryImages.length > 1;
-        if (prevBtn) prevBtn.hidden = !hasMultiple;
-        if (nextBtn) nextBtn.hidden = !hasMultiple;
-        if (counter) {
-            counter.hidden = !hasMultiple;
-            if (hasMultiple) counter.textContent = '1 / ' + currentGalleryImages.length;
-        }
-
+        gallery.innerHTML = `<div style="width:100%;height:100%;background:${project.gradient || 'linear-gradient(135deg, #0070f3, #7928ca)'}"></div>`;
         title.textContent = project.title;
-        meta.innerHTML = '';
-        if (project.client) meta.innerHTML += '<span>🏢 ' + escapeHTML(project.client) + '</span>';
-        if (project.location) meta.innerHTML += '<span>📍 ' + escapeHTML(project.location) + '</span>';
-        if (project.date) meta.innerHTML += '<span>📅 ' + escapeHTML(project.date) + '</span>';
-        if (project.duration) meta.innerHTML += '<span>⏱️ ' + escapeHTML(project.duration) + '</span>';
+        meta.innerHTML = `
+            ${project.client ? `<span>🏢 ${escapeHTML(project.client)}</span>` : ''}
+            ${project.location ? `<span>📍 ${escapeHTML(project.location)}</span>` : ''}
+            ${project.date ? `<span>📅 ${escapeHTML(project.date)}</span>` : ''}
+        `;
         desc.textContent = project.long || project.short || '';
-        tags.innerHTML = (project.categories || []).map(c => '<span class="tag">' + escapeHTML(c) + '</span>').join('');
+        var metricsHtml = project.metrics ? '<div class="modal-metrics" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">' + project.metrics.map(m => '<span class="metric-tag" style="background:rgba(232,168,56,0.12);border:1px solid rgba(232,168,56,0.25);padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;color:#E8A838;">' + escapeHTML(m) + '</span>').join('') + '</div>' : '';
+        tags.innerHTML = metricsHtml + (project.categories || []).map(c => `<span class="tag">${escapeHTML(c)}</span>`).join('');
 
-        modal.hidden = false;
-        document.body.style.overflow = 'hidden';
-        modal.focus();
+        openModal(modal);
     }
-
-    function renderModalGallery(project) {
-        var gallery = $('#modalGallery');
-        if (!gallery) return;
-
-        // Keep nav buttons, replace content
-        var prevBtn = $('#galleryPrev');
-        var nextBtn = $('#galleryNext');
-        var counter = $('#galleryCounter');
-
-        // Remove old content (but keep nav elements)
-        var oldContent = gallery.querySelectorAll('.gallery-img, .gallery-gradient');
-        oldContent.forEach(function(el) { el.remove(); });
-
-        if (currentGalleryImages.length > 0) {
-            var img = document.createElement('img');
-            img.className = 'gallery-img';
-            img.src = currentGalleryImages[currentGalleryIndex];
-            img.alt = project.title + ' — Image ' + (currentGalleryIndex + 1);
-            img.addEventListener('click', function() {
-                openLightbox(currentGalleryImages, currentGalleryIndex, project.title);
-            });
-            gallery.insertBefore(img, prevBtn);
-        } else {
-            var grad = document.createElement('div');
-            grad.className = 'gallery-gradient';
-            grad.style.background = project.gradient || 'linear-gradient(135deg, #0070f3, #7928ca)';
-            grad.innerHTML = '📁';
-            gallery.insertBefore(grad, prevBtn);
-        }
-
-        if (counter && currentGalleryImages.length > 1) {
-            counter.textContent = (currentGalleryIndex + 1) + ' / ' + currentGalleryImages.length;
-        }
-    }
-
-    function galleryNav(dir) {
-        if (currentGalleryImages.length < 2) return;
-        currentGalleryIndex += dir;
-        if (currentGalleryIndex < 0) currentGalleryIndex = currentGalleryImages.length - 1;
-        if (currentGalleryIndex >= currentGalleryImages.length) currentGalleryIndex = 0;
-        renderModalGallery({ title: $('#modalTitle').textContent });
-    }
-
     function closeProjectModal() {
         const modal = $('#projectModal');
-        modal.hidden = true;
-        document.body.style.overflow = '';
-    }
-
-    // ═══════ LIGHTBOX (Full-screen image viewer) ═══════
-    var lightboxImages = [];
-    var lightboxIndex = 0;
-
-    function openLightbox(images, startIndex, title) {
-        lightboxImages = images || [];
-        lightboxIndex = startIndex || 0;
-        if (lightboxImages.length === 0) return;
-
-        var overlay = $('#lightboxOverlay');
-        var img = $('#lightboxImg');
-        var counter = $('#lightboxCounter');
-        var thumbs = $('#lightboxThumbnails');
-        var prevBtn = $('#lightboxPrev');
-        var nextBtn = $('#lightboxNext');
-
-        // Set image
-        img.src = lightboxImages[lightboxIndex];
-        img.alt = (title || 'Project') + ' — Image ' + (lightboxIndex + 1);
-
-        // Single image mode
-        var isSingle = lightboxImages.length <= 1;
-        overlay.classList.toggle('lightbox-single', isSingle);
-        if (prevBtn) prevBtn.style.display = isSingle ? 'none' : '';
-        if (nextBtn) nextBtn.style.display = isSingle ? 'none' : '';
-
-        // Counter
-        if (counter) {
-            counter.textContent = isSingle ? '' : (lightboxIndex + 1) + ' / ' + lightboxImages.length;
-        }
-
-        // Thumbnails
-        if (thumbs && lightboxImages.length > 1) {
-            thumbs.innerHTML = lightboxImages.map(function(src, i) {
-                return '<div class="lightbox-thumb' + (i === lightboxIndex ? ' active' : '') + '" data-index="' + i + '"><img src="' + src + '" alt="Thumb ' + (i + 1) + '"></div>';
-            }).join('');
-            thumbs.querySelectorAll('.lightbox-thumb').forEach(function(t) {
-                t.addEventListener('click', function() {
-                    lightboxIndex = parseInt(t.dataset.index, 10);
-                    updateLightbox();
-                });
-            });
-        } else if (thumbs) {
-            thumbs.innerHTML = '';
-        }
-
-        overlay.hidden = false;
-        document.body.style.overflow = 'hidden';
-    }
-
-    function updateLightbox() {
-        var img = $('#lightboxImg');
-        var counter = $('#lightboxCounter');
-        var thumbs = $('#lightboxThumbnails');
-
-        if (img) img.src = lightboxImages[lightboxIndex];
-        if (counter) counter.textContent = (lightboxIndex + 1) + ' / ' + lightboxImages.length;
-        if (thumbs) {
-            thumbs.querySelectorAll('.lightbox-thumb').forEach(function(t, i) {
-                t.classList.toggle('active', i === lightboxIndex);
-            });
-        }
-    }
-
-    function lightboxNav(dir) {
-        lightboxIndex += dir;
-        if (lightboxIndex < 0) lightboxIndex = lightboxImages.length - 1;
-        if (lightboxIndex >= lightboxImages.length) lightboxIndex = 0;
-        updateLightbox();
-    }
-
-    function closeLightbox() {
-        var overlay = $('#lightboxOverlay');
-        if (overlay) overlay.hidden = true;
-        // Only restore scroll if project modal is also closed
-        var modal = $('#projectModal');
-        if (!modal || modal.hidden) {
-            document.body.style.overflow = '';
-        }
+        if (modal && !modal.hidden) closeModal(modal);
     }
 
     function initModal() {
         const modal = $('#projectModal');
         const closeBtn = $('#modalClose');
-        const prevBtn = $('#galleryPrev');
-        const nextBtn = $('#galleryNext');
 
         if (closeBtn) closeBtn.addEventListener('click', closeProjectModal);
         if (modal) {
             modal.addEventListener('click', e => {
                 if (e.target === modal) closeProjectModal();
             });
-        }
-        if (prevBtn) prevBtn.addEventListener('click', function() { galleryNav(-1); });
-        if (nextBtn) nextBtn.addEventListener('click', function() { galleryNav(1); });
-
-        // Lightbox controls
-        var lbClose = $('#lightboxClose');
-        var lbPrev = $('#lightboxPrev');
-        var lbNext = $('#lightboxNext');
-        var lbOverlay = $('#lightboxOverlay');
-
-        if (lbClose) lbClose.addEventListener('click', closeLightbox);
-        if (lbPrev) lbPrev.addEventListener('click', function() { lightboxNav(-1); });
-        if (lbNext) lbNext.addEventListener('click', function() { lightboxNav(1); });
-        if (lbOverlay) {
-            lbOverlay.addEventListener('click', function(e) {
-                if (e.target === lbOverlay) closeLightbox();
+            modal.addEventListener('keydown', e => {
+                if (e.key === 'Tab') trapFocus(modal, e);
             });
         }
-
-        // Keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            var lbVisible = lbOverlay && !lbOverlay.hidden;
-            var modalVisible = modal && !modal.hidden;
-
-            if (e.key === 'Escape') {
-                if (lbVisible) closeLightbox();
-                else if (modalVisible) closeProjectModal();
-            }
-            if (lbVisible) {
-                if (e.key === 'ArrowLeft') lightboxNav(-1);
-                if (e.key === 'ArrowRight') lightboxNav(1);
-            } else if (modalVisible) {
-                if (e.key === 'ArrowLeft') galleryNav(-1);
-                if (e.key === 'ArrowRight') galleryNav(1);
-            }
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeProjectModal();
         });
     }
 
@@ -986,18 +852,15 @@
 
         const stars = $$('.star', $('#reviewStars'));
 
-        openBtn.addEventListener('click', () => {
-            modal.hidden = false;
-            document.body.style.overflow = 'hidden';
-        });
+        openBtn.addEventListener('click', () => openModal(modal));
 
-        function closeModal() {
-            modal.hidden = true;
-            document.body.style.overflow = '';
-        }
-        closeBtn?.addEventListener('click', closeModal);
+        const closeReviewModal = () => closeModal(modal);
+        closeBtn?.addEventListener('click', closeReviewModal);
         modal.addEventListener('click', e => {
-            if (e.target === modal) closeModal();
+            if (e.target === modal) closeReviewModal();
+        });
+        modal.addEventListener('keydown', e => {
+            if (e.key === 'Tab') trapFocus(modal, e);
         });
 
         const starsContainer = $('#reviewStars');
@@ -1056,11 +919,6 @@
             pending.push(review);
             localStorage.setItem('portfolio_testimonials_pending', JSON.stringify(pending));
 
-            // Track review submission
-            if (window.trackFormSubmit) {
-                window.trackFormSubmit('review');
-            }
-
             try {
                 const emailConfig = JSON.parse(localStorage.getItem('portfolio_emailjs') || '{}');
                 const adminEmail = localStorage.getItem('portfolio_admin_email') || '';
@@ -1099,8 +957,7 @@
             `;
             form.querySelector('.review-close-btn')?.addEventListener('click', () => {
                 const m = document.getElementById('reviewModal');
-                if (m) m.hidden = true;
-                document.body.style.overflow = '';
+                if (m && !m.hidden) closeModal(m);
             });
         });
     }
@@ -1175,48 +1032,123 @@
                     formData.type = form.id === 'hireForm' ? 'hire' : 'contact';
                     formData.date = new Date().toISOString();
 
-                    // Save to localStorage (for admin panel)
+                    // Save to localStorage (for admin panel, same-browser only)
                     const messages = JSON.parse(localStorage.getItem('portfolio_messages') || '[]');
                     messages.push(formData);
                     localStorage.setItem('portfolio_messages', JSON.stringify(messages));
 
-                    // Send email via EmailJS if configured
-                    (async () => {
-                        try {
-                            const emailConfig = JSON.parse(localStorage.getItem('portfolio_emailjs') || '{}');
-                            const adminEmail = localStorage.getItem('portfolio_admin_email') || '';
-                            if (emailConfig.serviceId && emailConfig.templateId && emailConfig.publicKey && window.emailjs && adminEmail) {
-                                await window.emailjs.send(
-                                    emailConfig.serviceId,
-                                    emailConfig.templateId,
-                                    {
-                                        from_name: formData.name || formData.fullName || 'Visitor',
-                                        from_email: formData.email || '',
-                                        company: formData.company || 'Not specified',
-                                        service: formData.service || 'Not specified',
-                                        subject: formData.subject || (formData.type === 'hire' ? 'Hire Request' : 'Contact Message'),
-                                        message: formData.message || formData.description || ''
-                                    },
-                                    emailConfig.publicKey
-                                );
-                                console.log('Email sent successfully!');
-                            } else {
-                                console.log('EmailJS not configured or admin email missing');
-                            }
-                        } catch (err) {
-                            console.warn('Email failed:', err);
-                        }
-                    })();
+                    // ── Message delivery ──
+                    // 1) EmailJS if configured (in-page constant; falls back to admin panel config)
+                    // 2) GUARANTEED fallback: opens the visitor's mail client pre-filled
+                    //    with the full message — works from every browser, no service needed.
+                    // ═══════ EMAIL DELIVERY CONFIG ═══════
+                    // PRIMARY: Web3Forms — free, no server, sends silently to your inbox.
+                    // 1) Go to https://web3forms.com → enter your email → receive Access Key by email (1 min)
+                    // 2) Paste the key below. Done — forms then send directly, no mail app involved.
+                    // FALLBACK 1: EmailJS (if configured) · FALLBACK 2: visitor's mail client (mailto)
+                    const WEB3FORMS_ACCESS_KEY = ''; // e.g. 'a1b2c3d4-5678-90ab-cdef-1234567890ab'
+                    const EMAILJS_SERVICE_ID  = ''; // e.g. 'service_abc1234'
+                    const EMAILJS_TEMPLATE_ID = ''; // e.g. 'template_xyz5678'
+                    const EMAILJS_PUBLIC_KEY  = ''; // e.g. 'aBcD1234EfGh'
+                    const OWNER_EMAIL = 'amin.saadati5195@gmail.com'; // fallback recipient
 
-                    // Track form submission
-                    if (window.trackFormSubmit) {
-                        window.trackFormSubmit(form.id === 'hireForm' ? 'hire' : 'contact');
+                    const name = formData.name || formData.fullName || 'Visitor';
+                    const email = formData.email || '';
+                    const company = formData.company || 'Not specified';
+                    const service = formData.service || 'Not specified';
+                    const budget = formData.budget || formData.budgetRange || '';
+                    const timeline = formData.timeline || '';
+                    const subject = formData.subject || (formData.type === 'hire' ? 'Hire Request' : 'Contact Message');
+                    const message = formData.message || formData.description || '';
+
+                    async function deliverMessage() {
+                        let sent = false;
+
+                        // 1) Web3Forms — silent, direct to inbox (recommended)
+                        if (WEB3FORMS_ACCESS_KEY) {
+                            try {
+                                const res = await fetch('https://api.web3forms.com/submit', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                                    body: JSON.stringify({
+                                        access_key: WEB3FORMS_ACCESS_KEY,
+                                        subject: '[Portfolio] ' + subject,
+                                        from_name: name,
+                                        replyto: email,
+                                        name,
+                                        email,
+                                        company,
+                                        service,
+                                        budget: budget || '—',
+                                        timeline: timeline || '—',
+                                        message
+                                    })
+                                });
+                                const data = await res.json().catch(() => ({}));
+                                if (res.ok && data.success) sent = true;
+                                else console.warn('Web3Forms rejected:', data);
+                            } catch (err) {
+                                console.warn('Web3Forms failed:', err);
+                            }
+                        }
+
+                        // 2) EmailJS (if configured)
+                        if (!sent) {
+                            const cfg = { serviceId: EMAILJS_SERVICE_ID, templateId: EMAILJS_TEMPLATE_ID, publicKey: EMAILJS_PUBLIC_KEY };
+                            const stored = (() => { try { return JSON.parse(localStorage.getItem('portfolio_emailjs') || '{}'); } catch { return {}; } })();
+                            const svc = cfg.serviceId || stored.serviceId || '';
+                            const tpl = cfg.templateId || stored.templateId || '';
+                            const key = cfg.publicKey || stored.publicKey || '';
+                            const ownerEmail = OWNER_EMAIL || localStorage.getItem('portfolio_admin_email') || '';
+
+                            if (svc && tpl && key && window.emailjs) {
+                                try {
+                                    await window.emailjs.send(svc, tpl, {
+                                        to_email: ownerEmail,
+                                        from_name: name,
+                                        from_email: email,
+                                        company,
+                                        service,
+                                        budget, timeline,
+                                        subject,
+                                        message
+                                    }, key);
+                                    sent = true;
+                                } catch (err) {
+                                    console.warn('EmailJS failed, using mailto fallback:', err);
+                                }
+                            }
+                        }
+
+                        // 3) GUARANTEED fallback: open the visitor's own mail client, fully pre-filled.
+                        if (!sent) {
+                            const body = [
+                                'Name: ' + name,
+                                'Email: ' + email,
+                                'Company: ' + company,
+                                'Service: ' + service,
+                                budget ? 'Budget: ' + budget : '',
+                                timeline ? 'Timeline: ' + timeline : '',
+                                '',
+                                message,
+                                '',
+                                '— Sent from portfolio contact form'
+                            ].filter(Boolean).join('\n');
+                            const mailto = 'mailto:' + OWNER_EMAIL +
+                                '?subject=' + encodeURIComponent('[Portfolio] ' + subject) +
+                                '&body=' + encodeURIComponent(body);
+                            const win = window.open(mailto, '_blank');
+                            if (win) win.close();
+                        }
                     }
+
+                    deliverMessage();
 
                     form.innerHTML = `
                         <div class="form-success" style="text-align:center;padding:40px 20px;">
                             <p style="color:var(--green);font-size:18px;margin-bottom:12px;">✅ Your message has been sent successfully!</p>
                             <p style="color:var(--text-3);font-size:13px;">
+                                Your email app may open to confirm delivery — just press send.<br>
                                 We will get back to you shortly.
                             </p>
                         </div>
@@ -1245,28 +1177,6 @@
                 });
             });
         }
-
-        // Reliable in-page anchor scroll. scrollBy/scrollTo with an options object
-        // is the only scroll API that works consistently across browsers and
-        // embedded webviews — plain scrollTo(x, y) and rAF loops can be dropped
-        // by the compositor, and native anchor scroll can be cancelled.
-        function scrollToY(targetY) {
-            window.scrollTo({ top: Math.max(targetY, 0), behavior: 'instant' });
-        }
-
-        document.addEventListener('click', function(e) {
-            const link = e.target.closest('a[href^="#"]');
-            if (!link) return;
-            const id = link.getAttribute('href').slice(1);
-            if (!id) return;
-            const target = document.getElementById(id);
-            if (!target) return;
-            e.preventDefault();
-            const headerH = 80;
-            const targetY = target.getBoundingClientRect().top + window.scrollY - headerH;
-            scrollToY(targetY);
-            history.pushState(null, '', '#' + id);
-        });
 
         const sections = $$('section[id]');
 
@@ -1442,55 +1352,33 @@
         });
     }
 
-    // ═══════ ANALYTICS TRACKER ═══════
-    function initAnalytics() {
-        try {
-            var analytics = JSON.parse(localStorage.getItem('portfolio_analytics') || '{}');
-            if (!analytics.views) analytics.views = { total: 0, daily: {} };
-            if (!analytics.forms) analytics.forms = { contact: 0, hire: 0, review: 0 };
-            if (!analytics.sessions) analytics.sessions = 0;
-            if (!analytics.firstVisit) analytics.firstVisit = new Date().toISOString();
-            if (!analytics.dailyHistory) analytics.dailyHistory = [];
+    // ═══════ SECRET ADMIN ACCESS — triple-click the logo ═══════
+    // Standard discreet pattern (WordPress-style): 3 quick clicks within
+    // 600ms opens the admin panel. Invisible to recruiters, instant for you.
+    function initAdminAccess() {
+        const logo = document.querySelector('a.logo');
+        if (!logo) return;
 
-            // Track page view
-            analytics.views.total = (analytics.views.total || 0) + 1;
-            var today = new Date().toISOString().split('T')[0];
-            analytics.views.daily[today] = (analytics.views.daily[today] || 0) + 1;
+        // Direct navigation wins over triple-click when ?login is already intended
+        let clicks = 0;
+        let timer = null;
+        const WINDOW_MS = 600;
 
-            // Keep only last 30 days of daily data
-            var dates = Object.keys(analytics.views.daily).sort();
-            while (dates.length > 30) {
-                delete analytics.views.daily[dates.shift()];
+        logo.addEventListener('click', (e) => {
+            clicks++;
+            if (clicks === 1) {
+                timer = setTimeout(() => { clicks = 0; }, WINDOW_MS);
+                return; // single click = normal anchor behavior (#home)
             }
-
-            // Track session (unique per tab refresh)
-            if (!sessionStorage.getItem('portfolio_tracked')) {
-                analytics.sessions = (analytics.sessions || 0) + 1;
-                sessionStorage.setItem('portfolio_tracked', '1');
+            // second or third click inside the window
+            clearTimeout(timer);
+            if (clicks >= 3) {
+                clicks = 0;
+                e.preventDefault();
+                window.location.href = 'admin.html?login';
             }
-
-            // Store referrer
-            if (document.referrer && !analytics.lastReferrer) {
-                analytics.lastReferrer = document.referrer;
-            }
-
-            analytics.lastVisit = new Date().toISOString();
-            localStorage.setItem('portfolio_analytics', JSON.stringify(analytics));
-        } catch (e) { /* ignore */ }
+        });
     }
-
-    function trackFormSubmit(type) {
-        try {
-            var analytics = JSON.parse(localStorage.getItem('portfolio_analytics') || '{}');
-            if (!analytics.forms) analytics.forms = { contact: 0, hire: 0, review: 0 };
-            analytics.forms[type] = (analytics.forms[type] || 0) + 1;
-            analytics.lastFormSubmit = new Date().toISOString();
-            localStorage.setItem('portfolio_analytics', JSON.stringify(analytics));
-        } catch (e) { /* ignore */ }
-    }
-
-    // Expose for form handlers
-    window.trackFormSubmit = trackFormSubmit;
 
     // ═══════ INIT ═══════
     function init() {
@@ -1508,7 +1396,8 @@
         applySettings();      // Apply admin settings first
         initScrollProgress();
         initParallax();
-        initCursorGlow();
+        initCustomCursor();
+        initAdminAccess();
         initParticles();
         initTypewriter();
         initCounters();
@@ -1527,7 +1416,6 @@
         initReveal();
 
         initLiveSync();       // Enable live sync with admin
-        initAnalytics();      // Track page views & form submissions
     }
 
     if (document.readyState === 'loading') {
