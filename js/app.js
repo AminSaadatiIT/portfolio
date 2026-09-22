@@ -258,11 +258,20 @@
         testimonials: loadData('testimonials', DEFAULT_TESTIMONIALS)
     };
 
-    // ═══════ CASE-STUDY PROJECTS LOADER (data/projects.json) ═══════
-    // The canonical project source is data/projects.json — one JSON entry per
-    // engineering case study. Admin-panel localStorage overrides still win if
-    // present, so the dashboard keeps working unchanged.
+    // ═══════ CASE-STUDY PROJECTS LOADER (data/projects.json + admin override) ═══════
+    // Priority: 1) admin Case-Studies editor (portfolio_case_studies)
+    //           2) data/projects.json (shipped file)
+    //           3) built-in DEFAULT_PROJECTS (never an empty grid)
     function loadCaseStudyProjects() {
+        // Admin Case-Studies editor wins over everything
+        try {
+            const adminCases = JSON.parse(localStorage.getItem('portfolio_case_studies') || 'null');
+            if (Array.isArray(adminCases) && adminCases.length) {
+                siteData.projects = adminCases;
+                return Promise.resolve();
+            }
+        } catch (err) { /* fall through to JSON */ }
+
         return fetch('data/projects.json', { cache: 'no-cache' })
             .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
             .then(json => {
@@ -407,14 +416,21 @@
 
         document.body.classList.add('custom-cursor-active');
 
-        let seen = false;           // cursor becomes visible after first real move
+        let seen = false;
+        let mx = -100, my = -100;   // last real mouse position
+        let raf = 0;
+
+        const write = () => {
+            raf = 0;
+            dot.style.transform = `translate3d(${mx - 4}px, ${my - 4}px, 0)`;
+            ring.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%,-50%)`;
+        };
+        const schedule = () => { if (!raf) raf = requestAnimationFrame(write); };
 
         document.addEventListener('mousemove', e => {
-            if (!seen) { seen = true; dot.classList.add('is-visible'); ring.classList.add('is-visible'); }
-            // Both layers written DIRECTLY on mousemove — no lerp, no rAF hop,
-            // no trailing. They move AT mouse speed: zero perceived latency.
-            dot.style.transform = `translate3d(${e.clientX - 4}px, ${e.clientY - 4}px, 0)`;
-            ring.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%,-50%)`;
+            mx = e.clientX; my = e.clientY;
+            if (!seen) { seen = true; dot.classList.add('is-visible'); ring.classList.add('is-visible'); write(); }
+            schedule();   // coalesce moves into one write per frame — both layers ALWAYS in lockstep
         }, { passive: true });
 
         // Hover states: grow ring over interactive elements, text-bar over fields
@@ -437,6 +453,10 @@
         // Hide when pointer leaves the window
         document.addEventListener('mouseleave', () => { dot.classList.remove('is-visible'); ring.classList.remove('is-visible'); });
         document.addEventListener('mouseenter', () => { if (seen) { dot.classList.add('is-visible'); ring.classList.add('is-visible'); } });
+
+        // Safety net: if the tab was backgrounded mid-move or an event was
+        // coalesced away, one late frame re-syncs both layers before paint.
+        document.addEventListener('visibilitychange', () => { if (!document.hidden && seen) schedule(); });
 
         console.info('[cursor] zero-lag cursor active');
     }

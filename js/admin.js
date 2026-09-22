@@ -193,12 +193,12 @@
         initSettingsListeners();
         renderSkillsEditor();
         renderProjectsList();
+        initCaseStudies();
         renderExperienceList();
         renderTestimonialsList();
         loadPublishSettings();
         initPublishListeners();
         initPasswordChange();
-        initAIButtons();
         } catch(err) { console.error('initDashboard error:', err); }
     }
 
@@ -367,14 +367,8 @@
         $('#saveSkills').onclick = () => showToast('Skills saved!');
     }
 
-    // ═══════ SHARED STATE (used by openProjectEditor + initVideoEditor + initAIButtons) ═══════
+    // ═══════ SHARED STATE (used by openProjectEditor + initVideoEditor) ═══════
     var pendingImages = [];
-
-    // Shared AI helper functions (usable from initAIButtons AND openProjectEditor)
-    function getAILang() { return ($('#aiLanguage') && $('#aiLanguage').value) || 'fa'; }
-    function getAICats() { return $$('.checkbox-group input:checked').map(function(cb) { return cb.value; }); }
-    function getAITitle() { return ($('#projTitle') && $('#projTitle').value) || ''; }
-    function getAIContext() { var t = getAITitle(); var s = ($('#projShort') ? $('#projShort').value.trim() : ''); return [t, s].filter(Boolean).join(' - '); }
 
     // ═══════ PROJECTS ═══════
     function getProjects() {
@@ -498,56 +492,6 @@
         $$('.checkbox-group input', editor).forEach(cb => {
             cb.checked = project?.categories?.includes(cb.value) || false;
         });
-
-        // AI buttons use shared getAILang/getAICats/getAITitle/getAIContext from IIFE scope
-
-        if ($('#aiGenSummary')) $('#aiGenSummary').onclick = function() {
-            if (!window.AIGenerator) return;
-            if (!getAITitle()) { showToast('Enter a project title first!'); return; }
-            $('#projSummary').value = window.AIGenerator.generateSummary(getAITitle(), getAICats(), getAILang(), getAIContext());
-            showToast('Summary generated!');
-        };
-        if ($('#aiGenChallenge')) $('#aiGenChallenge').onclick = function() {
-            if (!window.AIGenerator) return;
-            if (!getAITitle()) { showToast('Enter a project title first!'); return; }
-            $('#projChallenge').value = window.AIGenerator.generateChallenge(getAITitle(), getAICats(), getAILang(), getAIContext());
-            showToast('Challenge generated!');
-        };
-        if ($('#aiGenSolution')) $('#aiGenSolution').onclick = function() {
-            if (!window.AIGenerator) return;
-            if (!getAITitle()) { showToast('Enter a project title first!'); return; }
-            $('#projSolution').value = window.AIGenerator.generateSolution(getAITitle(), getAICats(), getAILang(), getAIContext());
-            showToast('Solution generated!');
-        };
-        if ($('#aiGenResults')) $('#aiGenResults').onclick = function() {
-            if (!window.AIGenerator) return;
-            if (!getAITitle()) { showToast('Enter a project title first!'); return; }
-            $('#projResults').value = window.AIGenerator.generateResults(getAITitle(), getAICats(), getAILang(), getAIContext());
-            showToast('Results generated!');
-        };
-        if ($('#aiGenAll')) $('#aiGenAll').onclick = function() {
-            if (!window.AIGenerator) return;
-            var lang = getAILang(), cats = getAICats(), title = getAITitle(), ctx = getAIContext();
-            $('#projSummary').value = window.AIGenerator.generateSummary(title, cats, lang, ctx);
-            $('#projChallenge').value = window.AIGenerator.generateChallenge(title, cats, lang, ctx);
-            $('#projSolution').value = window.AIGenerator.generateSolution(title, cats, lang, ctx);
-            $('#projResults').value = window.AIGenerator.generateResults(title, cats, lang, ctx);
-            $('#projLong').value = window.AIGenerator.generate(title, cats, lang, ctx);
-            showToast('AI content generated!');
-        };
-        // Legacy button
-        if ($('#aiGenerateBtn')) $('#aiGenerateBtn').onclick = function() {
-            if (window.AIGenerator) $('#projLong').value = window.AIGenerator.generate(getAITitle(), getAICats(), getAILang(), getAIContext());
-        };
-
-        // Generate Short Description button
-        if ($('#aiGenShort')) $('#aiGenShort').onclick = function() {
-            if (window.AIGenerator) {
-                var short = window.AIGenerator.generateSummary(getAITitle(), getAICats(), getAILang(), getAIContext());
-                $('#projShort').value = short.substring(0, 200);
-                showToast('Short description generated!');
-            }
-        };
 
         // pendingImages/pendingVideo are shared state from IIFE scope — reset on editor open
         pendingImages = project?.images ? project.images.slice() : [];
@@ -1069,20 +1013,196 @@
         });
     }
 
-    // ═══════ AI BUTTONS ═══════
-    function initAIButtons() {
-        // Generate Short Description button
-        var genShortBtn = $('#aiGenShort');
-        if (genShortBtn) {
-            genShortBtn.onclick = function() {
-                var title = $('#projTitle') ? $('#projTitle').value.trim() : '';
-                var lang = ($('#aiLanguage') && $('#aiLanguage').value) || 'fa';
-                if (!title) { showToast('Enter a project title first.'); return; }
-                var short = window.AIGenerator ? window.AIGenerator.generateSummary(title, getAICats(), lang) : '';
-                if ($('#projShort')) $('#projShort').value = short.substring(0, 200);
-                showToast('Short description generated!');
-            };
+    // ═══════ CASE STUDIES (engineering portfolio) ═══════
+    var CASE_FILTERS = ['cabling','cctv','rack','fiber','security'];
+    var CASE_FALLBACK = {
+        cabling: 'images/projects/cabling/placeholder.svg',
+        cctv: 'images/projects/cctv/placeholder.svg',
+        security: 'images/projects/cctv/placeholder.svg',
+        rack: 'images/projects/server-room/placeholder.svg',
+        fiber: 'images/projects/fiber/placeholder.svg'
+    };
+
+    function getCases() {
+        try {
+            var raw = JSON.parse(localStorage.getItem('portfolio_case_studies') || 'null');
+            if (Array.isArray(raw) && raw.length) return raw;
+        } catch (e) {}
+        return null;   // null = use data/projects.json defaults
+    }
+
+    function saveCasesData(data) {
+        try {
+            localStorage.setItem('portfolio_case_studies', JSON.stringify(data));
+            return true;
+        } catch (e) {
+            showToast('ERROR: Cannot save (storage full).');
+            return false;
         }
+    }
+
+    // Seed the editor store from data/projects.json the first time (so the
+    // admin sees the shipped case studies instead of an empty list).
+    function seedCasesFromJSON(cb) {
+        var existing = getCases();
+        if (existing) { cb(existing); return; }
+        fetch('data/projects.json', { cache: 'no-cache' })
+            .then(function (r) { return r.ok ? r.json() : []; })
+            .then(function (json) {
+                var arr = Array.isArray(json) ? json : [];
+                saveCasesData(arr);
+                cb(arr);
+            })
+            .catch(function () { cb([]); });
+    }
+
+    function toLines(v) {
+        return (v || '').split('\n').map(function (x) { return x.trim(); }).filter(Boolean);
+    }
+
+    function renderCaseList() {
+        var container = $('#caseList');
+        if (!container) return;
+        var cases = getCases() || [];
+        if (!cases.length) {
+            container.innerHTML = '<p class="form-hint">No case studies yet. Click "+ New Case Study" or Export to seed from data/projects.json.</p>';
+            return;
+        }
+        container.innerHTML = cases.map(function (c, i) {
+            var cats = (c.categories || []).join(', ');
+            return '<div class="editable-item">' +
+                '<div class="editable-item-content">' +
+                    '<h4>' + escapeHTML(c.title || '(untitled)') + '</h4>' +
+                    '<p>' + escapeHTML(c.category || '') + (c.year ? ' \u00B7 ' + escapeHTML(c.year) : '') + (cats ? ' \u00B7 ' + escapeHTML(cats) : '') + '</p>' +
+                '</div>' +
+                '<div class="editable-item-actions">' +
+                    '<button class="item-btn" data-action="case-up" data-index="' + i + '" title="Move up">\u2191</button>' +
+                    '<button class="item-btn" data-action="case-down" data-index="' + i + '" title="Move down">\u2193</button>' +
+                    '<button class="item-btn" data-action="case-edit" data-index="' + i + '">Edit</button>' +
+                    '<button class="item-btn delete" data-action="case-del" data-index="' + i + '">Delete</button>' +
+                '</div>' +
+            '</div>';
+        }).join('');
+
+        container.onclick = function (e) {
+            var btn = e.target.closest('[data-action]');
+            if (!btn) return;
+            var idx = parseInt(btn.dataset.index, 10);
+            var arr = getCases() || [];
+            if (btn.dataset.action === 'case-del') {
+                if (confirm('Delete this case study?')) {
+                    arr.splice(idx, 1);
+                    saveCasesData(arr);
+                    renderCaseList();
+                }
+            } else if (btn.dataset.action === 'case-edit') {
+                openCaseEditor(idx);
+            } else if (btn.dataset.action === 'case-up' && idx > 0) {
+                var t = arr[idx - 1]; arr[idx - 1] = arr[idx]; arr[idx] = t;
+                saveCasesData(arr); renderCaseList();
+            } else if (btn.dataset.action === 'case-down' && idx < arr.length - 1) {
+                var t2 = arr[idx + 1]; arr[idx + 1] = arr[idx]; arr[idx] = t2;
+                saveCasesData(arr); renderCaseList();
+            }
+        };
+    }
+
+    function openCaseEditor(index) {
+        var editor = $('#caseEditor');
+        var arr = getCases() || [];
+        var c = index >= 0 ? arr[index] : null;
+
+        $('#caseEditorTitle').textContent = c ? 'Edit Case Study' : 'New Case Study';
+        $('#csTitle').value = c?.title || '';
+        $('#csCategory').value = c?.category || '';
+        $('#csYear').value = c?.year || '';
+        $('#csRole').value = c?.role || '';
+        $('#csClient').value = c?.client || '';
+        $('#csLocation').value = c?.location || '';
+        $('#csScope').value = c?.scope || '';
+        $('#csDescription').value = c?.description || '';
+        $('#csRoleDetail').value = c?.roleDetail || '';
+        $('#csMetrics').value = (c?.metrics || []).join('\n');
+        $('#csTechnologies').value = (c?.technologies || []).join('\n');
+        $('#csGallery').value = (c?.gallery || []).join('\n');
+        $('#csCover').value = c?.cover || '';
+        $('#csDiagram').value = c?.diagram || '';
+        $('#csVideo').value = c?.video || '';
+        $('#csChallenges').value = (c?.challenges || []).join('\n');
+        $('#csSolutions').value = (c?.solutions || []).join('\n');
+        $('#csResults').value = (c?.results || []).join('\n');
+        $$('#caseEditor .checkbox-group input').forEach(function (cb) {
+            cb.checked = !!(c?.categories || []).includes(cb.value);
+        });
+
+        editor.dataset.index = String(index);
+        editor.hidden = false;
+    }
+
+    function initCaseStudies() {
+        $('#addCase')?.addEventListener('click', function () { openCaseEditor(-1); });
+        $('#cancelCase')?.addEventListener('click', function () { $('#caseEditor').hidden = true; });
+
+        $('#saveCase')?.addEventListener('click', function () {
+            var editor = $('#caseEditor');
+            var index = parseInt(editor.dataset.index || '-1', 10);
+            var arr = getCases() || [];
+
+            var cats = $$('#caseEditor .checkbox-group input:checked').map(function (cb) { return cb.value; });
+            var entry = {
+                id: index >= 0 ? (arr[index].id || index + 1) : (Math.max(0, arr.reduce(function (m, x) { return Math.max(m, x.id || 0); }, 0)) + 1),
+                title: $('#csTitle').value.trim(),
+                category: $('#csCategory').value.trim(),
+                categories: cats.length ? cats : [CASE_FILTERS[0]],
+                year: $('#csYear').value.trim(),
+                role: $('#csRole').value.trim(),
+                client: $('#csClient').value.trim(),
+                location: $('#csLocation').value.trim(),
+                scope: $('#csScope').value.trim(),
+                description: $('#csDescription').value.trim(),
+                roleDetail: $('#csRoleDetail').value.trim(),
+                metrics: toLines($('#csMetrics').value),
+                technologies: toLines($('#csTechnologies').value),
+                gallery: toLines($('#csGallery').value),
+                cover: $('#csCover').value.trim(),
+                diagram: $('#csDiagram').value.trim(),
+                video: $('#csVideo').value.trim(),
+                challenges: toLines($('#csChallenges').value),
+                solutions: toLines($('#csSolutions').value),
+                results: toLines($('#csResults').value)
+            };
+            entry.fallback = CASE_FALLBACK[entry.categories[0]] || '';
+
+            if (!entry.title) { showToast('Title is required.'); return; }
+
+            if (index >= 0) arr[index] = entry; else arr.push(entry);
+            if (saveCasesData(arr)) {
+                showToast('Case study saved.');
+                editor.hidden = true;
+                renderCaseList();
+            }
+        });
+
+        $('#saveCases')?.addEventListener('click', function () {
+            var arr = getCases() || [];
+            if (saveCasesData(arr)) showToast('Case studies saved (' + arr.length + ').');
+        });
+
+        // Export: download the current list as data/projects.json
+        $('#exportCases')?.addEventListener('click', function () {
+            seedCasesFromJSON(function (arr) {
+                var current = getCases() || arr;
+                var blob = new Blob([JSON.stringify(current, null, 4)], { type: 'application/json' });
+                var a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'projects.json';
+                a.click();
+                URL.revokeObjectURL(a.href);
+                showToast('projects.json exported \u2014 commit it to update the site for everyone.');
+            });
+        });
+
+        seedCasesFromJSON(renderCaseList);
     }
 
     // If ?login param present, force fresh login

@@ -91,7 +91,6 @@ a{color:inherit;text-decoration:none}button{border:none;background:none;cursor:p
 .checkbox-group{display:flex;flex-wrap:wrap;gap:16px;margin-top:8px}
 .checkbox-group label{display:flex;align-items:center;gap:6px;font-size:14px;color:#a1a1a1;cursor:pointer}
 .toggle-label{display:flex;align-items:center;gap:10px;font-size:14px;color:#a1a1a1;margin-top:16px;cursor:pointer}
-.btn-ai{padding:4px 10px;border-radius:6px;background:rgba(121,40,202,0.2);border:1px solid rgba(121,40,202,0.4);color:#c99bff;font-size:12px;cursor:pointer;margin-right:10px}
 .editor-modal{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.75);display:grid;place-items:center;padding:20px}
 .editor-modal[hidden]{display:none}
 .editor-card{background:#111;border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:30px;max-width:600px;width:100%;max-height:85vh;overflow-y:auto}
@@ -176,6 +175,7 @@ a{color:inherit;text-decoration:none}button{border:none;background:none;cursor:p
       <button class="sidebar-link active" data-section="settings">⚙️ Site Settings</button>
       <button class="sidebar-link" data-section="skills">🎯 Manage Skills</button>
       <button class="sidebar-link" data-section="projects">📁 Projects</button>
+      <button class="sidebar-link" data-section="casestudies">🗂️ Case Studies</button>
       <button class="sidebar-link" data-section="experience">💼 Experience</button>
       <button class="sidebar-link" data-section="testimonials">💬 Testimonials</button>
       <button class="sidebar-link" data-section="publish">🚀 Auto Publish</button>
@@ -353,40 +353,8 @@ a{color:inherit;text-decoration:none}button{border:none;background:none;cursor:p
                 <label><input type="checkbox" value="software"> Software/Dev</label>
               </div>
             </div>
-            
-            <!-- AI Text Generation -->
-            <div class="admin-card" style="margin-top:16px;background:rgba(121,40,202,0.08);border-color:rgba(121,40,202,0.3)">
-              <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px">
-                <h4 style="font-size:14px;color:#c99bff">🤖 AI Text Generator</h4>
-                <div style="display:flex;gap:8px;align-items:center">
-                  <label style="font-size:12px;color:#a1a1a1">Language:</label>
-                  <select id="aiLanguage" class="form-input" style="width:auto;height:32px;padding:0 10px;font-size:12px;background:#1a1a1a">
-                    <option value="fa">🇮🇷 فارسی</option>
-                    <option value="en">🇬🇧 English</option>
-                  </select>
-                </div>
-              </div>
-              
-              <div class="form-row">
-                <div class="form-group"><label class="form-label" style="font-size:12px">Summary</label><textarea class="form-input form-textarea" id="projSummary" rows="2" placeholder="Brief project overview"></textarea></div>
-                <div class="form-group"><label class="form-label" style="font-size:12px">Challenge</label><textarea class="form-input form-textarea" id="projChallenge" rows="2" placeholder="What problem needed solving"></textarea></div>
-              </div>
-              <div class="form-row">
-                <div class="form-group"><label class="form-label" style="font-size:12px">Solution</label><textarea class="form-input form-textarea" id="projSolution" rows="2" placeholder="How it was solved"></textarea></div>
-                <div class="form-group"><label class="form-label" style="font-size:12px">Results</label><textarea class="form-input form-textarea" id="projResults" rows="2" placeholder="Measurable outcomes"></textarea></div>
-              </div>
-              
-              <div style="display:flex;gap:8px;flex-wrap:wrap">
-                <button type="button" class="btn-ai" id="aiGenSummary">📝 Generate Summary</button>
-                <button type="button" class="btn-ai" id="aiGenChallenge">🎯 Generate Challenge</button>
-                <button type="button" class="btn-ai" id="aiGenSolution">💡 Generate Solution</button>
-                <button type="button" class="btn-ai" id="aiGenResults">📊 Generate Results</button>
-                <button type="button" class="btn-ai" id="aiGenAll" style="background:rgba(0,200,83,0.2);border-color:rgba(0,200,83,0.4);color:#00c853">✨ Generate All</button>
-              </div>
-            </div>
-            
             <!-- Descriptions -->
-            <div class="form-group"><label class="form-label">Short Description <button type="button" class="btn-ai" id="aiGenShort" style="margin-left:8px">✨ Generate from Title</button></label><textarea class="form-input form-textarea" id="projShort" rows="2"></textarea></div>
+            <div class="form-group"><label class="form-label">Short Description</label><textarea class="form-input form-textarea" id="projShort" rows="2"></textarea></div>
             <div class="form-group"><label class="form-label">Long Description</label><textarea class="form-input form-textarea" id="projLong" rows="4"></textarea></div>
             
             <!-- Image Upload -->
@@ -430,6 +398,90 @@ a{color:inherit;text-decoration:none}button{border:none;background:none;cursor:p
             <div class="editor-actions">
               <button class="btn btn-primary" id="saveProject">💾 Save Project</button>
               <button class="btn btn-outline" id="cancelProject">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CASE STUDIES (engineering portfolio, data/projects.json schema) -->
+      <section class="admin-section" id="sec-casestudies" hidden>
+        <div class="admin-card">
+          <div class="card-header"><h3 class="card-title">Engineering Case Studies</h3><button class="btn btn-outline btn-sm" id="addCase">+ New Case Study</button></div>
+          <p class="form-hint" style="margin-bottom:12px">These power the Projects section of the site (covers, metrics, gallery, challenges/solutions/results). Editing here overrides <code>data/projects.json</code>.</p>
+          <div id="caseList"></div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+          <button class="btn btn-primary" id="saveCases">💾 Save Case Studies</button>
+          <button class="btn btn-outline" id="exportCases">⬇️ Export JSON (data/projects.json)</button>
+        </div>
+
+        <div class="editor-modal" id="caseEditor" hidden>
+          <div class="editor-card" style="max-width:820px">
+            <h3 id="caseEditorTitle">New Case Study</h3>
+
+            <div class="form-group"><label class="form-label">Title *</label><input type="text" class="form-input" id="csTitle" required></div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Category (shown on card)</label><input type="text" class="form-input" id="csCategory" placeholder="Network Infrastructure"></div>
+              <div class="form-group"><label class="form-label">Year</label><input type="text" class="form-input" id="csYear" placeholder="2025"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Role</label><input type="text" class="form-input" id="csRole" placeholder="Network Infrastructure Engineer"></div>
+              <div class="form-group"><label class="form-label">Client</label><input type="text" class="form-input" id="csClient"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Location</label><input type="text" class="form-input" id="csLocation"></div>
+              <div class="form-group"><label class="form-label">Scope (one line)</label><input type="text" class="form-input" id="csScope" placeholder="12 floors · 480+ user points · MDF + 8 IDF"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Filter Categories (checkboxes drive the site filter)</label>
+              <div class="checkbox-group">
+                <label><input type="checkbox" value="cabling"> Cabling</label>
+                <label><input type="checkbox" value="cctv"> CCTV</label>
+                <label><input type="checkbox" value="rack"> Server Room</label>
+                <label><input type="checkbox" value="fiber"> Fiber</label>
+                <label><input type="checkbox" value="security"> Security</label>
+              </div>
+            </div>
+
+            <div class="form-group"><label class="form-label">Description (card + overview)</label><textarea class="form-input form-textarea" id="csDescription" rows="3"></textarea></div>
+            <div class="form-group"><label class="form-label">My Role (detailed responsibilities)</label><textarea class="form-input form-textarea" id="csRoleDetail" rows="4"></textarea></div>
+
+            <div class="admin-card" style="margin-top:14px">
+              <h4 style="font-size:14px;margin-bottom:8px">📊 Metric Badges (one per line, e.g. "12 Floors")</h4>
+              <textarea class="form-input form-textarea" id="csMetrics" rows="4" placeholder="12 Floors&#10;480+ Cable Links&#10;CAT6A&#10;TIA-568"></textarea>
+            </div>
+            <div class="admin-card" style="margin-top:14px">
+              <h4 style="font-size:14px;margin-bottom:8px">🔧 Technologies & Standards (one per line)</h4>
+              <textarea class="form-input form-textarea" id="csTechnologies" rows="5" placeholder="CAT6A&#10;Patch Panel&#10;Fluke DSX&#10;TIA-568"></textarea>
+            </div>
+            <div class="admin-card" style="margin-top:14px">
+              <h4 style="font-size:14px;margin-bottom:8px">🖼️ Gallery Image Paths (one per line, relative to site root)</h4>
+              <textarea class="form-input form-textarea" id="csGallery" rows="4" placeholder="images/projects/cabling/01-rack-front.jpg&#10;images/projects/cabling/02-patch-panel.jpg"></textarea>
+            </div>
+
+            <div class="form-row" style="margin-top:14px">
+              <div class="form-group"><label class="form-label">Cover Image Path</label><input type="text" class="form-input" id="csCover" placeholder="images/projects/cabling/cover.jpg"></div>
+              <div class="form-group"><label class="form-label">Diagram Path (optional)</label><input type="text" class="form-input" id="csDiagram" placeholder="images/projects/cabling/topology.svg"></div>
+            </div>
+            <div class="form-group"><label class="form-label">Video Path (optional, mp4)</label><input type="text" class="form-input" id="csVideo" placeholder="videos/projects/cabling-demo.mp4"></div>
+
+            <div class="admin-card" style="margin-top:14px">
+              <h4 style="font-size:14px;margin-bottom:8px">⚠️ Challenges (one per line)</h4>
+              <textarea class="form-input form-textarea" id="csChallenges" rows="3"></textarea>
+            </div>
+            <div class="admin-card" style="margin-top:14px">
+              <h4 style="font-size:14px;margin-bottom:8px">💡 Solutions (one per line)</h4>
+              <textarea class="form-input form-textarea" id="csSolutions" rows="3"></textarea>
+            </div>
+            <div class="admin-card" style="margin-top:14px">
+              <h4 style="font-size:14px;margin-bottom:8px">✅ Results (one per line)</h4>
+              <textarea class="form-input form-textarea" id="csResults" rows="3"></textarea>
+            </div>
+
+            <div class="editor-actions">
+              <button class="btn btn-primary" id="saveCase">💾 Save Case Study</button>
+              <button class="btn btn-outline" id="cancelCase">Cancel</button>
             </div>
           </div>
         </div>
@@ -555,7 +607,6 @@ a{color:inherit;text-decoration:none}button{border:none;background:none;cursor:p
   </main>
 </div>
 
-<script src="js/ai-generator.js"></script>
-<script src="js/admin.js"></script>
+<script src="js/admin.js?v=20261005"></script>
 </body>
 </html>
