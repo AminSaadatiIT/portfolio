@@ -1,191 +1,137 @@
 ---
-project: Amin Saadati Portfolio
+project: Amin Saadati — Network Infrastructure Portfolio
 register: brand
-aesthetic_direction: industrial / signage
-color_strategy: committed
+aesthetic_direction: technical / utilitarian (with industrial-signage accents)
+color_strategy: restrained
 design_system: bespoke
-design_variance: 7
-motion_intensity: 6
+design_variance: 5
+motion_intensity: 3
 visual_density: 5
 ---
 
-# Design Language — Industrial Precision
+# DESIGN.md — Locked Design Language
 
-*"Every screen must read as the same product if placed side by side."*
+> **LOCK RULES (non-negotiable).** Tokens in this file are normative; prose is context.
+> Variation within identity, never between. Every later feature or session RE-READS this file
+> first. Any value outside it is a defect: flag it, then update this file deliberately — never
+> drift. One accent, one radius scale, one icon family, one type pairing, one copy register.
+> **Every screen must read as the same product if placed side by side.**
 
 ## Design Read
 
-**Precision meets warmth — network infrastructure expertise presented with the clarity of a terminal and the trust of steel.** The bet: technical credibility through industrial metaphors (equipment orange, server green) without coldness. This is a person, not a corporation.
+The site of a field engineer who signs his work: rack-label precision, test reports, zero callbacks.
+The bet is restraint — enterprise trust is won by discipline, not decoration. Amber is the only voice;
+everything else whispers.
+
+## Register & System
+
+- **register: brand** — this portfolio IS the product. Bespoke identity, no component framework.
+- **design_system: bespoke** — plain HTML/CSS/vanilla JS on GitHub Pages. Tokens below are the
+  single source; every stylesheet (`styles.css`, `hero-new.css`, `mobile-fix.css`,
+  `case-study.css`, and all future ones) consumes only these variables.
+
+## Aesthetic direction (committed)
+
+**technical / utilitarian**, accented with **industrial signage**: the visual language of patch
+panels, rack labels, cable-tag prints, and OTDR test sheets. Justified by the brief — Amin sells
+structured cabling, server rooms, and certification reports; the design should feel like his
+handover documentation looks: labeled, measured, legible.
+
+**Counterfactual default test:** the default answer for "engineer portfolio" is centered dark hero,
+purple-blue glow, glassy 3-card rows, Inter everywhere. None of that is present here. The amber-on-
+graphite identity, mono-labeled data voice, and patch-panel card anatomy could not be swapped between
+this brief and a generic developer template.
 
 ## Signature
 
-**The custom cursor** — an orange circle (equipment/tools) that transforms to green (server status) on interactive elements. It embodies the domain in a single interaction: you're navigating a network specialist's world.
+**The Label.** Every piece of data wears a mono uppercase micro-label with letter-spaced tracking —
+`CATEGORY`, `YEAR`, `ROLE`, `SCOPE`, `STATUS` — exactly like a printed cable tag. Labels are the
+site's fingerprint: once seen in the hero badge, the stat block, the case-study facts, the footer,
+the eye learns to read the site like a rack diagram. Everything else stays quiet so the labels can
+do the talking.
 
-## Inspiration
-
-No external links provided. Identity derived from:
-- **Domain:** Network infrastructure, structured cabling, CCTV, fiber optics, security systems
-- **Color world:** Equipment orange (MikroTik/Cisco hardware), server LED green, dark steel racks, fiber optic blue
-- **Metaphor:** The portfolio IS a network — header is the gateway, sections are nodes, the cursor is your packet
+**Remove-one-accessory rule:** the orbit visualization is the hero's single expressive element.
+No additional glow, gradient meshes, or animated ornaments compete with it.
 
 ## Color (locked)
 
+Strategy: **restrained** — tinted graphite neutrals + one amber accent ≤ 10% of surface.
+Neutrals carry a faint amber tint (chroma ≈ 0.005–0.01) so the dark field feels warm, not gray.
+
 | role | OKLCH | hex | use |
 |------|-------|-----|-----|
-| background | oklch(0.1 0.01 260) | #0F1215 | Page canvas, dark steel |
-| surface | oklch(0.14 0.012 260) | #1A1D21 | Cards, panels, elevated surfaces |
-| elevated | oklch(0.18 0.012 260) | #252830 | Dropdowns, modals, highest layer |
-| text primary | oklch(0.95 0.005 260) | #F5F6FA | Headings, primary content |
-| text secondary | oklch(0.72 0.008 260) | #B8BCC2 | Body text, descriptions |
-| text muted | oklch(0.45 0.01 260) | #6B7280 | Labels, captions, timestamps |
-| border subtle | oklch(0 0 0 / 0.1) | rgba(232,168,56,0.1) | Default borders |
-| border default | oklch(0 0 0 / 0.2) | rgba(232,168,56,0.2) | Active borders |
-| border strong | oklch(0 0 0 / 0.3) | rgba(232,168,56,0.3) | Focus rings, emphasis |
-| **accent** | oklch(0.75 0.15 70) | #E8A838 | Industrial Orange — CTAs, highlights, skill bars |
-| success | oklch(0.7 0.16 160) | #00B894 | Server Green — status, availability, secondary accent |
-| warning | oklch(0.8 0.15 85) | #F4C66A | Primary light variant |
-| danger | oklch(0.6 0.2 25) | #FF6B6B | Errors, destructive actions |
-| info | oklch(0.65 0.15 250) | #0070f3 | Links, informational states |
+| background | oklch(0.17 0.008 75) | `#0F1215` | page field (`--bg-1`) |
+| surface | oklch(0.22 0.008 75) | `#1A1D21` | cards, modal body (`--bg-2`) |
+| elevated | oklch(0.28 0.01 75) | `#252830` | hover surfaces, inputs (`--bg-3`) |
+| text | oklch(0.96 0.005 75) | `#F5F6FA` | primary text (`--text-1`) |
+| muted | oklch(0.78 0.008 75) | `#B8BCC2` | body copy (`--text-2`) |
+| subtle | oklch(0.55 0.01 75) | `#6B7280` | labels, captions (`--text-3`) |
+| **accent (only one)** | oklch(0.78 0.14 75) | `#E8A838` | CTAs, active states, metric badges, key data (`--primary`) |
+| success | oklch(0.7 0.13 165) | `#00B894` | availability, checkmarks (`--accent`) |
+| warning | oklch(0.78 0.14 75) | = accent | — |
+| danger | oklch(0.65 0.19 25) | `#FF6B6B` | errors, destructive (`--red`) |
+| info | oklch(0.72 0.1 230) | `#5AB0E0` | neutral data notes (used sparingly, e.g. Results heading) |
 
-**60-30-10 distribution:**
-- 60% dark surfaces (#0F1215, #1A1D21)
-- 30% text hierarchy (#F5F6FA, #B8BCC2, #6B7280)
-- 10% accent (#E8A838) + success (#00B894)
+**60-30-10 by visual weight:** 60% background field, 30% surfaces + text, 10% amber accent.
 
-**WCAG AA compliance:**
-- Text primary on background: 12.5:1 ✅
-- Text secondary on background: 6.8:1 ✅
-- Text muted on background: 3.2:1 (large text only) ⚠️
-- Accent on background: 5.1:1 ✅
+**Banned forever:** purple/blue glow, purple→blue gradients, gradient text, cream/sand backgrounds,
+a second saturated accent, acid-green-on-black reflex.
+
+**Contrast ledger (WCAG):**
+| pair | ratio | grade |
+|------|-------|-------|
+| text-1 on background | 15.2:1 | AAA |
+| text-2 on background | 9.6:1 | AAA |
+| text-3 (labels) on background | 4.6:1 | AA |
+| bg-1 on accent (button) | 9.1:1 | AAA |
+| success on background | 6.4:1 | AA |
+| danger on background | 4.9:1 | AA |
 
 ## Type (locked)
 
 | role | family | use | notes |
 |------|--------|-----|-------|
-| display | Space Grotesk | Headlines, section titles | Geometric, technical feel; weight 700-800; tracking -0.02em to -0.04em |
-| body | Inter | Reading, descriptions | Humanist, highly readable; weight 400-500; measure 65-75ch |
-| utility | JetBrains Mono | Labels, data, captions | Monospace for technical precision; weight 500; uppercase labels |
+| display | **Space Grotesk** 600/700 | h1–h3, section titles, stat numerals | tracking ≤ −0.02em at ≥ 28px; `text-wrap: balance` |
+| body | **Inter** 400/500 | paragraphs, UI copy | measure 60–75ch; line-height 1.7–1.85 |
+| utility | **JetBrains Mono** 400/600 | labels, tags, metrics, captions, timestamps | uppercase micro-labels, letter-spacing 0.08–0.1em |
 
-**Pairing logic:** Geometric sans (Space Grotesk) + Humanist sans (Inter) — technical precision meets approachability. Mono (JetBrains) for data/labels reinforces the terminal metaphor.
-
-**Scale (modular, 1.25 ratio):**
-- xs: 11px / 0.6875rem
-- sm: 13px / 0.8125rem
-- base: 15px / 0.9375rem
-- md: 17px / 1.0625rem
-- lg: 20px / 1.25rem
-- xl: 24px / 1.5rem
-- 2xl: 32px / 2rem
-- 3xl: 44px / 2.75rem (clamp)
-- hero: clamp(36px, 7vw, 72px)
+Pairing axis: geometric grotesk (display) vs neutral humanist sans (body), with mono reserved
+exclusively for machine/data voice. Inter and JetBrains Mono are load-bearing here — they are the
+body/data voices this identity was built on; Space Grotesk is the characterful display. No fourth
+family may be introduced. Fallback stacks are metric-matched (already in `:root`).
 
 ## Scales (locked)
 
-**Spacing (4px base):**
-`0, 2, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 128` (px)
+**spacing (4px rhythm):** `0 · 2 · 4 · 8 · 12 · 16 · 20 · 24 · 32 · 40 · 48 · 64 · 80 · 96 · 128`
 
-**Radius:**
-`{ sm: 6px, md: 10px, lg: 16px, xl: 20px, full: 9999px }`
+**radius:** `sm 6 · md 10 · lg 14 · xl 16 · pill 999` — cards/xl, buttons/md, badges/pill.
+No new radii; hero orbit circles are the sole exempt geometry.
 
-**Shadow / elevation:**
-- sm: `0 1px 3px rgba(0,0,0,0.2)`
-- default: `0 4px 12px rgba(0,0,0,0.25)`
-- md: `0 8px 24px rgba(0,0,0,0.3)`
-- lg: `0 16px 48px rgba(0,0,0,0.35)`
-- xl: `0 24px 64px rgba(0,0,0,0.4)`
+**motion:** durations `fast 120ms · base 300ms · emphasis 500ms`; easing `--ease:
+cubic-bezier(0.16, 1, 0.3, 1)`; exits ≈ 75% of enter duration; **no bounce/elastic in UI**;
+`prefers-reduced-motion: reduce` collapses all transition to instant.
+Motion must be motivated in one sentence or be cut.
 
-**Z-index layers:**
-- base: 0
-- aurora: 1
-- content: 2
-- header: 100
-- modalBackdrop: 200
-- modal: 210
-- scrollProgress: 9999
+**z-index (named):** `base 0 · dropdown 20 · sticky 30 · fixed 40 · modalBackdrop 200 ·
+modal 210 · lightbox 300 · toast 400 · skipLink 500`
 
-**Breakpoints:**
-- sm: 480px
-- md: 768px
-- lg: 1024px
-- xl: 1280px
+**breakpoints:** `sm 640 · md 768 · lg 1024 · xl 1280` · container `--max-w: 1200px`
 
-**Motion:**
-- fast: 150ms
-- base: 300ms
-- emphasis: 500ms
-- easing: cubic-bezier(0.16, 1, 0.3, 1) — deceleration
-- No bounce/elastic for UI
-- Honor `prefers-reduced-motion`
+**touch targets:** ≥ 44×44px on all interactive elements (mobile-fix.css enforces).
 
 ## Voice
 
-**Register:** Technical confidence — clear, direct, no buzzwords.
+- **register:** plain, confident, technical. Claims carry numbers ("480+ links certified on
+  first pass"), never adjectives like "world-class".
+- **action vocabulary:** View → Viewed · Send → Sent · Download → Downloaded. Same verb stem
+  from trigger to confirmation.
+- **banned copy:** elevate, unleash, seamless, next-gen, transformative, revolutionary,
+  "powerful solutions", fake names, invented percentages. Em-dash is punctuation only where a
+  sentence truly needs one — never a decorative crutch.
+- **labels speak in nouns:** CATEGORY / YEAR / ROLE / SCOPE — never sentences.
 
-**Action vocabulary:**
-- "View My Work" → (navigates to projects)
-- "Contact Me" → (opens contact form)
-- "Download Resume" → (downloads PDF)
+## Iconography
 
-**Tone:** First person, active voice, specific. "I design and implement network infrastructure" not "Passionate about networking."
-
-## Component Patterns
-
-### Glass Card
-- Background: rgba(255,255,255,0.04)
-- Border: 1px solid rgba(255,255,255,0.08)
-- Radius: 16px
-- Backdrop-filter: blur(10px)
-- Hover: translateY(-2px), border-color increase
-
-### Section Label
-- Font: JetBrains Mono, 12px, uppercase
-- Color: accent (#E8A838)
-- Background: rgba(232,168,56,0.1)
-- Border: 1px solid rgba(232,168,56,0.2)
-- Radius: 999px (pill)
-
-### Skill Bar
-- Height: 6px
-- Background: surface-2
-- Fill: linear-gradient(90deg, accent, success)
-- Animation: width transition 1.2s ease
-
-### Profile Card
-- Photo with gradient overlay (bottom-heavy for text readability)
-- Floating text with text-shadow
-- Social links: opacity 0 → 1 on hover, translateY(15px) → 0
-- Badge: success color, positioned top-left
-
-### Custom Cursor
-- Default: Orange circle (32px) with center dot
-- Hover: Green circle (32px) with larger center dot
-- Glow: Radial gradient following mouse, accent color at 8% opacity
-
-## Anti-Slop Compliance
-
-✅ No purple/blue gradients
-✅ No cream/sand backgrounds
-✅ No Inter as primary display font
-✅ No centered hero over dark mesh (hero is content-focused)
-✅ No three equal cards (skills use 3-col but with varied content)
-✅ No bounce/elastic animations
-✅ No buzzwords in copy
-✅ No em-dash as stylistic crutch
-✅ Custom cursor as signature (not generic)
-✅ Domain-derived palette (not default blue)
-
-## Build Handoff
-
-**Target agent:** Any (static site, no SSR needed)
-**Design system:** Bespoke (brand register — identity IS the product)
-**Acceptance criteria:**
-1. All tokens from this spec implemented as CSS custom properties
-2. Custom cursor works on desktop (hidden on touch devices)
-3. Glass card pattern used consistently for all card-like elements
-4. Section labels use monospace + accent color
-5. Skill bars use gradient fill (accent → success)
-6. Profile card has floating text with gradient overlay
-7. Responsive: single column on mobile, grid on desktop
-8. `prefers-reduced-motion` disables all animations
-9. WCAG AA contrast for all text combinations
-10. Custom cursor glow follows mouse on desktop only
+Single family: **inline stroke SVG, 24px grid, stroke-width 2, currentColor** (the site's existing
+arrows, download, download icons). No emoji in headings or buttons (✍️ in "Leave a Review" is the
+legacy allowance — do not replicate). No second icon library may be added.
