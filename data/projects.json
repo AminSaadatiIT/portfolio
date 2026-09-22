@@ -1,41 +1,226 @@
 [
     {
         "id": 1,
-        "title": "کابل‌کشی ساختمان تجاری",
-        "client": "شرکت فناوری پارس",
-        "date": "2025-01",
-        "location": "تهران",
-        "short": "پیاده‌سازی کابل‌کشی ساختاریافته Cat6A برای ساختمان ۱۲ طبقه.",
-        "long": "پروژه شامل طراحی و اجرای زیرساخت شبکه از ابتدا بود. کابل‌کشی افقی و عمودی با استانداردهای TIA-568.",
-        "categories": ["cabling"],
-        "gradient": "linear-gradient(135deg, #0070f3, #00dfd8)",
-        "images": ["images/project-cabling.svg"],
-        "videos": []
+        "title": "Structured Cabling Infrastructure",
+        "category": "Network Infrastructure",
+        "categories": [
+            "cabling"
+        ],
+        "year": "2025",
+        "role": "Network Infrastructure Engineer",
+        "client": "Pars Technology Co.",
+        "location": "Tehran, Iran",
+        "cover": "images/projects/cabling/cover.jpg",
+        "fallback": "images/project-cabling.svg",
+        "video": "",
+        "description": "Design and execution of the complete structured cabling infrastructure for a 12-floor commercial building — horizontal and vertical backbone to TIA-568, from skeleton to fully certified links.",
+        "scope": "12 floors / 480+ user points / MDF + 8 IDF cabinets",
+        "roleDetail": "Responsibilities covered the full delivery chain: site survey and cable-route planning, horizontal/vertical cable routing, rack and patch-panel termination, labeling scheme design, Fluke certification of every link, and as-built documentation handover.",
+        "gallery": [
+            "images/projects/cabling/01-rack-front.jpg",
+            "images/projects/cabling/02-patch-panel.jpg",
+            "images/projects/cabling/03-cable-tray.jpg",
+            "images/projects/cabling/04-idf-cabinet.jpg"
+        ],
+        "technologies": [
+            "CAT6A",
+            "CAT6",
+            "TIA-568",
+            "Patch Panel",
+            "Cable Management",
+            "Fluke Certification",
+            "Labeling System"
+        ],
+        "metrics": [
+            "12 Floors",
+            "480+ Cable Links",
+            "CAT6A",
+            "TIA-568",
+            "100% Certified"
+        ],
+        "diagram": "images/projects/cabling/topology.png",
+        "challenges": [
+            "Shared ceiling plenum with HVAC and electrical — very limited cable space",
+            "Live office environment: installation could not disrupt daily operations",
+            "No existing labeling — legacy cabling was undocumented"
+        ],
+        "solutions": [
+            "Separate cable tray with dedicated bundling per floor to isolate data from power",
+            "Night-shift and phase-based rollout, floor by floor, zero business downtime",
+            "Uniform labeling scheme (floor/room/port) mirrored in the as-built documentation"
+        ],
+        "results": [
+            "480+ links certified on first pass — zero re-terminations",
+            "Maintenance and moves/adds/changes now take minutes instead of hours",
+            "Documented infrastructure accepted by the client's IT audit without findings"
+        ]
     },
     {
         "id": 2,
-        "title": "سیستم نظارت تصویری",
-        "client": "مرکز تجاری بزرگمهر",
-        "date": "2024-09",
-        "location": "اصفهان",
-        "short": "نصب ۶۴ دوربین IP با NVR مرکزی و مانیتورینگ ۲۴/۷.",
-        "long": "طراحی و پیاده‌سازی سیستم CCTV شامل دوربین‌های Bullet و Dome.",
-        "categories": ["cctv", "security"],
-        "gradient": "linear-gradient(135deg, #7928ca, #ff0080)",
-        "images": ["images/project-cctv.svg"],
-        "videos": []
+        "title": "Enterprise CCTV Surveillance System",
+        "category": "Security Systems",
+        "categories": [
+            "cctv",
+            "security"
+        ],
+        "year": "2024",
+        "role": "CCTV & Network Engineer",
+        "client": "Bozorgmehr Commercial Center",
+        "location": "Isfahan, Iran",
+        "cover": "images/projects/cctv/cover.jpg",
+        "fallback": "images/project-cctv.svg",
+        "video": "",
+        "description": "Replacement of an aging analog system with a 64-camera IP surveillance platform — camera positioning study, PoE network design, centralized NVR recording and secure remote access.",
+        "scope": "64 IP cameras / 5 zones / 24-7 recording / 30-day retention",
+        "roleDetail": "Owned the project end-to-end: camera coverage study and positioning, PoE switch budgeting, VLAN-separated CCTV network, NVR sizing and RAID configuration, mobile remote-access setup, and staff training.",
+        "gallery": [
+            "images/projects/cctv/01-dome-install.jpg",
+            "images/projects/cctv/02-nvr-room.jpg",
+            "images/projects/cctv/03-poe-switch.jpg",
+            "images/projects/cctv/04-camera-view.jpg"
+        ],
+        "technologies": [
+            "IP Cameras",
+            "PoE",
+            "NVR",
+            "VLAN",
+            "H.265",
+            "RTSP",
+            "Remote Access"
+        ],
+        "metrics": [
+            "64 Cameras",
+            "24/7 Monitoring",
+            "99.9% Uptime",
+            "30-Day Retention",
+            "5 Zones"
+        ],
+        "diagram": "images/projects/cctv/network-diagram.png",
+        "challenges": [
+            "Mixed indoor/outdoor conditions including low-light parking areas",
+            "CCTV traffic had to be fully isolated from the business LAN",
+            "Existing cabling was analog-only and unusable for IP cameras"
+        ],
+        "solutions": [
+            "Varifocal + IR cameras selected per zone after an on-site light-level survey",
+            "Dedicated CCTV VLAN with access rules — zero exposure of cameras to the LAN",
+            "New Cat6 horizontal runs to every camera point with PoE from zone switches"
+        ],
+        "results": [
+            "Security response time dropped from minutes to seconds",
+            "Storage engineered for 30 days of continuous H.265 recording",
+            "Zero recording downtime since handover — verified by NVR logs"
+        ]
     },
     {
         "id": 3,
-        "title": "رک روم استاندارد",
-        "client": "بانک سپه",
-        "date": "2024-06",
-        "location": "تهران",
-        "short": "طراحی و ساخت رک‌روم استاندارد با سیستم خنک‌کننده.",
-        "long": "نصب ۴ عدد رک ۴۲ یونیتی، پچ‌پنل، سوئیچ‌های مدیریتی، UPS و مانیتورینگ محیطی.",
-        "categories": ["rack", "cabling"],
-        "gradient": "linear-gradient(135deg, #ff0080, #f5a623)",
-        "images": ["images/project-server.svg"],
-        "videos": []
+        "title": "Standard Server Room Build",
+        "category": "Data Center Infrastructure",
+        "categories": [
+            "rack",
+            "cabling"
+        ],
+        "year": "2024",
+        "role": "Infrastructure Engineer",
+        "client": "Sepah Bank Branch",
+        "location": "Tehran, Iran",
+        "cover": "images/projects/server-room/cover.jpg",
+        "fallback": "images/project-server.svg",
+        "video": "",
+        "description": "From empty room to a bank-grade server room in 6 weeks — rack layout, redundant power, cooling, structured patching and environmental monitoring, delivered to pass the bank's Tier-2 audit.",
+        "scope": "4x 42U racks / redundant UPS / precision cooling / monitoring",
+        "roleDetail": "Responsible for rack placement and elevation design, power distribution with A/B feeds, UPS sizing and installation, cooling airflow planning, vertical cable management, patch-panel termination, labeling and full handover documentation.",
+        "gallery": [
+            "images/projects/server-room/01-rack-row.jpg",
+            "images/projects/server-room/02-ups-install.jpg",
+            "images/projects/server-room/03-vertical-mgmt.jpg",
+            "images/projects/server-room/04-monitoring.jpg"
+        ],
+        "technologies": [
+            "42U Racks",
+            "Redundant UPS",
+            "Precision Cooling",
+            "PDU",
+            "Environmental Monitoring",
+            "TIA-569"
+        ],
+        "metrics": [
+            "4x 42U Racks",
+            "A/B Power Feeds",
+            "Tier-2 Compliant",
+            "99.5% Availability",
+            "Zero Downtime"
+        ],
+        "diagram": "images/projects/server-room/rack-elevation.png",
+        "challenges": [
+            "Small room footprint with strict bank clearance requirements",
+            "No redundant power path in the original building design",
+            "Tight 6-week deadline including audit and sign-off"
+        ],
+        "solutions": [
+            "3D rack elevation plan to fit all equipment within clearance rules",
+            "A/B PDU power design with automatic transfer between utility and UPS",
+            "Weekly milestone tracking with the bank's infrastructure team"
+        ],
+        "results": [
+            "Passed the bank's Tier-2 audit on first inspection",
+            "18 months of operation with zero critical failures",
+            "Cable management so clean that routine maintenance needs no external contractor"
+        ]
+    },
+    {
+        "id": 4,
+        "title": "Inter-Building Fiber Optic Backbone",
+        "category": "Fiber Optic Networks",
+        "categories": [
+            "fiber"
+        ],
+        "year": "2024",
+        "role": "Fiber Optic Engineer",
+        "client": "University of Tehran",
+        "location": "Tehran, Iran",
+        "cover": "images/projects/fiber/cover.jpg",
+        "fallback": "images/project-cabling.svg",
+        "video": "",
+        "description": "Single-mode fiber backbone connecting 5 campus buildings — route survey, duct preparation, fusion splicing, ODF termination and full OTDR certification of every span.",
+        "scope": "5 buildings / 2.4 km single-mode fiber / ODF terminations",
+        "roleDetail": "Performed the duct and route survey, supervised civil preparation, executed fusion splicing and ODF terminations, ran OTDR and insertion-loss tests on every fiber, and delivered the certification report per span.",
+        "gallery": [
+            "images/projects/fiber/01-splicing.jpg",
+            "images/projects/fiber/02-odf-panel.jpg",
+            "images/projects/fiber/03-otdr-test.jpg",
+            "images/projects/fiber/04-duct-route.jpg"
+        ],
+        "technologies": [
+            "Single-Mode Fiber",
+            "Fusion Splicing",
+            "ODF",
+            "OTDR",
+            "Insertion Loss",
+            "GPON-Ready"
+        ],
+        "metrics": [
+            "5 Buildings",
+            "2.4 km Fiber",
+            "<0.3 dB Loss",
+            "OTDR Certified",
+            "48 Cores"
+        ],
+        "diagram": "images/projects/fiber/backbone-map.png",
+        "challenges": [
+            "Aging ducts with partial blockage along the main campus route",
+            "Splicing had to happen outdoors at several manhole points",
+            "Strict requirement: every span must test below 0.3 dB loss"
+        ],
+        "solutions": [
+            "Re-routed two segments through clean spare ducts after a rodding survey",
+            "Mobile splicing station with environmental shielding for outdoor work",
+            "Bi-directional OTDR testing of every core with per-span certification sheets"
+        ],
+        "results": [
+            "All 48 cores certified below 0.3 dB per span",
+            "Backbone is GPON-ready for future campus expansion",
+            "Full OTDR archive delivered as the acceptance baseline"
+        ]
     }
 ]

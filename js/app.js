@@ -253,10 +253,27 @@
     const siteData = {
         settings: loadSettings(),
         skills: loadData('skills', DEFAULT_SKILLS),
-        projects: loadData('projects', DEFAULT_PROJECTS),
+        projects: loadData('projects', DEFAULT_PROJECTS), // replaced by case-study JSON after fetch
         experience: loadData('experience', DEFAULT_EXPERIENCE),
         testimonials: loadData('testimonials', DEFAULT_TESTIMONIALS)
     };
+
+    // ═══════ CASE-STUDY PROJECTS LOADER (data/projects.json) ═══════
+    // The canonical project source is data/projects.json — one JSON entry per
+    // engineering case study. Admin-panel localStorage overrides still win if
+    // present, so the dashboard keeps working unchanged.
+    function loadCaseStudyProjects() {
+        return fetch('data/projects.json', { cache: 'no-cache' })
+            .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+            .then(json => {
+                if (!Array.isArray(json) || !json.length) return;
+                const adminOverride = localStorage.getItem('portfolio_projects');
+                let useAdmin = false;
+                try { useAdmin = !!(adminOverride && JSON.parse(adminOverride).length); } catch { useAdmin = false; }
+                if (!useAdmin) siteData.projects = json;
+            })
+            .catch(() => { /* offline or file missing: DEFAULT_PROJECTS stay in place */ });
+    }
 
     // ═══════ APPLY SETTINGS TO DOM ═══════
     function applySettings() {
@@ -570,6 +587,34 @@
     }
 
     // ═══════ PROJECTS RENDER ═══════
+    // ═══════ CASE-STUDY CARD RENDER ═══════
+    const CASE_FALLBACK = {
+        cabling: 'images/projects/cabling/placeholder.svg',
+        cctv: 'images/projects/cctv/placeholder.svg',
+        security: 'images/projects/cctv/placeholder.svg',
+        rack: 'images/projects/server-room/placeholder.svg',
+        fiber: 'images/projects/fiber/placeholder.svg'
+    };
+    // Cover-photo probe: a missing photo must never leave a broken image
+    const mediaCache = {};
+
+    function probeMedia(url) {
+        if (!url) return Promise.resolve(null);
+        if (url in mediaCache) return Promise.resolve(mediaCache[url]);
+        return new Promise(resolve => {
+            const img = new Image();
+            img.onload = () => { mediaCache[url] = url; resolve(url); };
+            img.onerror = () => { mediaCache[url] = null; resolve(null); };
+            img.src = url;
+        });
+    }
+
+    function caseMedia(p) {
+        const primary = p.cover || (p.gallery && p.gallery[0]) || '';
+        const fallback = p.fallback || CASE_FALLBACK[(p.categories || [])[0]] || 'images/placeholder.svg';
+        return probeMedia(primary).then(found => found || fallback);
+    }
+
     function renderProjects() {
         const grid = $('#projectsGrid');
         if (!grid) return;
@@ -579,62 +624,97 @@
             return;
         }
 
-        const CATEGORY_IMAGES = {
-            cabling: 'images/project-cabling.svg',
-            cctv: 'images/project-cctv.svg',
-            security: 'images/project-cctv.svg',
-            rack: 'images/project-server.svg',
-            fiber: 'images/project-cabling.svg'
-        };
-
         grid.innerHTML = siteData.projects.map(p => {
-            const hasImages = p.images && p.images.length > 0;
-            let imgSrc = hasImages ? p.images[0] : '';
-            if (!imgSrc && p.categories && p.categories.length > 0) {
-                imgSrc = CATEGORY_IMAGES[p.categories[0]] || '';
-            }
-            const coverStyle = imgSrc
-                ? `background:url('${imgSrc}') center/cover no-repeat`
-                : `background:${p.gradient || 'linear-gradient(135deg, #0070f3, #7928ca)'}`;
+            const firstCat = (p.categories || [])[0] || 'cabling';
+            const fallback = p.fallback || CASE_FALLBACK[firstCat] || 'images/placeholder.svg';
+            const cover = p.cover || (p.gallery && p.gallery[0]) || fallback;
+            const hasVideo = !!(p.video && String(p.video).trim());
+            const hasGallery = !!(p.gallery && p.gallery.length);
             return `
-            <article class="project-card showing"
+            <article class="project-card case-card showing"
                      data-categories="${escapeHTML((p.categories || []).join(','))}"
                      data-id="${p.id}"
                      tabindex="0"
-                     role="button"
-                     aria-label="View details for ${escapeHTML(p.title)}">
-                <div class="project-cover">
-                    <div class="project-gradient" style="${coverStyle}"></div>
-                    <span class="project-label">${escapeHTML(p.date || '')}</span>
+                     aria-label="Open case study: ${escapeHTML(p.title)}">
+                <div class="case-cover">
+                    <img class="case-cover-img" src="${escapeHTML(fallback)}" data-primary="${escapeHTML(cover)}"
+                         alt="${escapeHTML(p.title)} cover" loading="lazy">
+                    <div class="case-cover-shade"></div>
+                    ${hasVideo ? '<span class="case-flag">▶ Video</span>' : ''}
+                    <span class="case-year">${escapeHTML(p.year || '')}</span>
                 </div>
-                <div class="project-body">
-                    <h3>${escapeHTML(p.title)}</h3>
-                    <p>${escapeHTML(p.short || '')}</p>
-                    ${p.metrics ? `<div class="project-metrics">${p.metrics.map(m => `<span class="metric-tag">${escapeHTML(m)}</span>`).join('')}</div>` : ''}
-                    <div class="project-tags">
-                        ${(p.categories || []).map(c => `<span class="tag">${escapeHTML(c)}</span>`).join('')}
+                <div class="case-body">
+                    <div class="case-kicker">
+                        <span class="case-category">${escapeHTML(p.category || (p.categories || []).join(' / '))}</span>
+                        ${p.location ? `<span class="case-loc">${escapeHTML(p.location)}</span>` : ''}
+                    </div>
+                    <h3 class="case-title">${escapeHTML(p.title)}</h3>
+                    <p class="case-desc">${escapeHTML(p.description || p.short || '')}</p>
+                    ${p.metrics ? `<div class="case-metrics">${p.metrics.slice(0, 4).map(m => `<span class="metric-tag">${escapeHTML(m)}</span>`).join('')}</div>` : ''}
+                    <div class="case-role-line">
+                        <span class="case-role-label">Role</span>
+                        <span class="case-role-value">${escapeHTML(p.role || '')}</span>
+                    </div>
+                    <div class="case-actions">
+                        <button class="case-btn case-btn-primary" data-action="case" data-id="${p.id}">
+                            <span aria-hidden="true">▤</span> View Case Study
+                        </button>
+                        ${hasGallery ? `<button class="case-btn" data-action="gallery" data-id="${p.id}">
+                            <span aria-hidden="true">▦</span> Photo Gallery
+                        </button>` : ''}
+                        ${hasVideo ? `<button class="case-btn" data-action="video" data-id="${p.id}">
+                            <span aria-hidden="true">▶</span> Video Demo
+                        </button>` : ''}
                     </div>
                 </div>
-            </article>
-        `;
+            </article>`;
         }).join('');
 
-        grid.addEventListener('click', e => {
-            const card = e.target.closest('.project-card');
-            if (card) openProjectModal(parseInt(card.dataset.id, 10));
-        });
-
-        grid.addEventListener('keydown', e => {
-            if (e.key === 'Enter') {
-                const card = e.target.closest('.project-card');
+        // Wire actions (event delegation) — idempotent
+        if (!grid.dataset.csWired) {
+            grid.dataset.csWired = '1';
+            grid.addEventListener('click', e => {
+                const btn = e.target.closest('.case-btn');
+                if (btn) {
+                    e.stopPropagation();
+                    const id = parseInt(btn.dataset.id, 10);
+                    const p = siteData.projects.find(x => x.id === id);
+                    if (!p) return;
+                    const action = btn.dataset.action;
+                    if (action === 'gallery') {
+                        const items = (p.gallery || []).filter(Boolean);
+                        if (items.length) openLightbox(items, 0, p.title);
+                        return;
+                    }
+                    if (action === 'video') { openProjectModal(id); openVideoDemo(p); return; }
+                    openProjectModal(id);
+                    return;
+                }
+                const card = e.target.closest('.case-card');
                 if (card) openProjectModal(parseInt(card.dataset.id, 10));
-            }
+            });
+            grid.addEventListener('keydown', e => {
+                if (e.key !== 'Enter') return;
+                const card = e.target.closest('.case-card');
+                if (!card) return;
+                if (document.activeElement !== card) return;   // buttons handle their own Enter
+                openProjectModal(parseInt(card.dataset.id, 10));
+            });
+        }
+
+        // Resolve real covers async — instant SVG fallback, photo swaps in
+        siteData.projects.forEach(p => {
+            caseMedia(p).then(url => {
+                if (!url) return;
+                const img = grid.querySelector(`.case-card[data-id="${p.id}"] .case-cover-img`);
+                if (img) img.src = url;
+            });
         });
     }
 
     // ═══════ PROJECT FILTER ═══════
     function initProjectFilter() {
-        const buttons = $$('.filter-btn');
+        const buttons = $$('#caseStudyFilters .filter-btn');
         const grid = $('#projectsGrid');
         if (!buttons.length || !grid) return;
 
@@ -699,49 +779,192 @@
     }
 
     function openProjectModal(id) {
-        const project = siteData.projects.find(p => p.id === id);
-        if (!project) return;
+        const p = siteData.projects.find(x => x.id === id);
+        if (!p) return;
 
         const modal = $('#projectModal');
-        const gallery = $('#modalGallery');
-        const title = $('#modalTitle');
-        const meta = $('#modalMeta');
-        const desc = $('#modalDesc');
-        const tags = $('#modalTags');
+        const hero = $('#csHero');
+        const title = $('#csTitle');
+        const facts = $('#csFacts');
+        const metrics = $('#csMetrics');
+        const overview = $('#csOverview');
+        const scope = $('#csScope');
+        const role = $('#csRole');
+        const tech = $('#csTech');
+        const gallerySection = $('#csGallerySection');
+        const gallery = $('#csGallery');
+        const diagramSection = $('#csDiagramSection');
+        const diagram = $('#csDiagram');
 
-        gallery.innerHTML = `<div style="width:100%;height:100%;background:${project.gradient || 'linear-gradient(135deg, #0070f3, #7928ca)'}"></div>`;
-        title.textContent = project.title;
-        meta.innerHTML = `
-            ${project.client ? `<span>🏢 ${escapeHTML(project.client)}</span>` : ''}
-            ${project.location ? `<span>📍 ${escapeHTML(project.location)}</span>` : ''}
-            ${project.date ? `<span>📅 ${escapeHTML(project.date)}</span>` : ''}
-        `;
-        desc.textContent = project.long || project.short || '';
-        var metricsHtml = project.metrics ? '<div class="modal-metrics" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">' + project.metrics.map(m => '<span class="metric-tag" style="background:rgba(232,168,56,0.12);border:1px solid rgba(232,168,56,0.25);padding:6px 12px;border-radius:8px;font-size:12px;font-weight:600;color:#E8A838;">' + escapeHTML(m) + '</span>').join('') + '</div>' : '';
-        tags.innerHTML = metricsHtml + (project.categories || []).map(c => `<span class="tag">${escapeHTML(c)}</span>`).join('');
+        // 1. Hero media — video if present, otherwise the cover photo
+        const heroFallback = p.fallback || CASE_FALLBACK[(p.categories || [])[0]] || 'images/placeholder.svg';
+        if (p.video && String(p.video).trim()) {
+            const poster = p.cover || heroFallback;
+            hero.innerHTML = `
+                <video class="cs-video" controls preload="metadata" poster="${escapeHTML(poster)}">
+                    <source src="${escapeHTML(p.video)}" type="video/mp4">
+                    Your browser does not support embedded video.
+                </video>`;
+        } else {
+            hero.innerHTML = `<img class="cs-hero-img" src="${escapeHTML(heroFallback)}" data-primary="${escapeHTML(p.cover || '')}" alt="${escapeHTML(p.title)} hero">`;
+            const heroImg = hero.querySelector('img');
+            caseMedia(p).then(url => { if (url && heroImg) heroImg.src = url; });
+        }
+
+        // Header + key facts (recruiter answers in 10 seconds)
+        title.textContent = p.title || '';
+        facts.innerHTML = [
+            p.category ? `<span class="cs-fact"><span class="cs-fact-label">Category</span>${escapeHTML(p.category)}</span>` : '',
+            p.year ? `<span class="cs-fact"><span class="cs-fact-label">Year</span>${escapeHTML(p.year)}</span>` : '',
+            p.role ? `<span class="cs-fact"><span class="cs-fact-label">Role</span>${escapeHTML(p.role)}</span>` : '',
+            p.client ? `<span class="cs-fact"><span class="cs-fact-label">Client</span>${escapeHTML(p.client)}</span>` : '',
+            p.location ? `<span class="cs-fact"><span class="cs-fact-label">Location</span>${escapeHTML(p.location)}</span>` : ''
+        ].join('');
+
+        // Metrics band
+        metrics.innerHTML = (p.metrics || []).map(m => `<span class="cs-metric">${escapeHTML(m)}</span>`).join('');
+
+        // 2. Overview
+        overview.textContent = p.description || p.short || '';
+        scope.textContent = p.scope ? 'Scope: ' + p.scope : '';
+        scope.hidden = !p.scope;
+
+        // 3. My role
+        role.textContent = p.roleDetail || p.role || '';
+
+        // 4. Technologies
+        tech.innerHTML = (p.technologies || []).map(t => `<span class="cs-tech-tag">${escapeHTML(t)}</span>`).join('');
+
+        // 5. Gallery (click → lightbox)
+        const items = (p.gallery || []).filter(Boolean);
+        if (items.length) {
+            gallerySection.hidden = false;
+            gallery.innerHTML = items.map((src, i) => `
+                <button class="cs-thumb" data-index="${i}" aria-label="Enlarge photo ${i + 1} of ${items.length}">
+                    <img src="${escapeHTML(src)}" alt="${escapeHTML(p.title)} photo ${i + 1}" loading="lazy"
+                         onerror="this.closest('.cs-thumb').classList.add('cs-thumb-missing');this.removeAttribute('src');">
+                    <span class="cs-thumb-index">${i + 1}</span>
+                </button>
+            `).join('');
+            gallery.dataset.images = JSON.stringify(items);
+            gallery.dataset.title = p.title || 'Project photo';
+            $$('.cs-thumb', gallery).forEach(thumb => {
+                thumb.addEventListener('click', () => openLightbox(items, parseInt(thumb.dataset.index, 10), p.title));
+            });
+        } else {
+            gallerySection.hidden = true;
+            gallery.innerHTML = '';
+        }
+
+        // 6. Diagram
+        if (p.diagram) {
+            diagramSection.hidden = false;
+            diagram.src = p.diagram;
+            diagram.onerror = () => { diagramSection.hidden = true; };
+            diagram.alt = (p.title || 'Project') + ' technical diagram';
+        } else {
+            diagramSection.hidden = true;
+        }
+
+        // 7-9. Challenges / Solutions / Results
+        const fill = (id, arr, sym) => {
+            $(id).innerHTML = (arr && arr.length)
+                ? arr.map(x => `<li><span class="cs-li-sym">${sym}</span><span>${escapeHTML(x)}</span></li>`).join('')
+                : '<li class="cs-empty">—</li>';
+        };
+        fill('#csChallenges', p.challenges, '!');
+        fill('#csSolutions', p.solutions, '→');
+        fill('#csResults', p.results, '✓');
 
         openModal(modal);
     }
+
+    // Open case study and auto-scroll to the hero video
+    function openVideoDemo(p) {
+        const hero = $('#csHero');
+        const video = hero && hero.querySelector('video');
+        if (video) {
+            try { video.play().catch(() => {}); } catch (err) {}
+        }
+    }
+
     function closeProjectModal() {
         const modal = $('#projectModal');
         if (modal && !modal.hidden) closeModal(modal);
     }
 
-    function initModal() {
+    // Wire case-study modal chrome: close button, backdrop click, Escape
+    function initCaseStudyModal() {
         const modal = $('#projectModal');
-        const closeBtn = $('#modalClose');
+        if (!modal || modal.dataset.csWired) return;
+        modal.dataset.csWired = '1';
 
-        if (closeBtn) closeBtn.addEventListener('click', closeProjectModal);
-        if (modal) {
-            modal.addEventListener('click', e => {
-                if (e.target === modal) closeProjectModal();
-            });
-            modal.addEventListener('keydown', e => {
-                if (e.key === 'Tab') trapFocus(modal, e);
-            });
-        }
+        $('#modalClose')?.addEventListener('click', closeProjectModal);
+        modal.addEventListener('click', e => {
+            if (e.target === modal) closeProjectModal();
+        });
+        modal.addEventListener('keydown', e => {
+            if (e.key === 'Tab') trapFocus(modal, e);
+        });
         document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') closeProjectModal();
+            if (e.key === 'Escape' && modal && !modal.hidden && $('#lightbox').hidden) closeProjectModal();
+        });
+    }
+
+    // ═══════ GALLERY LIGHTBOX ═══════
+    let lightboxItems = [];
+    let lightboxIndex = 0;
+    let lightboxTitle = '';
+
+    function openLightbox(items, index, title) {
+        lightboxItems = items || [];
+        lightboxIndex = Math.max(0, Math.min(index, lightboxItems.length - 1));
+        lightboxTitle = title || 'Project photo';
+        const box = $('#lightbox');
+        if (!box || !lightboxItems.length) return;
+        updateLightbox();
+        box.hidden = false;
+        document.body.style.overflow = 'hidden';
+    }
+
+    function updateLightbox() {
+        const img = $('#lightboxImg');
+        const cap = $('#lightboxCaption');
+        img.src = lightboxItems[lightboxIndex];
+        img.alt = lightboxTitle + ' — image ' + (lightboxIndex + 1) + ' of ' + lightboxItems.length;
+        cap.textContent = lightboxTitle + ' — ' + (lightboxIndex + 1) + ' / ' + lightboxItems.length;
+        const multi = lightboxItems.length > 1;
+        $('#lightboxPrev').hidden = !multi;
+        $('#lightboxNext').hidden = !multi;
+    }
+
+    function closeLightbox() {
+        const box = $('#lightbox');
+        if (!box || box.hidden) return;
+        box.hidden = true;
+        $('#lightboxImg').src = '';
+        // return scroll to the case study beneath
+        document.body.style.overflow = '';
+    }
+
+    function lightboxStep(delta) {
+        if (!lightboxItems.length) return;
+        lightboxIndex = (lightboxIndex + delta + lightboxItems.length) % lightboxItems.length;
+        updateLightbox();
+    }
+
+    function initLightbox() {
+        const box = $('#lightbox');
+        if (!box) return;
+        $('#lightboxClose').addEventListener('click', closeLightbox);
+        $('#lightboxPrev').addEventListener('click', () => lightboxStep(-1));
+        $('#lightboxNext').addEventListener('click', () => lightboxStep(1));
+        box.addEventListener('click', e => { if (e.target === box) closeLightbox(); });
+        document.addEventListener('keydown', e => {
+            if (box.hidden) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') lightboxStep(-1);
+            if (e.key === 'ArrowRight') lightboxStep(1);
         });
     }
 
@@ -1402,9 +1625,11 @@
         initTypewriter();
         initCounters();
         renderSkills();
-        renderProjects();
+        renderProjects();               // instant paint from defaults/admin data
         initProjectFilter();
-        initModal();
+        loadCaseStudyProjects().then(renderProjects);  // re-render with data/projects.json case studies
+        initCaseStudyModal();
+        initLightbox();
         renderExperience();
         initTestimonials();
         initReviewForm();

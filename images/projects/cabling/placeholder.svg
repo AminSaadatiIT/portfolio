@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a1d21"/>
+      <stop offset="1" stop-color="#0f1215"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#E8A838"/>
+      <stop offset="1" stop-color="#C48A2A"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="rgba(232,168,56,0.06)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="700" fill="url(#bg)"/>
+  <rect width="1200" height="700" fill="url(#grid)"/>
+  <g transform="translate(430 90)" opacity="0.9">
+    <rect x="0" y="0" width="340" height="520" rx="14" fill="#252830" stroke="rgba(232,168,56,0.35)" stroke-width="2"/>
+    <rect x="16" y="18" width="308" height="42" rx="6" fill="#1a1d21" stroke="rgba(232,168,56,0.25)"/>
+    <circle cx="36" cy="39" r="6" fill="#00B894"/>
+    <rect x="52" y="30" width="120" height="18" rx="3" fill="rgba(232,168,56,0.25)"/>
+    <rect x="16" y="72" width="308" height="42" rx="6" fill="#1a1d21" stroke="rgba(232,168,56,0.25)"/>
+    <g fill="url(#amber)">
+      <circle cx="40" cy="93" r="5"/><circle cx="58" cy="93" r="5"/><circle cx="76" cy="93" r="5"/>
+      <circle cx="94" cy="93" r="5"/><circle cx="112" cy="93" r="5"/><circle cx="130" cy="93" r="5"/>
+      <circle cx="148" cy="93" r="5"/><circle cx="166" cy="93" r="5"/><circle cx="184" cy="93" r="5"/>
+      <circle cx="202" cy="93" r="5"/><circle cx="220" cy="93" r="5"/><circle cx="238" cy="93" r="5"/>
+    </g>
+    <rect x="16" y="126" width="308" height="42" rx="6" fill="#1a1d21" stroke="rgba(232,168,56,0.25)"/>
+    <g stroke="url(#amber)" stroke-width="3" stroke-linecap="round" fill="none">
+      <path d="M40 147c40 0 40 14 80 14"/><path d="M120 147c40 0 40 -14 80 -14"/>
+      <path d="M200 147c40 0 40 14 80 14"/><path d="M60 161c40 0 60 -20 120 -20"/>
+    </g>
+    <rect x="16" y="180" width="308" height="42" rx="6" fill="#1a1d21" stroke="rgba(232,168,56,0.25)"/>
+    <rect x="30" y="192" width="280" height="18" rx="3" fill="rgba(0,184,148,0.3)"/>
+    <rect x="16" y="234" width="308" height="60" rx="6" fill="#1a1d21" stroke="rgba(232,168,56,0.25)"/>
+    <path d="M40 264q30 -22 60 0t60 0t60 0t60 0" fill="none" stroke="rgba(232,168,56,0.5)" stroke-width="2"/>
+    <rect x="16" y="306" width="308" height="42" rx="6" fill="#1a1d21" stroke="rgba(232,168,56,0.25)"/>
+    <circle cx="40" cy="327" r="6" fill="#00B894"/>
+    <rect x="56" y="318" width="140" height="18" rx="3" fill="rgba(232,168,56,0.2)"/>
+    <rect x="16" y="360" width="308" height="130" rx="6" fill="#1a1d21" stroke="rgba(232,168,56,0.25)"/>
+    <g stroke="rgba(232,168,56,0.4)" stroke-width="2" fill="none">
+      <path d="M36 380h268M36 402h268M36 424h268M36 446h268M36 468h268"/>
+    </g>
+  </g>
+  <text x="600" y="662" text-anchor="middle" font-family="monospace" font-size="20" fill="rgba(232,168,56,0.7)" letter-spacing="4">STRUCTURED CABLING — PHOTO COMING SOON</text>
+</svg>

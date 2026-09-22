@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a1d21"/><stop offset="1" stop-color="#0f1215"/>
+    </linearGradient>
+    <pattern id="grid3" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="rgba(232,168,56,0.06)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="700" fill="url(#bg3)"/>
+  <rect width="1200" height="700" fill="url(#grid3)"/>
+  <!-- floor perspective lines -->
+  <g stroke="rgba(232,168,56,0.12)" stroke-width="1">
+    <path d="M0 560 L1200 560"/><path d="M100 700 L500 560"/><path d="M1100 700 L700 560"/>
+    <path d="M0 620 L1200 620"/><path d="M300 700 L580 560"/><path d="M900 700 L620 560"/>
+  </g>
+  <!-- rack 1 (tall, detailed) -->
+  <g transform="translate(340 120)" opacity="0.95">
+    <rect x="0" y="0" width="220" height="440" rx="10" fill="#252830" stroke="rgba(232,168,56,0.4)" stroke-width="2"/>
+    <g fill="#1a1d21" stroke="rgba(232,168,56,0.3)">
+      <rect x="14" y="16" width="192" height="38" rx="4"/>
+      <rect x="14" y="62" width="192" height="38" rx="4"/>
+      <rect x="14" y="108" width="192" height="38" rx="4"/>
+      <rect x="14" y="154" width="192" height="56" rx="4"/>
+      <rect x="14" y="218" width="192" height="38" rx="4"/>
+      <rect x="14" y="264" width="192" height="38" rx="4"/>
+      <rect x="14" y="310" width="192" height="110" rx="4"/>
+    </g>
+    <circle cx="34" cy="35" r="5" fill="#00B894"/><circle cx="34" cy="81" r="5" fill="#00B894"/>
+    <circle cx="34" cy="127" r="5" fill="#E8A838"/><circle cx="34" cy="237" r="5" fill="#00B894"/>
+    <circle cx="34" cy="283" r="5" fill="#00B894"/><circle cx="34" cy="329" r="5" fill="#E8A838"/>
+    <g fill="rgba(232,168,56,0.35)">
+      <rect x="52" y="26" width="90" height="10" rx="2"/><rect x="52" y="72" width="120" height="10" rx="2"/>
+      <rect x="52" y="118" width="70" height="10" rx="2"/><rect x="52" y="164" width="130" height="10" rx="2"/>
+      <rect x="52" y="228" width="100" height="10" rx="2"/><rect x="52" y="274" width="110" height="10" rx="2"/>
+    </g>
+    <g stroke="rgba(0,184,148,0.4)" stroke-width="2" fill="none">
+      <path d="M30 330q25 -14 50 0t50 0t50 0t50 0"/>
+      <path d="M30 356q25 -14 50 0t50 0t50 0t50 0"/>
+      <path d="M30 382q25 -14 50 0t50 0t50 0t50 0"/>
+      <path d="M30 408q25 -14 50 0t50 0t50 0t50 0"/>
+    </g>
+  </g>
+  <!-- rack 2 -->
+  <g transform="translate(600 160) scale(0.92)" opacity="0.85">
+    <rect x="0" y="0" width="220" height="400" rx="10" fill="#1f2228" stroke="rgba(232,168,56,0.35)" stroke-width="2"/>
+    <g fill="#191c20" stroke="rgba(232,168,56,0.28)">
+      <rect x="14" y="16" width="192" height="38" rx="4"/>
+      <rect x="14" y="62" width="192" height="38" rx="4"/>
+      <rect x="14" y="108" width="192" height="56" rx="4"/>
+      <rect x="14" y="172" width="192" height="38" rx="4"/>
+      <rect x="14" y="218" width="192" height="38" rx="4"/>
+      <rect x="14" y="264" width="192" height="116" rx="4"/>
+    </g>
+    <circle cx="34" cy="35" r="5" fill="#00B894"/><circle cx="34" cy="81" r="5" fill="#E8A838"/>
+    <circle cx="34" cy="135" r="5" fill="#00B894"/><circle cx="34" cy="191" r="5" fill="#00B894"/>
+    <circle cx="34" cy="237" r="5" fill="#E8A838"/><circle cx="34" cy="283" r="5" fill="#00B894"/>
+    <g stroke="rgba(0,184,148,0.35)" stroke-width="2" fill="none">
+      <path d="M30 290q25 -14 50 0t50 0t50 0t50 0"/>
+      <path d="M30 318q25 -14 50 0t50 0t50 0t50 0"/>
+      <path d="M30 346q25 -14 50 0t50 0t50 0t50 0"/>
+    </g>
+  </g>
+  <!-- rack 3 (far) -->
+  <g transform="translate(820 200) scale(0.8)" opacity="0.7">
+    <rect x="0" y="0" width="220" height="360" rx="10" fill="#191c20" stroke="rgba(232,168,56,0.3)" stroke-width="2"/>
+    <g fill="#14161a" stroke="rgba(232,168,56,0.25)">
+      <rect x="14" y="16" width="192" height="38" rx="4"/>
+      <rect x="14" y="62" width="192" height="38" rx="4"/>
+      <rect x="14" y="108" width="192" height="38" rx="4"/>
+      <rect x="14" y="154" width="192" height="38" rx="4"/>
+      <rect x="14" y="200" width="192" height="140" rx="4"/>
+    </g>
+    <circle cx="34" cy="35" r="5" fill="#00B894"/><circle cx="34" cy="81" r="5" fill="#00B894"/>
+    <circle cx="34" cy="127" r="5" fill="#E8A838"/><circle cx="34" cy="173" r="5" fill="#00B894"/>
+    <g stroke="rgba(0,184,148,0.3)" stroke-width="2" fill="none">
+      <path d="M30 226q25 -14 50 0t50 0t50 0t50 0"/>
+      <path d="M30 254q25 -14 50 0t50 0t50 0t50 0"/>
+      <path d="M30 282q25 -14 50 0t50 0t50 0t50 0"/>
+    </g>
+  </g>
+  <!-- UPS unit on floor -->
+  <g transform="translate(180 470)" opacity="0.85">
+    <rect x="0" y="0" width="120" height="90" rx="8" fill="#252830" stroke="rgba(232,168,56,0.35)" stroke-width="2"/>
+    <rect x="14" y="14" width="92" height="30" rx="4" fill="#14161a" stroke="rgba(232,168,56,0.3)"/>
+    <text x="60" y="35" text-anchor="middle" font-family="monospace" font-size="16" fill="#E8A838">UPS</text>
+    <circle cx="30" cy="66" r="5" fill="#00B894"/>
+    <rect x="46" y="58" width="52" height="8" rx="3" fill="rgba(232,168,56,0.25)"/>
+  </g>
+  <text x="600" y="668" text-anchor="middle" font-family="monospace" font-size="20" fill="rgba(232,168,56,0.7)" letter-spacing="4">SERVER ROOM — PHOTO COMING SOON</text>
+</svg>

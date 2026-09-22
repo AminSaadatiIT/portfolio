@@ -60,6 +60,7 @@
     <link rel="stylesheet" href="css/custom-select.css">
     <link rel="stylesheet" href="css/hero-new.css?v=20260828">
     <link rel="stylesheet" href="css/mobile-fix.css?v=20260930">
+    <link rel="stylesheet" href="css/case-study.css?v=20261001">
 
     <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -576,24 +577,28 @@
             </div>
         </section>
 
-        <!-- PROJECTS -->
+        <!-- PROJECTS — Engineering Case Studies -->
         <section class="section expand-target" id="projects">
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="section-label">Projects</span>
-                    <h2 class="section-title">Projects</h2>
+                    <span class="section-label">Case Studies</span>
+                    <h2 class="section-title">Infrastructure Projects</h2>
+                    <p class="section-subtitle" style="color:var(--text-2);max-width:640px;margin:12px auto 0;font-size:15px;">
+                        Field-delivered network infrastructure work — each case study documents
+                        my role, the technologies applied, and measurable results.
+                    </p>
                 </div>
 
-                <div class="filter-bar reveal">
-                    <button class="filter-btn active" data-filter="all">All</button>
+                <div class="filter-bar reveal" id="caseStudyFilters">
+                    <button class="filter-btn active" data-filter="all">All Projects</button>
                     <button class="filter-btn" data-filter="cabling">Cabling</button>
                     <button class="filter-btn" data-filter="cctv">CCTV</button>
-                    <button class="filter-btn" data-filter="rack">Rack</button>
+                    <button class="filter-btn" data-filter="rack">Server Room</button>
                     <button class="filter-btn" data-filter="fiber">Fiber</button>
                     <button class="filter-btn" data-filter="security">Security</button>
                 </div>
 
-                <div class="projects-grid" id="projectsGrid"></div>
+                <div class="projects-grid" id="projectsGrid" aria-live="polite"></div>
             </div>
         </section>
 
@@ -836,17 +841,85 @@
     </footer>
 
     <!-- Project Modal -->
-    <div class="modal-overlay" id="projectModal" role="dialog" aria-modal="true" hidden>
-        <div class="modal">
-            <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
-            <div class="modal-gallery" id="modalGallery"></div>
-            <div class="modal-body">
-                <h2 class="modal-title" id="modalTitle"></h2>
-                <div class="modal-meta" id="modalMeta"></div>
-                <div class="modal-desc" id="modalDesc"></div>
-                <div class="modal-tags" id="modalTags"></div>
+    <!-- Case Study Modal -->
+    <div class="modal-overlay case-study-overlay" id="projectModal" role="dialog" aria-modal="true" aria-label="Project case study" hidden>
+        <article class="case-study">
+            <button class="modal-close" id="modalClose" aria-label="Close case study">✕</button>
+
+            <!-- 1. Hero media (video or cover image) -->
+            <div class="cs-hero" id="csHero"></div>
+
+            <div class="cs-body">
+                <!-- Header: title + key facts -->
+                <header class="cs-header">
+                    <h2 class="cs-title" id="csTitle"></h2>
+                    <div class="cs-facts" id="csFacts"></div>
+                </header>
+
+                <!-- Metrics band -->
+                <div class="cs-metrics" id="csMetrics"></div>
+
+                <!-- 2. Overview -->
+                <section class="cs-section">
+                    <h3 class="cs-heading">Project Overview</h3>
+                    <p class="cs-text" id="csOverview"></p>
+                    <p class="cs-scope" id="csScope"></p>
+                </section>
+
+                <!-- 3. My Role -->
+                <section class="cs-section">
+                    <h3 class="cs-heading">My Role</h3>
+                    <p class="cs-text" id="csRole"></p>
+                </section>
+
+                <!-- 4. Technologies & Standards -->
+                <section class="cs-section">
+                    <h3 class="cs-heading">Technologies &amp; Standards</h3>
+                    <div class="cs-tech" id="csTech"></div>
+                </section>
+
+                <!-- 6. Technical diagram -->
+                <section class="cs-section" id="csDiagramSection" hidden>
+                    <h3 class="cs-heading">Technical Diagram</h3>
+                    <figure class="cs-figure">
+                        <img id="csDiagram" alt="Technical diagram" loading="lazy">
+                    </figure>
+                </section>
+
+                <!-- 5. Gallery -->
+                <section class="cs-section" id="csGallerySection" hidden>
+                    <h3 class="cs-heading">Project Gallery</h3>
+                    <div class="cs-gallery" id="csGallery"></div>
+                </section>
+
+                <!-- 7-9. Challenges / Solutions / Results -->
+                <div class="cs-csr">
+                    <section class="cs-section cs-card cs-challenges">
+                        <h3 class="cs-heading cs-heading-ch">Challenges</h3>
+                        <ul class="cs-list" id="csChallenges"></ul>
+                    </section>
+                    <section class="cs-section cs-card cs-solutions">
+                        <h3 class="cs-heading cs-heading-so">Solutions</h3>
+                        <ul class="cs-list" id="csSolutions"></ul>
+                    </section>
+                    <section class="cs-section cs-card cs-results">
+                        <h3 class="cs-heading cs-heading-re">Results</h3>
+                        <ul class="cs-list" id="csResults"></ul>
+                    </section>
+                </div>
             </div>
-        </div>
+        </article>
+    </div>
+
+    <!-- Gallery Lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
+        <button class="lightbox-close" id="lightboxClose" aria-label="Close viewer">✕</button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">‹</button>
+        <figure class="lightbox-stage">
+            <img id="lightboxImg" alt="Project photo enlarged">
+            <figcaption class="lightbox-caption" id="lightboxCaption"></figcaption>
+        </figure>
+        <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">›</button>
     </div>
 
     <!-- Review Submission Modal -->
@@ -1005,6 +1078,7 @@
     })();
     </script>
 
-    <script src="js/app.js?v=20260930b" defer></script>
+    <script src="js/app.js?v=20261001" defer></script>
+
 </body>
 </html>

@@ -1,0 +1,485 @@
+/* ═══════════════════════════════════════════════════════════════
+   ENGINEERING CASE-STUDY PORTFOLIO
+   Projects grid cards + Case-study modal + Gallery lightbox
+   Depends only on :root tokens already defined in styles.css
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────────
+   CARD
+   ──────────────────────────────────────────────── */
+.case-card {
+    display: flex; flex-direction: column;
+    background: var(--surface-1);
+    border: 1px solid var(--border-1);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 300ms var(--ease), border-color 300ms, box-shadow 300ms;
+}
+.case-card:hover,
+.case-card:focus-visible {
+    transform: translateY(-4px);
+    border-color: var(--border-3);
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.35);
+    outline: none;
+}
+
+.case-cover {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: var(--bg-3);
+    overflow: hidden;
+}
+.case-cover-img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 600ms var(--ease);
+}
+.case-card:hover .case-cover-img { transform: scale(1.04); }
+
+.case-cover-shade {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(15, 18, 21, 0.55), transparent 45%);
+    pointer-events: none;
+}
+
+.case-flag {
+    position: absolute; top: 12px; left: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(8px);
+    font-size: 11px; font-weight: 600;
+    color: var(--primary);
+    letter-spacing: 0.03em;
+}
+
+.case-year {
+    position: absolute; top: 12px; right: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(8px);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.case-body {
+    display: flex; flex-direction: column;
+    flex: 1;
+    padding: 18px 18px 16px;
+    gap: 10px;
+}
+
+.case-kicker {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 8px;
+    font-size: 11px;
+}
+.case-category {
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--primary);
+}
+.case-loc { color: var(--text-3); }
+
+.case-title {
+    font-size: 17px; font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+}
+
+.case-desc {
+    color: var(--text-2);
+    font-size: 13px; line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.case-metrics {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-top: 2px;
+}
+
+.case-role-line {
+    display: flex; align-items: baseline; gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-1);
+    font-size: 12px;
+}
+.case-role-label {
+    font-family: var(--mono);
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-3);
+}
+.case-role-value { color: var(--text-1); font-weight: 600; }
+
+.case-actions {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: auto;
+}
+.case-btn {
+    flex: 1 1 auto;
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 9px 12px;
+    border-radius: 10px;
+    background: var(--surface-2);
+    border: 1px solid var(--border-1);
+    color: var(--text-2);
+    font-size: 12px; font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 200ms, color 200ms, border-color 200ms;
+}
+.case-btn:hover {
+    background: var(--surface-3);
+    color: var(--text-1);
+    border-color: var(--border-3);
+}
+.case-btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--bg-1);
+}
+.case-btn-primary:hover {
+    background: var(--primary);
+    color: var(--bg-1);
+    filter: brightness(1.08);
+}
+
+/* ────────────────────────────────────────────────
+   CASE-STUDY MODAL
+   ──────────────────────────────────────────────── */
+.case-study-overlay {
+    padding: 0;
+    align-items: stretch;
+    justify-content: center;
+}
+.case-study {
+    position: relative;
+    width: min(980px, 100%);
+    max-height: 100vh;
+    overflow-y: auto;
+    background: var(--bg-2);
+    border-left: 1px solid var(--border-1);
+    border-right: 1px solid var(--border-1);
+    overscroll-behavior: contain;
+    animation: csIn 320ms var(--ease);
+}
+@keyframes csIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.case-study .modal-close {
+    position: sticky;
+    top: 16px;
+    margin-left: 16px;
+    z-index: 20;
+    float: left;
+    width: 38px; height: 38px;
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    color: var(--text-1);
+}
+
+.cs-hero {
+    position: relative;
+    margin-top: -54px;             /* pull up under the floating close button */
+    aspect-ratio: 16 / 8;
+    min-height: 240px;
+    background: var(--bg-3);
+    overflow: hidden;
+}
+.cs-hero-img,
+.cs-video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.cs-hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 55%, var(--bg-2) 100%);
+    pointer-events: none;
+}
+.cs-hero .cs-video { z-index: 1; }
+
+.cs-body {
+    position: relative;
+    z-index: 2;
+    padding: 0 clamp(20px, 4vw, 48px) 56px;
+    margin-top: -60px;             /* overlap hero for the gradient seam */
+}
+
+.cs-header { margin-bottom: 20px; }
+.cs-title {
+    font-size: clamp(22px, 3.2vw, 30px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 14px;
+}
+
+.cs-facts {
+    display: flex; flex-wrap: wrap; gap: 10px 22px;
+}
+.cs-fact {
+    display: flex; flex-direction: column; gap: 2px;
+    font-size: 13px; color: var(--text-1);
+}
+.cs-fact-label {
+    font-family: var(--mono);
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-3);
+}
+
+.cs-metrics {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    padding: 16px 0;
+    margin-bottom: 8px;
+    border-top: 1px solid var(--border-1);
+    border-bottom: 1px solid var(--border-1);
+}
+.cs-metric {
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(232, 168, 56, 0.08);
+    border: 1px solid rgba(232, 168, 56, 0.25);
+    color: var(--primary);
+    font-family: var(--mono);
+    font-size: 12px; font-weight: 600;
+    white-space: nowrap;
+}
+
+.cs-section { margin-top: 28px; }
+.cs-heading {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-3);
+    margin-bottom: 12px;
+}
+.cs-heading::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-1);
+}
+.cs-text {
+    color: var(--text-2);
+    font-size: 15px; line-height: 1.85;
+}
+.cs-scope {
+    margin-top: 10px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-3);
+}
+
+.cs-tech {
+    display: flex; flex-wrap: wrap; gap: 8px;
+}
+.cs-tech-tag {
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: var(--surface-2);
+    border: 1px solid var(--border-2);
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-2);
+}
+
+.cs-figure {
+    border: 1px solid var(--border-1);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--surface-1);
+}
+.cs-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.cs-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+.cs-thumb {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--border-1);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--bg-3);
+    cursor: zoom-in;
+    padding: 0;
+    transition: border-color 200ms, transform 200ms;
+}
+.cs-thumb:hover {
+    border-color: var(--border-3);
+    transform: translateY(-2px);
+}
+.cs-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+}
+.cs-thumb-index {
+    position: absolute; bottom: 6px; right: 8px;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.6);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.8);
+}
+.cs-thumb-missing img { display: none; }
+.cs-thumb-missing::before {
+    content: 'photo pending';
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-3);
+}
+
+/* Challenges / Solutions / Results cards */
+.cs-csr {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    margin-top: 32px;
+}
+.cs-card {
+    background: var(--surface-1);
+    border: 1px solid var(--border-1);
+    border-radius: 14px;
+    padding: 18px;
+    margin-top: 0;
+}
+.cs-card .cs-heading { margin-bottom: 10px; }
+.cs-card .cs-heading::after { display: none; }
+.cs-heading-ch { color: #E06C5A; }
+.cs-heading-so { color: var(--primary); }
+.cs-heading-re { color: #5AB0E0; }
+
+.cs-list {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 8px;
+}
+.cs-list li {
+    display: flex; gap: 8px;
+    font-size: 13px; line-height: 1.6;
+    color: var(--text-2);
+}
+.cs-li-sym {
+    flex: none;
+    color: var(--text-3);
+    font-family: var(--mono);
+}
+.cs-empty { color: var(--text-3); }
+
+/* ────────────────────────────────────────────────
+   LIGHTBOX
+   ──────────────────────────────────────────────── */
+.lightbox {
+    position: fixed; inset: 0;
+    z-index: 300;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(5, 7, 9, 0.92);
+    backdrop-filter: blur(10px);
+    padding: 24px;
+    animation: csIn 200ms var(--ease);
+}
+.lightbox[hidden] { display: none; }
+
+.lightbox-stage {
+    max-width: min(1100px, 92vw);
+    max-height: 82vh;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+    margin: 0;
+}
+.lightbox-stage img {
+    max-width: 100%;
+    max-height: 74vh;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+}
+.lightbox-caption {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-3);
+}
+
+.lightbox-close {
+    position: absolute; top: 20px; right: 20px;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-1);
+    font-size: 16px;
+    cursor: pointer;
+}
+.lightbox-close:hover { background: rgba(255, 255, 255, 0.16); }
+
+.lightbox-nav {
+    position: absolute; top: 50%;
+    transform: translateY(-50%);
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-1);
+    font-size: 22px; line-height: 1;
+    cursor: pointer;
+}
+.lightbox-nav:hover { background: rgba(255, 255, 255, 0.16); }
+.lightbox-prev { left: 20px; }
+.lightbox-next { right: 20px; }
+
+/* ────────────────────────────────────────────────
+   RESPONSIVE
+   ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .projects-grid { grid-template-columns: 1fr; }
+
+    .case-study-overlay { padding: 0; }
+    .case-study { border-left: 0; border-right: 0; }
+
+    .cs-hero { aspect-ratio: 16 / 10; min-height: 200px; margin-top: -54px; }
+    .cs-body { padding: 0 18px 40px; }
+    .cs-facts { gap: 8px 18px; }
+
+    .cs-gallery { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+
+    .cs-csr { grid-template-columns: 1fr; }
+
+    .lightbox { padding: 12px; }
+    .lightbox-nav { width: 40px; height: 40px; }
+    .lightbox-prev { left: 8px; }
+    .lightbox-next { right: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .case-card,
+    .case-cover-img,
+    .cs-thumb,
+    .case-study,
+    .lightbox {
+        transition: none;
+        animation: none;
+    }
+}
