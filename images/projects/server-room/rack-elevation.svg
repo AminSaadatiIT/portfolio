@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" font-family="JetBrains Mono, monospace">
+  <defs>
+    <style>
+      .bg{fill:#1A1D21}
+      .frame{fill:none;stroke:rgba(232,168,56,0.25);stroke-width:1.5}
+      .rack{fill:#0F1215;stroke:rgba(232,168,56,0.4);stroke-width:2}
+      .u{fill:#252830;stroke:rgba(232,168,56,0.35);stroke-width:1}
+      .u-hot{fill:rgba(232,168,56,0.15);stroke:#E8A838;stroke-width:1.2}
+      .t1{fill:#F5F6FA;font-size:14px;font-weight:600}
+      .t2{fill:#B8BCC2;font-size:10px}
+      .lbl{fill:#E8A838;font-size:10px;letter-spacing:1.5px}
+      .dim{fill:#6B7280;font-size:10px}
+      .rail{stroke:#6B7280;stroke-width:1;stroke-dasharray:3 4}
+    </style>
+  </defs>
+  <rect class="bg" width="960" height="540"/>
+  <rect class="frame" x="16" y="16" width="928" height="508" rx="10"/>
+
+  <text class="lbl" x="60" y="46">SERVER ROOM · RACK ELEVATION (FRONT)</text>
+  <text class="t1" x="60" y="68" font-size="18">Rack R1 · 42U · 600×1000mm</text>
+
+  <!-- Rack frame -->
+  <rect class="rack" x="120" y="90" width="360" height="404" rx="6"/>
+
+  <!-- U units top to bottom. 404px / 42U ≈ 9.6px per U -->
+  <!-- Patch panels 1U x3 -->
+  <rect class="u" x="132" y="98" width="336" height="14"/>
+  <text class="t2" x="140" y="108">24P PATCH PANEL A · CAT6A</text>
+  <rect class="u" x="132" y="114" width="336" height="14"/>
+  <text class="t2" x="140" y="124">24P PATCH PANEL B · CAT6A</text>
+  <rect class="u" x="132" y="130" width="336" height="14"/>
+  <text class="t2" x="140" y="140">24P PATCH PANEL C · FIBER ODF 12F</text>
+
+  <!-- Switches 1U x4 (hot) -->
+  <rect class="u-hot" x="132" y="150" width="336" height="16"/>
+  <text class="t2" x="140" y="161" fill="#F5F6FA">ACCESS SWITCH SW-01 · 48P POE+</text>
+  <rect class="u-hot" x="132" y="168" width="336" height="16"/>
+  <text class="t2" x="140" y="179" fill="#F5F6FA">ACCESS SWITCH SW-02 · 48P POE+</text>
+  <rect class="u-hot" x="132" y="186" width="336" height="16"/>
+  <text class="t2" x="140" y="197" fill="#F5F6FA">ACCESS SWITCH SW-03 · 48P POE+</text>
+  <rect class="u-hot" x="132" y="204" width="336" height="16"/>
+  <text class="t2" x="140" y="215" fill="#F5F6FA">ACCESS SWITCH SW-04 · 48P POE+</text>
+
+  <!-- Cable mgmt 1U -->
+  <rect class="u" x="132" y="222" width="336" height="12"/>
+  <text class="t2" x="140" y="231">HORIZONTAL CABLE MANAGER 1U</text>
+
+  <!-- Server 2U -->
+  <rect class="u" x="132" y="238" width="336" height="24"/>
+  <text class="t2" x="140" y="253">HOST SV-01 · 2U (VM CLUSTER NODE)</text>
+  <rect class="u" x="132" y="264" width="336" height="24"/>
+  <text class="t2" x="140" y="279">HOST SV-02 · 2U (VM CLUSTER NODE)</text>
+
+  <!-- mgmt + NVR -->
+  <rect class="u" x="132" y="290" width="336" height="14"/>
+  <text class="t2" x="140" y="300">KVM CONSOLE 1U</text>
+  <rect class="u" x="132" y="306" width="336" height="16"/>
+  <text class="t2" x="140" y="317">NVR APPLIANCE · 16-BAY RAID6</text>
+
+  <!-- mgmt -->
+  <rect class="u" x="132" y="324" width="336" height="12"/>
+  <text class="t2" x="140" y="333">VERTICAL CABLE MGMT (REAR)</text>
+
+  <!-- UPS 4U (hot) -->
+  <rect class="u-hot" x="132" y="340" width="336" height="42"/>
+  <text class="t2" x="140" y="356" fill="#F5F6FA">UPS 6kVA ONLINE · A-FEED</text>
+  <text class="t2" x="140" y="370" fill="#F5F6FA">UPS 6kVA ONLINE · B-FEED</text>
+
+  <!-- PDU strip note -->
+  <rect class="u" x="132" y="386" width="336" height="12"/>
+  <text class="t2" x="140" y="395">PDU A + PDU B (REAR VERTICAL)</text>
+
+  <!-- Blank U space -->
+  <rect class="u" x="132" y="402" width="336" height="44" opacity="0.5"/>
+  <text class="dim" x="140" y="428">SPARE · 4U RESERVED FOR GROWTH</text>
+
+  <!-- Bottom: grounding bar -->
+  <rect class="u" x="132" y="450" width="336" height="12"/>
+  <text class="t2" x="140" y="459">GROUNDBAR · 6mm² BOND TO RING</text>
+
+  <!-- Rail dimension markers -->
+  <line class="rail" x1="100" y1="98" x2="100" y2="494"/>
+  <text class="dim" x="72" y="300" transform="rotate(-90 72 300)">42U</text>
+
+  <!-- Right column: power & environment notes -->
+  <g>
+    <text class="lbl" x="560" y="110">POWER (A/B FEEDS)</text>
+    <text class="t2" x="560" y="132">Utility → ATS → Dual UPS 6kVA</text>
+    <text class="t2" x="560" y="150">Autonomy @ full load: 22 min</text>
+    <text class="t2" x="560" y="168">Generator transfer: automatic</text>
+
+    <text class="lbl" x="560" y="210">COOLING</text>
+    <text class="t2" x="560" y="232">Split AC 24,000 BTU ×2 (N+1)</text>
+    <text class="t2" x="560" y="250">Hot-aisle containment, blanking panels</text>
+    <text class="t2" x="560" y="268">Set point 22°C ± 1</text>
+
+    <text class="lbl" x="560" y="310">MONITORING</text>
+    <text class="t2" x="560" y="332">Temp/Humidity sensors ×3</text>
+    <text class="t2" x="560" y="350">Door contact + motion sensor</text>
+    <text class="t2" x="560" y="368">Leak detection under raised floor</text>
+    <text class="t2" x="560" y="386">SNMP alerts → IT group chat</text>
+
+    <text class="lbl" x="560" y="428">STANDARDS</text>
+    <text class="t2" x="560" y="450">TIA-569 · TIA-607 grounding</text>
+    <text class="t2" x="560" y="468">All trays labeled floor/room/port</text>
+  </g>
+</svg>

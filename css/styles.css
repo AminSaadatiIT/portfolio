@@ -54,6 +54,7 @@
     --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --focus-ring: 0 0 0 2px var(--bg-1), 0 0 0 4px var(--primary);
     --max-w: 1200px;
     --header-h: 64px;
 }
@@ -84,9 +85,10 @@ img { max-width:100%; display:block; }
 button { border:none; background:none; cursor:pointer; font:inherit; color:inherit; }
 
 :focus-visible {
-    outline: 2px solid var(--blue);
+    outline: 2px solid var(--primary);
     outline-offset: 2px;
     border-radius: 4px;
+    box-shadow: var(--focus-ring);
 }
 
 .container {
@@ -662,17 +664,10 @@ body.custom-cursor-active summary {
     line-height: 1.08;
     margin-bottom: 16px;
 }
+/* Accent emphasis — solid accent per DESIGN.md (gradient text banned) */
 .text-gradient {
-    background: var(--gradient-mesh);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradientShift 8s ease-in-out infinite;
-}
-@keyframes gradientShift {
-    0%,100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+    color: var(--primary);
+    font-weight: 600;
 }
 
 .typewriter-wrapper {
@@ -986,12 +981,7 @@ body.custom-cursor-active summary {
     color: var(--text-2);
 }
 .about-bio-premium .text-gradient {
-    background: var(--gradient-mesh);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradientShift 8s ease-in-out infinite;
+    color: var(--primary);
     font-weight: 600;
 }
 

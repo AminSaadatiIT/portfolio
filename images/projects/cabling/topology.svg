@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" font-family="JetBrains Mono, monospace">
+  <defs>
+    <style>
+      .bg{fill:#1A1D21}
+      .frame{fill:none;stroke:rgba(232,168,56,0.25);stroke-width:1.5}
+      .amp{stroke:#E8A838;stroke-width:2;fill:none}
+      .ampf{fill:#E8A838}
+      .line{stroke:#B8BCC2;stroke-width:1.5;fill:none}
+      .box{fill:#252830;stroke:rgba(232,168,56,0.4);stroke-width:1.5;rx:8}
+      .t1{fill:#F5F6FA;font-size:15px;font-weight:600}
+      .t2{fill:#B8BCC2;font-size:11px}
+      .lbl{fill:#E8A838;font-size:10px;letter-spacing:1.5px}
+      .dim{fill:#6B7280;font-size:10px}
+    </style>
+  </defs>
+  <rect class="bg" width="960" height="540"/>
+  <rect class="frame" x="16" y="16" width="928" height="508" rx="10"/>
+
+  <!-- MDF -->
+  <rect class="box" x="60" y="230" width="150" height="100" rx="8"/>
+  <text class="lbl" x="75" y="255">MDF / BASEMENT</text>
+  <text class="t1" x="75" y="280">Core Rack</text>
+  <text class="t2" x="75" y="300">Router · Firewall</text>
+  <text class="t2" x="75" y="316">48P ODF</text>
+
+  <!-- Backbone risers to IDFs -->
+  <path class="amp" d="M 210 255 C 330 255 330 90 450 90"/>
+  <path class="amp" d="M 210 270 C 340 270 340 190 450 190"/>
+  <path class="amp" d="M 210 290 C 340 290 340 300 450 300"/>
+  <path class="amp" d="M 210 310 C 340 310 340 410 450 410"/>
+  <text class="dim" x="300" y="150" transform="rotate(-38 300 150)">2× 12F OM4 riser</text>
+
+  <!-- IDFs per floor group -->
+  <g>
+    <rect class="box" x="450" y="60" width="150" height="64" rx="8"/>
+    <text class="lbl" x="462" y="82">IDF-8 / FLOOR 9-12</text>
+    <text class="t2" x="462" y="102">24P PP · 2× 48P SW</text>
+  </g>
+  <g>
+    <rect class="box" x="450" y="160" width="150" height="64" rx="8"/>
+    <text class="lbl" x="462" y="182">IDF-6 / FLOOR 5-8</text>
+    <text class="t2" x="462" y="202">24P PP · 2× 48P SW</text>
+  </g>
+  <g>
+    <rect class="box" x="450" y="270" width="150" height="64" rx="8"/>
+    <text class="lbl" x="462" y="292">IDF-4 / FLOOR 3-4</text>
+    <text class="t2" x="462" y="312">24P PP · 2× 48P SW</text>
+  </g>
+  <g>
+    <rect class="box" x="450" y="380" width="150" height="64" rx="8"/>
+    <text class="lbl" x="462" y="402">IDF-2 / FLOOR 1-2</text>
+    <text class="t2" x="462" y="422">24P PP · 2× 48P SW</text>
+  </g>
+
+  <!-- Horizontal cabling to drops -->
+  <g stroke="#B8BCC2" stroke-width="1" opacity="0.7">
+    <path class="line" d="M600 84 H 720 M600 92 H 740 M600 100 H 720 M600 108 H 745"/>
+    <path class="line" d="M600 184 H 720 M600 192 H 740 M600 200 H 720 M600 208 H 745"/>
+    <path class="line" d="M600 294 H 720 M600 302 H 740 M600 310 H 720 M600 318 H 745"/>
+    <path class="line" d="M600 404 H 720 M600 412 H 740 M600 420 H 720 M600 428 H 745"/>
+  </g>
+  <!-- Work area outlets -->
+  <g>
+    <rect class="box" x="730" y="70" width="120" height="46" rx="6"/>
+    <text class="lbl" x="742" y="92">F9-12 · 160P</text>
+    <text class="t2" x="742" y="107">CAT6A drops</text>
+    <rect class="box" x="730" y="170" width="120" height="46" rx="6"/>
+    <text class="lbl" x="742" y="192">F5-8 · 160P</text>
+    <text class="t2" x="742" y="207">CAT6A drops</text>
+    <rect class="box" x="730" y="280" width="120" height="46" rx="6"/>
+    <text class="lbl" x="742" y="302">F3-4 · 80P</text>
+    <text class="t2" x="742" y="317">CAT6A drops</text>
+    <rect class="box" x="730" y="390" width="120" height="46" rx="6"/>
+    <text class="lbl" x="742" y="412">F1-2 · 80P</text>
+    <text class="t2" x="742" y="427">CAT6A drops</text>
+  </g>
+
+  <!-- Legend -->
+  <g>
+    <line class="amp" x1="60" y1="480" x2="96" y2="480"/>
+    <text class="t2" x="104" y="484">Backbone riser (OM4 fiber)</text>
+    <line class="line" x1="330" y1="480" x2="366" y2="480"/>
+    <text class="t2" x="374" y="484">Horizontal CAT6A</text>
+    <rect class="box" x="520" y="470" width="16" height="16" rx="4"/>
+    <text class="t2" x="544" y="484">Rack / cabinet</text>
+    <text class="dim" x="700" y="484">TIA-568 · all links Fluke-certified</text>
+  </g>
+
+  <!-- Title -->
+  <text class="lbl" x="60" y="46">STRUCTURED CABLING · BACKBONE TOPOLOGY</text>
+  <text class="t1" x="60" y="68" font-size="18">12-Floor Commercial Building</text>
+</svg>

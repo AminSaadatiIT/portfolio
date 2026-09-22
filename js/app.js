@@ -782,7 +782,12 @@
         const p = siteData.projects.find(x => x.id === id);
         if (!p) return;
 
-        const modal = $('#projectModal');
+        // G4 deep link: keep URL shareable while the case study is open
+        try {
+            const u = new URL(location.href);
+            u.searchParams.set('project', String(id));
+            history.replaceState(null, '', u);
+        } catch (err) {}        const modal = $('#projectModal');
         const hero = $('#csHero');
         const title = $('#csTitle');
         const facts = $('#csFacts');
@@ -890,7 +895,29 @@
 
     function closeProjectModal() {
         const modal = $('#projectModal');
-        if (modal && !modal.hidden) closeModal(modal);
+        if (modal && !modal.hidden) {
+            closeModal(modal);
+            // G4: strip the share param when the case study closes
+            try {
+                const u = new URL(location.href);
+                if (u.searchParams.has('project')) {
+                    u.searchParams.delete('project');
+                    history.replaceState(null, '', u);
+                }
+            } catch (err) {}
+        }
+    }
+
+    // G4: open a case study directly from ?project=<id> once data is in
+    function openFromDeepLink() {
+        try {
+            const raw = new URLSearchParams(location.search).get('project');
+            if (!raw) return;
+            const id = parseInt(raw, 10);
+            if (siteData.projects.some(x => x.id === id)) {
+                openProjectModal(id);
+            }
+        } catch (err) {}
     }
 
     // Wire case-study modal chrome: close button, backdrop click, Escape
@@ -1627,7 +1654,7 @@
         renderSkills();
         renderProjects();               // instant paint from defaults/admin data
         initProjectFilter();
-        loadCaseStudyProjects().then(renderProjects);  // re-render with data/projects.json case studies
+        loadCaseStudyProjects().then(() => { renderProjects(); openFromDeepLink(); });  // re-render + deep link
         initCaseStudyModal();
         initLightbox();
         renderExperience();

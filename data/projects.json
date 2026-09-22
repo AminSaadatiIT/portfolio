@@ -38,7 +38,7 @@
             "TIA-568",
             "100% Certified"
         ],
-        "diagram": "images/projects/cabling/topology.png",
+        "diagram": "images/projects/cabling/topology.svg",
         "challenges": [
             "Shared ceiling plenum with HVAC and electrical — very limited cable space",
             "Live office environment: installation could not disrupt daily operations",
@@ -95,7 +95,7 @@
             "30-Day Retention",
             "5 Zones"
         ],
-        "diagram": "images/projects/cctv/network-diagram.png",
+        "diagram": "images/projects/cctv/coverage-map.svg",
         "challenges": [
             "Mixed indoor/outdoor conditions including low-light parking areas",
             "CCTV traffic had to be fully isolated from the business LAN",
@@ -151,7 +151,7 @@
             "99.5% Availability",
             "Zero Downtime"
         ],
-        "diagram": "images/projects/server-room/rack-elevation.png",
+        "diagram": "images/projects/server-room/rack-elevation.svg",
         "challenges": [
             "Small room footprint with strict bank clearance requirements",
             "No redundant power path in the original building design",
@@ -206,7 +206,7 @@
             "OTDR Certified",
             "48 Cores"
         ],
-        "diagram": "images/projects/fiber/backbone-map.png",
+        "diagram": "images/projects/fiber/backbone-map.svg",
         "challenges": [
             "Aging ducts with partial blockage along the main campus route",
             "Splicing had to happen outdoors at several manhole points",
