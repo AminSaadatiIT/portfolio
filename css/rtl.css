@@ -1,0 +1,114 @@
+/* ═══════════════════════════════════════════════════════════════
+   RTL / PERSIAN MODE — active when <html lang="fa">
+   Mirrors physical left/right rules, swaps to Vazirmatn font,
+   keeps every component visually intact.
+   ═══════════════════════════ proper ═════════════════════════════ */
+html[lang="fa"] {
+    --font: 'Vazirmatn', 'Space Grotesk', 'Inter', -apple-system, sans-serif;
+    --font-body: 'Vazirmatn', 'Inter', -apple-system, sans-serif;
+}
+
+html[lang="fa"] body {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Keep numbers, tech tags and contact values LTR inside RTL text */
+html[lang="fa"] .logo-text {
+    direction: ltr;
+    white-space: nowrap;
+}
+html[lang="fa"] .case-year,
+html[lang="fa"] .cs-metric,
+html[lang="fa"] .metric-tag,
+html[lang="fa"] .cs-tech-tag,
+html[lang="fa"] .timeline-date,
+html[lang="fa"] .glass-card-value,
+html[lang="fa"] .stat-number,
+html[lang="fa"] .stat-plus,
+html[lang="fa"] .orbit-number,
+html[lang="fa"] .cs-fact,
+html[lang="fa"] .skill-name span:last-child,
+html[lang="fa"] .footer-copy,
+html[lang] .lang-toggle {
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+html[lang="fa"] .cs-fact .cs-fact-label,
+html[lang="fa"] .case-role-line .case-role-label {
+    direction: rtl;
+}
+
+/* ── Layout mirrors ── */
+html[lang="fa"] .hero-left { text-align: right; }
+
+/* Header: nav + actions swap sides */
+html[lang="fa"] .header-inner { flex-direction: row-reverse; }
+html[lang="fa"] .header-inner .nav { direction: rtl; }
+
+/* Hero: content column vs. orbits swap */
+html[lang="fa"] .hero-new { flex-direction: row-reverse; }
+
+/* Timeline: rail + dots swap sides */
+html[lang="fa"] .timeline { padding-right: 0; padding-left: 48px; }
+html[lang="fa"] .timeline::before { right: auto !important; left: 18px !important; }
+html[lang="fa"] .timeline-dot { right: auto !important; left: -48px !important; margin-right: 0 !important; margin-left: 12px !important; }
+/* Cards: cover badges swap */
+html[lang="fa"] .case-flag { left: auto; right: 12px; }
+html[lang="fa"] .case-year { right: auto; left: 12px; }
+
+/* Modals / lightbox chrome swap */
+html[lang="fa"] .modal-close { left: auto; right: 16px; }
+html[lang="fa"] .lightbox-close { right: auto; left: 20px; }
+html[lang="fa"] .lightbox-prev { left: auto; right: 20px; }
+html[lang="fa"] .lightbox-next { right: auto; left: 20px; }
+
+/* Custom select arrow + dropdown text */
+html[lang="fa"] .custom-select-arrow { right: auto; left: 16px; }
+html[lang="fa"] .custom-select { text-align: right; }
+html[lang="fa"] .custom-select-dropdown { text-align: right; }
+
+/* Gallery thumb index badge */
+html[lang="fa"] .cs-thumb-index { right: auto; left: 8px; }
+
+/* Profile badge stays top-left (independent of direction) */
+
+/* ── Typography: Persian letter-spacing must be zero ── */
+html[lang="fa"] *,
+html[lang="fa"] *::before,
+html[lang="fa"] *::after {
+    letter-spacing: 0 !important;
+}
+
+/* ── Language toggle button ── */
+.lang-toggle {
+    align-self: center;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-2, rgba(255,255,255,0.18));
+    background: rgba(255,255,255,0.06);
+    color: var(--text-1, #F5F6FA);
+    font-family: 'Vazirmatn', 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 200ms, border-color 200ms, transform 150ms;
+    white-space: nowrap;
+}
+.lang-toggle:hover {
+    background: rgba(232,168,56,0.15);
+    border-color: rgba(232,168,56,0.5);
+    transform: translateY(-1px);
+}
+
+/* Inside mobile nav, the toggle spans full width */
+html[lang] .nav .lang-toggle-mobile {
+    display: none;
+}
+
+/* ── Mobile: keep the toggle reachable and non-overlapping ── */
+@media (max-width: 768px) {
+    .header-actions .lang-toggle { display: none; }
+    html[lang] .nav .lang-toggle-mobile { display: block; }
+}

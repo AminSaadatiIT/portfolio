@@ -20,6 +20,136 @@
         return div.innerHTML;
     }
 
+    // ═══════ BILINGUAL ENGINE (EN / FA) ═══════
+    const I18N = window.I18N || { DICT: {}, DATA_FA: {} };
+    let LANG = 'en';
+    try { LANG = localStorage.getItem('portfolio_lang') || 'en'; } catch (err) {}
+    if (LANG !== 'fa') LANG = 'en';
+
+    // EN strings for dynamic content rendered by JS (cards, modal, forms)
+    const T_EN = {
+        'projects.empty': 'No projects available.',
+        'exp.none': 'No experience recorded.',
+        'test.empty': 'No reviews yet. Be the first!',
+        'cs.empty': '—',
+        'cs.viewCase': 'View Case Study',
+        'cs.gallery': 'Photo Gallery',
+        'cs.video': 'Video Demo',
+        'cs.videoFlag': '▶ Video',
+        'cs.roleLabel': 'Role',
+        'cs.aria.openCase': 'Open case study: ',
+        'cs.aria.enlargeN': 'Enlarge photo {n} of {total}',
+        'cs.modal.category': 'Category',
+        'cs.modal.year': 'Year',
+        'cs.modal.role': 'Role',
+        'cs.modal.client': 'Client',
+        'cs.modal.location': 'Location',
+        'cs.modal.scopePrefix': 'Scope: ',
+        'cs.modal.videoUnsupported': 'Your browser does not support embedded video.',
+        'cs.alt.photo': ' photo',
+        'cs.alt.diagramPrefix': ' technical diagram',
+        'form.err.required': 'This field is required.',
+        'form.err.email': 'Please enter a valid email.',
+        'form.err.min': 'Minimum {n} characters required.',
+        'form.err.select': 'Please select an option.',
+        'review.err.name': 'Name must be at least 2 characters.',
+        'review.err.email': 'Please enter a valid email.',
+        'review.err.text': 'Message must be at least 20 characters.',
+        'form.success.title': '✅ Your message has been sent successfully!',
+        'form.success.body': 'Your email app may open to confirm delivery — just press send.<br>We will get back to you shortly.'
+    };
+
+    // Translate a key with {n}/{total} placeholder support (language-aware)
+    function T(key, vars) {
+        let out = isFA() ? I18N.DICT[key] : T_EN[key];
+        if (typeof out !== 'string') return key;
+        if (vars) {
+            Object.keys(vars).forEach(k => { out = out.replace('{' + k + '}', vars[k]); });
+        }
+        return out;
+    }
+    const isFA = () => LANG === 'fa';
+
+    // EN originals stashed per-element (dataset can't hold names with dashes)
+    const I18N_EN_ATTRS = new WeakMap();
+
+    // Apply dictionary to all static [data-i18n] nodes.
+    // EN originals are stashed on first pass so toggling back restores them.
+    function applyI18nStatic() {
+        document.documentElement.lang = LANG;
+        document.documentElement.dir = isFA() ? 'rtl' : 'ltr';
+        $$('[data-i18n]').forEach(el => {
+            if (el.dataset.i18nEn === undefined) el.dataset.i18nEn = el.textContent;
+            el.textContent = isFA() ? T(el.dataset.i18n) : el.dataset.i18nEn;
+        });
+        $$('[data-i18n-html]').forEach(el => {
+            if (el.dataset.i18nEnHtml === undefined) el.dataset.i18nEnHtml = el.innerHTML;
+            el.innerHTML = isFA() ? T(el.dataset.i18nHtml) : el.dataset.i18nEnHtml;
+        });
+        $$('[data-i18n-attr]').forEach(el => {
+            const attr = el.dataset.i18nAttr;
+            if (!I18N_EN_ATTRS.has(el)) {
+                I18N_EN_ATTRS.set(el, {});
+            }
+            const stash = I18N_EN_ATTRS.get(el);
+            if (!(attr in stash)) stash[attr] = el.getAttribute(attr) || '';
+            el.setAttribute(attr, isFA() ? T(el.dataset.i18nAttrVal) : stash[attr]);
+        });
+        // Toggle buttons show the OTHER language
+        const other = isFA() ? 'EN' : 'فا';
+        const t1 = $('#langToggle'), t2 = $('#langToggleMobile'), t3 = $('#langToggleInline');
+        if (t1) t1.textContent = other;
+        if (t2) t2.textContent = other;
+        if (t3) t3.textContent = other;
+    }
+
+    // FA overrides for dynamic data; EN restores originals
+    function faSwapData() {
+        if (isFA()) {
+            const F = I18N.DATA_FA;
+            if (F.projects) siteData.projects = F.projects.slice();
+            if (F.skills) siteData.skills = F.skills.slice();
+            if (F.experience) siteData.experience = F.experience.slice();
+            if (F.testimonials) siteData.testimonials = F.testimonials.slice();
+        } else {
+            siteData.projects = loadData('projects', DEFAULT_PROJECTS);
+            siteData.skills = loadData('skills', DEFAULT_SKILLS);
+            siteData.experience = loadData('experience', DEFAULT_EXPERIENCE);
+            siteData.testimonials = loadData('testimonials', DEFAULT_TESTIMONIALS);
+            // Re-apply admin case studies if present
+            try {
+                const adminCases = JSON.parse(localStorage.getItem('portfolio_case_studies') || 'null');
+                if (Array.isArray(adminCases) && adminCases.length) siteData.projects = adminCases;
+            } catch (err) {}
+        }
+    }
+
+    // Full re-render after a language switch
+    function reRenderDynamic() {
+        renderSkills();
+        renderProjects();
+        renderExperience();
+        initTestimonials();
+        initHeroTypewriter();
+        initCounters();
+    }
+
+    function initBilingual() {
+        applyI18nStatic();
+
+        const switchLang = () => {
+            LANG = isFA() ? 'en' : 'fa';
+            try { localStorage.setItem('portfolio_lang', LANG); } catch (err) {}
+            applyI18nStatic();
+            faSwapData();
+            reRenderDynamic();
+        };
+        const t1 = $('#langToggle'), t2 = $('#langToggleMobile'), t3 = $('#langToggleInline');
+        if (t1) t1.addEventListener('click', switchLang);
+        if (t2) t2.addEventListener('click', switchLang);
+        if (t3) t3.addEventListener('click', switchLang);
+    }
+
     // ═══════ DEFAULT DATA ═══════
     const DEFAULT_SETTINGS = {
         _v: 2,
@@ -499,7 +629,7 @@
         const el = $('#typewriter');
         if (!el) return;
 
-        const phrases = siteData.settings.typewriterPhrases || DEFAULT_SETTINGS.typewriterPhrases;
+        const phrases = (isFA() && I18N.DATA_FA.typewriterPhrases) || siteData.settings.typewriterPhrases || DEFAULT_SETTINGS.typewriterPhrases;
 
         let phraseIndex = 0;
         let charIndex = 0;
@@ -640,7 +770,7 @@
         if (!grid) return;
 
         if (!siteData.projects.length) {
-            grid.innerHTML = '<p style="text-align:center;color:var(--text-3);padding:40px;">No projects available.</p>';
+            grid.innerHTML = '<p style="text-align:center;color:var(--text-3);padding:40px;">' + T('projects.empty') + '</p>';
             return;
         }
 
@@ -655,12 +785,12 @@
                      data-categories="${escapeHTML((p.categories || []).join(','))}"
                      data-id="${p.id}"
                      tabindex="0"
-                     aria-label="Open case study: ${escapeHTML(p.title)}">
+                     aria-label="${escapeHTML(T('cs.aria.openCase'))}${escapeHTML(p.title)}">
                 <div class="case-cover">
                     <img class="case-cover-img" src="${escapeHTML(fallback)}" data-primary="${escapeHTML(cover)}"
                          alt="${escapeHTML(p.title)} cover" loading="lazy">
                     <div class="case-cover-shade"></div>
-                    ${hasVideo ? '<span class="case-flag">▶ Video</span>' : ''}
+                    ${hasVideo ? '<span class="case-flag">' + T('cs.videoFlag') + '</span>' : ''}
                     <span class="case-year">${escapeHTML(p.year || '')}</span>
                 </div>
                 <div class="case-body">
@@ -672,18 +802,18 @@
                     <p class="case-desc">${escapeHTML(p.description || p.short || '')}</p>
                     ${p.metrics ? `<div class="case-metrics">${p.metrics.slice(0, 4).map(m => `<span class="metric-tag">${escapeHTML(m)}</span>`).join('')}</div>` : ''}
                     <div class="case-role-line">
-                        <span class="case-role-label">Role</span>
+                        <span class="case-role-label">${escapeHTML(T('cs.roleLabel'))}</span>
                         <span class="case-role-value">${escapeHTML(p.role || '')}</span>
                     </div>
                     <div class="case-actions">
                         <button class="case-btn case-btn-primary" data-action="case" data-id="${p.id}">
-                            <span aria-hidden="true">▤</span> View Case Study
+                            <span aria-hidden="true">▤</span> ${escapeHTML(T('cs.viewCase'))}
                         </button>
                         ${hasGallery ? `<button class="case-btn" data-action="gallery" data-id="${p.id}">
-                            <span aria-hidden="true">▦</span> Photo Gallery
+                            <span aria-hidden="true">▦</span> ${escapeHTML(T('cs.gallery'))}
                         </button>` : ''}
                         ${hasVideo ? `<button class="case-btn" data-action="video" data-id="${p.id}">
-                            <span aria-hidden="true">▶</span> Video Demo
+                            <span aria-hidden="true">▶</span> ${escapeHTML(T('cs.video'))}
                         </button>` : ''}
                     </div>
                 </div>
@@ -828,7 +958,7 @@
             hero.innerHTML = `
                 <video class="cs-video" controls preload="metadata" poster="${escapeHTML(poster)}">
                     <source src="${escapeHTML(p.video)}" type="video/mp4">
-                    Your browser does not support embedded video.
+                    ${escapeHTML(T('cs.modal.videoUnsupported'))}
                 </video>`;
         } else {
             hero.innerHTML = `<img class="cs-hero-img" src="${escapeHTML(heroFallback)}" data-primary="${escapeHTML(p.cover || '')}" alt="${escapeHTML(p.title)} hero">`;
@@ -839,11 +969,11 @@
         // Header + key facts (recruiter answers in 10 seconds)
         title.textContent = p.title || '';
         facts.innerHTML = [
-            p.category ? `<span class="cs-fact"><span class="cs-fact-label">Category</span>${escapeHTML(p.category)}</span>` : '',
-            p.year ? `<span class="cs-fact"><span class="cs-fact-label">Year</span>${escapeHTML(p.year)}</span>` : '',
-            p.role ? `<span class="cs-fact"><span class="cs-fact-label">Role</span>${escapeHTML(p.role)}</span>` : '',
-            p.client ? `<span class="cs-fact"><span class="cs-fact-label">Client</span>${escapeHTML(p.client)}</span>` : '',
-            p.location ? `<span class="cs-fact"><span class="cs-fact-label">Location</span>${escapeHTML(p.location)}</span>` : ''
+            p.category ? `<span class="cs-fact"><span class="cs-fact-label">${escapeHTML(T('cs.modal.category'))}</span>${escapeHTML(p.category)}</span>` : '',
+            p.year ? `<span class="cs-fact"><span class="cs-fact-label">${escapeHTML(T('cs.modal.year'))}</span>${escapeHTML(p.year)}</span>` : '',
+            p.role ? `<span class="cs-fact"><span class="cs-fact-label">${escapeHTML(T('cs.modal.role'))}</span>${escapeHTML(p.role)}</span>` : '',
+            p.client ? `<span class="cs-fact"><span class="cs-fact-label">${escapeHTML(T('cs.modal.client'))}</span>${escapeHTML(p.client)}</span>` : '',
+            p.location ? `<span class="cs-fact"><span class="cs-fact-label">${escapeHTML(T('cs.modal.location'))}</span>${escapeHTML(p.location)}</span>` : ''
         ].join('');
 
         // Metrics band
@@ -851,7 +981,7 @@
 
         // 2. Overview
         overview.textContent = p.description || p.short || '';
-        scope.textContent = p.scope ? 'Scope: ' + p.scope : '';
+        scope.textContent = p.scope ? T('cs.modal.scopePrefix') + p.scope : '';
         scope.hidden = !p.scope;
 
         // 3. My role
@@ -865,8 +995,8 @@
         if (items.length) {
             gallerySection.hidden = false;
             gallery.innerHTML = items.map((src, i) => `
-                <button class="cs-thumb" data-index="${i}" aria-label="Enlarge photo ${i + 1} of ${items.length}">
-                    <img src="${escapeHTML(src)}" alt="${escapeHTML(p.title)} photo ${i + 1}" loading="lazy"
+                <button class="cs-thumb" data-index="${i}" aria-label="${escapeHTML(T('cs.aria.enlargeN', { n: i + 1, total: items.length }))}">
+                    <img src="${escapeHTML(src)}" alt="${escapeHTML(p.title)} ${escapeHTML(T('cs.alt.photo'))}" loading="lazy"
                          onerror="this.closest('.cs-thumb').classList.add('cs-thumb-missing');this.removeAttribute('src');">
                     <span class="cs-thumb-index">${i + 1}</span>
                 </button>
@@ -886,7 +1016,7 @@
             diagramSection.hidden = false;
             diagram.src = p.diagram;
             diagram.onerror = () => { diagramSection.hidden = true; };
-            diagram.alt = (p.title || 'Project') + ' technical diagram';
+            diagram.alt = (p.title || '') + T('cs.alt.diagramPrefix');
         } else {
             diagramSection.hidden = true;
         }
@@ -1021,7 +1151,7 @@
         if (!container) return;
 
         if (!siteData.experience.length) {
-            container.innerHTML = '<p style="color:var(--text-3);">No experience recorded.</p>';
+            container.innerHTML = '<p style="color:var(--text-3);">' + T('exp.none') + '</p>';
             return;
         }
 
@@ -1060,7 +1190,7 @@
         if (!data.length) {
             track.innerHTML = `
                 <div class="testimonial-card" style="text-align:center;">
-                    <p class="testimonial-text">No reviews yet. Be the first!</p>
+                    <p class="testimonial-text">${escapeHTML(T('test.empty'))}</p>
                 </div>
             `;
             return;
@@ -1162,17 +1292,17 @@
 
             let valid = true;
             if (name.length < 2) {
-                $('#reviewNameError').textContent = 'Name must be at least 2 characters.';
+                $('#reviewNameError').textContent = T('review.err.name');
                 valid = false;
             } else $('#reviewNameError').textContent = '';
 
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                $('#reviewEmailError').textContent = 'Please enter a valid email.';
+                $('#reviewEmailError').textContent = T('review.err.email');
                 valid = false;
             } else $('#reviewEmailError').textContent = '';
 
             if (text.length < 20) {
-                $('#reviewTextError').textContent = 'Message must be at least 20 characters.';
+                $('#reviewTextError').textContent = T('review.err.text');
                 valid = false;
             } else $('#reviewTextError').textContent = '';
 
@@ -1241,17 +1371,17 @@
         if (input.type === 'email') {
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())) {
                 valid = false;
-                msg = 'Please enter a valid email.';
+                msg = T('form.err.email');
             }
         } else if (input.tagName === 'TEXTAREA' || input.tagName === 'INPUT') {
             if (!input.value.trim()) {
                 valid = false;
-                msg = 'This field is required.';
+                msg = T('form.err.required');
             } else {
                 const min = parseInt(input.getAttribute('minlength'), 10) || 2;
                 if (input.value.trim().length < min) {
                     valid = false;
-                    msg = `Minimum ${min} characters required.`;
+                    msg = T('form.err.min', { n: min });
                 }
             }
         }
@@ -1287,7 +1417,7 @@
                     const hidden = sel.parentElement.querySelector('.custom-select-value');
                     const errorEl = sel.parentElement.querySelector('.form-error');
                     if (hidden && !hidden.value && errorEl) {
-                        errorEl.textContent = 'Please select an option.';
+                        errorEl.textContent = T('form.err.select');
                         valid = false;
                     } else if (errorEl) {
                         errorEl.textContent = '';
@@ -1416,10 +1546,9 @@
 
                     form.innerHTML = `
                         <div class="form-success" style="text-align:center;padding:40px 20px;">
-                            <p style="color:var(--green);font-size:18px;margin-bottom:12px;">✅ Your message has been sent successfully!</p>
+                            <p style="color:var(--green);font-size:18px;margin-bottom:12px;">${T('form.success.title')}</p>
                             <p style="color:var(--text-3);font-size:13px;">
-                                Your email app may open to confirm delivery — just press send.<br>
-                                We will get back to you shortly.
+                                ${T('form.success.body')}
                             </p>
                         </div>
                     `;
@@ -1663,6 +1792,7 @@
             console.warn('EmailJS init failed:', err);
         }
 
+        initBilingual();      // Set lang/dir + translate static UI (no data swap yet)
         applySettings();      // Apply admin settings first
         initScrollProgress();
         initParallax();
@@ -1671,10 +1801,15 @@
         initParticles();
         initTypewriter();
         initCounters();
+        faSwapData();                   // swap in FA data before first renders (if FA)
         renderSkills();
         renderProjects();               // instant paint from defaults/admin data
         initProjectFilter();
-        loadCaseStudyProjects().then(() => { renderProjects(); openFromDeepLink(); });  // re-render + deep link
+        loadCaseStudyProjects().then(() => {
+            // In FA the Persian dataset is authoritative; otherwise honor fetched JSON
+            if (isFA()) faSwapData();
+            renderProjects(); openFromDeepLink();
+        });  // re-render + deep link
         initCaseStudyModal();
         initLightbox();
         renderExperience();

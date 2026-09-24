@@ -54,13 +54,14 @@
     <!-- Google Fonts: Space Grotesk (Display) + Inter (Body) + JetBrains Mono (Code) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="css/styles.css?v=20261004">
     <link rel="stylesheet" href="css/custom-select.css">
     <link rel="stylesheet" href="css/hero-new.css?v=20260828">
     <link rel="stylesheet" href="css/mobile-fix.css?v=20260930">
     <link rel="stylesheet" href="css/case-study.css?v=20261001">
+    <link rel="stylesheet" href="css/rtl.css?v=20261006">
 
     <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -110,20 +111,22 @@
                 <span class="logo-text">Amin Saadati</span>
             </a>
 
-            <nav class="nav" id="mainNav" aria-label="Main navigation">
-                <a href="#home" class="nav-link active">Home</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="#services" class="nav-link">Services</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#experience" class="nav-link">Experience</a>
-                <a href="#faq" class="nav-link">FAQ</a>
-                <a href="#contact" class="nav-link">Contact</a>
+            <nav class="nav" id="mainNav" aria-label="Main navigation" data-i18n-attr="aria-label" data-i18n-attr-val="aria.mainNav">
+                <a href="#home" class="nav-link active" data-i18n="nav.home">Home</a>
+                <a href="#about" class="nav-link" data-i18n="nav.about">About</a>
+                <a href="#services" class="nav-link" data-i18n="nav.services">Services</a>
+                <a href="#projects" class="nav-link" data-i18n="nav.projects">Projects</a>
+                <a href="#experience" class="nav-link" data-i18n="nav.experience">Experience</a>
+                <a href="#faq" class="nav-link" data-i18n="nav.faq">FAQ</a>
+                <a href="#contact" class="nav-link" data-i18n="nav.contact">Contact</a>
+                <div class="header-actions" style="margin-left:auto;">
+                    <button class="lang-toggle" id="langToggleInline" type="button" aria-label="Switch language">فا</button>
+                </div>
             </nav>
 
             <div class="header-actions">
-                <a href="#contact" class="btn-hire">Hire Me</a>
-
-                <button class="mobile-toggle" id="mobileToggle" aria-label="Menu" aria-expanded="false">
+                <a href="#contact" class="btn-hire" data-i18n="btn.hire">Hire Me</a>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Menu" aria-expanded="false" data-i18n-attr="aria-label" data-i18n-attr-val="btn.menu">
                     <span class="hamburger">
                         <span></span><span></span><span></span>
                     </span>
@@ -142,52 +145,52 @@
             <div class="hero-left">
                 <!-- Name & Title Badge -->
                 <div class="hero-badge-intro">
-                    <span class="hero-name">Amin Saadati</span>
+                    <span class="hero-name" data-i18n="hero.name">Amin Saadati</span>
                     <span class="hero-divider">|</span>
-                    <span class="hero-role">Network Infrastructure Specialist</span>
+                    <span class="hero-role" data-i18n="hero.role">Network Infrastructure Specialist</span>
                     <span class="hero-divider">|</span>
-                    <span class="hero-status"><span class="status-dot"></span> Available for hire</span>
+                    <span class="hero-status"><span class="status-dot"></span> <span data-i18n="hero.status">Available for hire</span></span>
                 </div>
                 
                 <h1 class="hero-heading" id="heroHeading">
-                    <span class="hero-heading-primary">Network Infrastructure</span>
-                    <span class="hero-heading-accent">Built with Precision</span>
+                    <span class="hero-heading-primary" data-i18n="hero.heading.primary">Network Infrastructure</span>
+                    <span class="hero-heading-accent" data-i18n="hero.heading.accent">Built with Precision</span>
                 </h1>
                 
-                <p class="hero-subtitle">Helping businesses build reliable network infrastructure and security systems. From structured cabling to CCTV and fiber optics, we deliver end-to-end solutions across Iran.</p>
+                <p class="hero-subtitle" data-i18n="hero.subtitle">Helping businesses build reliable network infrastructure and security systems. From structured cabling to CCTV and fiber optics, we deliver end-to-end solutions across Iran.</p>
                 
                 <div class="hero-stats">
                     <div class="stat-item">
                         <span class="stat-number">50+</span>
-                        <span class="stat-label">Projects</span>
+                        <span class="stat-label" data-i18n="hero.stat.projects">Projects</span>
                     </div>
                     <div class="stat-divider"></div>
                     <div class="stat-item">
                         <span class="stat-number">35+</span>
-                        <span class="stat-label">Clients</span>
+                        <span class="stat-label" data-i18n="hero.stat.clients">Clients</span>
                     </div>
                     <div class="stat-divider"></div>
                     <div class="stat-item">
                         <span class="stat-number">5+</span>
-                        <span class="stat-label">Years</span>
+                        <span class="stat-label" data-i18n="hero.stat.years">Years</span>
                     </div>
                 </div>
                 
                 <div class="hero-cta-group" id="heroCtaGroup">
                     <a href="#projects" class="btn-primary">
-                        View My Work
+                        <span data-i18n="hero.cta.viewWork">View My Work</span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M5 12h14M12 5l7 7-7 7"/>
                         </svg>
                     </a>
                     <a href="#contact" class="btn-secondary">
-                        Contact Me
+                        <span data-i18n="hero.cta.contact">Contact Me</span>
                     </a>
                     <a href="https://aminsaadatiit.github.io/RESUME-CV/" target="_blank" rel="noopener" class="btn-outline" id="downloadResume">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
                         </svg>
-                        Download Resume
+                        <span data-i18n="hero.cta.resume">Download Resume</span>
                     </a>
                 </div>
             </div>
@@ -272,14 +275,14 @@
                     <!-- Center -->
                     <div class="orbit-center">
                         <span class="orbit-number" id="orbitCounter">0</span>
-                        <span class="orbit-label">Projects Done</span>
+                        <span class="orbit-label" data-i18n="orbit.label">Projects Done</span>
                     </div>
                 </div>
             </div>
             
             <!-- Scroll Indicator -->
             <div class="scroll-indicator">
-                <span>Scroll Down</span>
+                <span data-i18n="scroll.indicator">Scroll Down</span>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
             </div>
 
@@ -290,8 +293,8 @@
             <div class="about-bg-glow"></div>
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="section-label">About</span>
-                    <h2 class="section-title">About Me</h2>
+                    <span class="section-label" data-i18n="about.label">About</span>
+                    <h2 class="section-title" data-i18n="about.title">About Me</h2>
                 </div>
 
                 <div class="about-premium">
@@ -302,20 +305,20 @@
                             <div class="profile-photo-overlay"></div>
                             <div class="profile-badge">
                                 <span class="badge-dot"></span>
-                                <span>Available for Hire</span>
+                                <span data-i18n="about.badge">Available for Hire</span>
                             </div>
                             <div class="profile-floating-content">
                                 <div class="profile-floating-text">
-                                    <h3 class="profile-name">Amin Saadati</h3>
-                                    <p class="profile-title">Network Infrastructure & Security Expert</p>
+                                    <h3 class="profile-name" data-i18n="about.profile.name">Amin Saadati</h3>
+                                    <p class="profile-title" data-i18n="about.profile.title">Network Infrastructure & Security Expert</p>
                                     <div class="profile-socials">
-                                        <a href="https://github.com/AminSaadatiIT" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
+                                        <a href="https://github.com/AminSaadatiIT" target="_blank" rel="noopener" class="social-link" aria-label="GitHub" data-i18n-attr="aria-label" data-i18n-attr-val="aria.github">
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
                                         </a>
-                                        <a href="https://www.linkedin.com/in/aminsaadati" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+                                        <a href="https://www.linkedin.com/in/aminsaadati" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn" data-i18n-attr="aria-label" data-i18n-attr-val="aria.linkedin">
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                                         </a>
-                                        <a href="https://t.me/AminSaadati" target="_blank" rel="noopener" class="social-link" aria-label="Telegram">
+                                        <a href="https://t.me/AminSaadati" target="_blank" rel="noopener" class="social-link" aria-label="Telegram" data-i18n-attr="aria-label" data-i18n-attr-val="aria.telegram">
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 7.5a2.25 2.25 0 0 0 .126 4.086l3.9 1.2 1.8 5.7a1.5 1.5 0 0 0 2.4 0l2.5-3.1 4.2 3.1a2.25 2.25 0 0 0 3.5-1.7v-1.5l-4.5-2.2a1.125 1.125 0 0 1 0-2.04l8-3.6a2.25 2.25 0 0 0 1.25-2.06V4.44a2.25 2.25 0 0 0-2.31-2.007z"/></svg>
                                         </a>
                                     </div>
@@ -326,13 +329,13 @@
 
                     <!-- Info Side -->
                     <div class="about-info-side">
-                        <p class="about-bio-premium reveal">
+                        <p class="about-bio-premium reveal" data-i18n-html="about.bio.1">
                             I'm a specialist in designing and implementing <span class="text-gradient">network infrastructure</span> and <span class="text-gradient">security systems</span>. With over 5 years of hands-on experience, I've completed 50+ projects across Iran: structured cabling, fiber optic installations, CCTV surveillance, and access control systems.
                         </p>
-                        <p class="about-bio-premium reveal" style="margin-top:12px;">
+                        <p class="about-bio-premium reveal" style="margin-top:12px;" data-i18n-html="about.bio.2">
                             <strong>Core expertise:</strong> Structured Cabling (Cat5e/Cat6/Cat6a) • Fiber Optic (Single-mode & Multi-mode) • CCTV & IP Surveillance • Access Control Systems • Server Room Design • MikroTik & Cisco Networking • Cable Management & Documentation.
                         </p>
-                        <p class="about-bio-premium reveal" style="margin-top:12px;">
+                        <p class="about-bio-premium reveal" style="margin-top:12px;" data-i18n-html="about.bio.3">
                             <strong>Certifications:</strong> Cisco CCNA • MikroTik MTCNA • Fiber Optic Technician.
                         </p>
 
@@ -342,7 +345,7 @@
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                                 </div>
                                 <div class="glass-card-content">
-                                    <span class="glass-card-label">Name</span>
+                                    <span class="glass-card-label" data-i18n="about.glass.name">Name</span>
                                     <span class="glass-card-value">Amin Saadati</span>
                                 </div>
                             </div>
@@ -351,7 +354,7 @@
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
                                 </div>
                                 <div class="glass-card-content">
-                                    <span class="glass-card-label">Email</span>
+                                    <span class="glass-card-label" data-i18n="about.glass.email">Email</span>
                                     <a href="mailto:amin.saadati5195@gmail.com" class="glass-card-value link-glow">amin.saadati5195@gmail.com</a>
                                 </div>
                             </div>
@@ -360,8 +363,8 @@
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                                 </div>
                                 <div class="glass-card-content">
-                                    <span class="glass-card-label">Location</span>
-                                    <span class="glass-card-value">Mashhad, Iran</span>
+                                    <span class="glass-card-label" data-i18n="about.glass.location">Location</span>
+                                    <span class="glass-card-value" data-i18n="about.glass.location.value">Mashhad, Iran</span>
                                 </div>
                             </div>
                             <div class="glass-card">
@@ -369,7 +372,7 @@
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                                 </div>
                                 <div class="glass-card-content">
-                                    <span class="glass-card-label">Phone</span>
+                                    <span class="glass-card-label" data-i18n="about.glass.phone">Phone</span>
                                     <a href="tel:+989999718581" class="glass-card-value link-glow">+98 999-971-8581</a>
                                 </div>
                             </div>
@@ -379,22 +382,22 @@
                             <div class="stat-glass">
                                 <span class="stat-number" data-count="50" aria-label="50">0</span>
                                 <span class="stat-plus" aria-hidden="true">+</span>
-                                <span class="stat-label">Projects Done</span>
+                                <span class="stat-label" data-i18n="about.stat.projects">Projects Done</span>
                             </div>
                             <div class="stat-glass">
                                 <span class="stat-number" data-count="30" aria-label="30">0</span>
                                 <span class="stat-plus" aria-hidden="true">+</span>
-                                <span class="stat-label">Happy Clients</span>
+                                <span class="stat-label" data-i18n="about.stat.clients">Happy Clients</span>
                             </div>
                             <div class="stat-glass">
                                 <span class="stat-number" data-count="5" aria-label="5">0</span>
                                 <span class="stat-plus" aria-hidden="true">+</span>
-                                <span class="stat-label">Years Experience</span>
+                                <span class="stat-label" data-i18n="about.stat.years">Years Experience</span>
                             </div>
                         </div>
 
                         <a href="#contact" class="btn-glass reveal">
-                            <span>Contact Me</span>
+                            <span data-i18n="about.cta">Contact Me</span>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </a>
                     </div>
@@ -406,54 +409,54 @@
         <section class="section" id="certifications">
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="section-label">Credentials</span>
-                    <h2 class="section-title">Certifications & Why Me</h2>
+                    <span class="section-label" data-i18n="cert.label">Credentials</span>
+                    <h2 class="section-title" data-i18n="cert.title">Certifications & Why Me</h2>
                 </div>
                 <div class="certs-uvp-grid reveal">
                     <div class="cert-card">
                         <div class="cert-badge-icon">🏅</div>
-                        <h3 class="cert-name">Cisco CCNA</h3>
-                        <p class="cert-desc">Routing & Switching — Enterprise Network Design</p>
+                        <h3 class="cert-name" data-i18n="cert.ccna.name">Cisco CCNA</h3>
+                        <p class="cert-desc" data-i18n="cert.ccna.desc">Routing & Switching — Enterprise Network Design</p>
                     </div>
                     <div class="cert-card">
                         <div class="cert-badge-icon">📡</div>
-                        <h3 class="cert-name">MikroTik MTCNA</h3>
-                        <p class="cert-desc">RouterOS Certified Network Associate</p>
+                        <h3 class="cert-name" data-i18n="cert.mtcna.name">MikroTik MTCNA</h3>
+                        <p class="cert-desc" data-i18n="cert.mtcna.desc">RouterOS Certified Network Associate</p>
                     </div>
                     <div class="cert-card">
                         <div class="cert-badge-icon">🔌</div>
-                        <h3 class="cert-name">Fiber Optic Tech</h3>
-                        <p class="cert-desc">Fusion Splicing, OTDR Testing & Certification</p>
+                        <h3 class="cert-name" data-i18n="cert.fiber.name">Fiber Optic Tech</h3>
+                        <p class="cert-desc" data-i18n="cert.fiber.desc">Fusion Splicing, OTDR Testing & Certification</p>
                     </div>
                     <div class="cert-card">
                         <div class="cert-badge-icon">🛡️</div>
-                        <h3 class="cert-name">Security+ Ready</h3>
-                        <p class="cert-desc">Physical Security & Access Control Systems</p>
+                        <h3 class="cert-name" data-i18n="cert.sec.name">Security+ Ready</h3>
+                        <p class="cert-desc" data-i18n="cert.sec.desc">Physical Security & Access Control Systems</p>
                     </div>
                 </div>
 
                 <div class="uvp-section reveal" style="margin-top:48px;">
-                    <h3 class="uvp-title">Why Choose Me?</h3>
+                    <h3 class="uvp-title" data-i18n="cert.uvp.title">Why Choose Me?</h3>
                     <div class="uvp-grid">
                         <div class="uvp-card">
                             <span class="uvp-icon">⚡</span>
-                            <h4>End-to-End Delivery</h4>
-                            <p>From design to testing and documentation. One person, one vision, zero miscommunication.</p>
+                            <h4 data-i18n="uvp.1.title">End-to-End Delivery</h4>
+                            <p data-i18n="uvp.1.desc">From design to testing and documentation. One person, one vision, zero miscommunication.</p>
                         </div>
                         <div class="uvp-card">
                             <span class="uvp-icon">📊</span>
-                            <h4>Measurable Results</h4>
-                            <p>Every project comes with OTDR reports, cable certification logs, and performance benchmarks.</p>
+                            <h4 data-i18n="uvp.2.title">Measurable Results</h4>
+                            <p data-i18n="uvp.2.desc">Every project comes with OTDR reports, cable certification logs, and performance benchmarks.</p>
                         </div>
                         <div class="uvp-card">
                             <span class="uvp-icon">🏆</span>
-                            <h4>50+ Projects, Zero Callbacks</h4>
-                            <p>My work speaks for itself: structured, documented, and built to last decades.</p>
+                            <h4 data-i18n="uvp.3.title">50+ Projects, Zero Callbacks</h4>
+                            <p data-i18n="uvp.3.desc">My work speaks for itself: structured, documented, and built to last decades.</p>
                         </div>
                         <div class="uvp-card">
                             <span class="uvp-icon">🇮🇷</span>
-                            <h4>Local Expertise</h4>
-                            <p>Deep knowledge of Iran's infrastructure landscape, regulations, and supplier ecosystem.</p>
+                            <h4 data-i18n="uvp.4.title">Local Expertise</h4>
+                            <p data-i18n="uvp.4.desc">Deep knowledge of Iran's infrastructure landscape, regulations, and supplier ecosystem.</p>
                         </div>
                     </div>
                 </div>
@@ -464,69 +467,69 @@
         <section class="section" id="services">
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="section-label">Services</span>
-                    <h2 class="section-title">What I Do</h2>
-                    <p class="section-desc">End-to-end network and security solutions, from survey to certification.</p>
+                    <span class="section-label" data-i18n="services.label">Services</span>
+                    <h2 class="section-title" data-i18n="services.title">What I Do</h2>
+                    <p class="section-desc" data-i18n="services.desc">End-to-end network and security solutions, from survey to certification.</p>
                 </div>
                 <div class="services-grid reveal">
                     <div class="service-card">
                         <span class="service-icon">🔌</span>
-                        <h3>Structured Cabling</h3>
-                        <p>Cat5e/Cat6/Cat6A design & installation to TIA-568 standard, fully tested and certified with link reports.</p>
+                        <h3 data-i18n="svc.1.title">Structured Cabling</h3>
+                        <p data-i18n="svc.1.desc">Cat5e/Cat6/Cat6A design & installation to TIA-568 standard, fully tested and certified with link reports.</p>
                         <ul class="service-list">
-                            <li>Site survey & design</li>
-                            <li>Cable certification report</li>
-                            <li>Labeling & documentation</li>
+                            <li data-i18n="svc.1.li1">Site survey & design</li>
+                            <li data-i18n="svc.1.li2">Cable certification report</li>
+                            <li data-i18n="svc.1.li3">Labeling & documentation</li>
                         </ul>
                     </div>
                     <div class="service-card">
                         <span class="service-icon">📹</span>
-                        <h3>CCTV & IP Surveillance</h3>
-                        <p>Complete camera systems from 4 to 500+ channels with NVR, remote access, and 24/7 recording.</p>
+                        <h3 data-i18n="svc.2.title">CCTV & IP Surveillance</h3>
+                        <p data-i18n="svc.2.desc">Complete camera systems from 4 to 500+ channels with NVR, remote access, and 24/7 recording.</p>
                         <ul class="service-list">
-                            <li>Camera layout design</li>
-                            <li>NVR & storage sizing</li>
-                            <li>Mobile remote access</li>
+                            <li data-i18n="svc.2.li1">Camera layout design</li>
+                            <li data-i18n="svc.2.li2">NVR & storage sizing</li>
+                            <li data-i18n="svc.2.li3">Mobile remote access</li>
                         </ul>
                     </div>
                     <div class="service-card">
                         <span class="service-icon">🧵</span>
-                        <h3>Fiber Optic Solutions</h3>
-                        <p>Single-mode & multi-mode backbone installation with fusion splicing and OTDR-certified links.</p>
+                        <h3 data-i18n="svc.3.title">Fiber Optic Solutions</h3>
+                        <p data-i18n="svc.3.desc">Single-mode & multi-mode backbone installation with fusion splicing and OTDR-certified links.</p>
                         <ul class="service-list">
-                            <li>Fusion splicing</li>
-                            <li>ODF termination</li>
-                            <li>OTDR test reports</li>
+                            <li data-i18n="svc.3.li1">Fusion splicing</li>
+                            <li data-i18n="svc.3.li2">ODF termination</li>
+                            <li data-i18n="svc.3.li3">OTDR test reports</li>
                         </ul>
                     </div>
                     <div class="service-card">
                         <span class="service-icon">🔐</span>
-                        <h3>Access Control</h3>
-                        <p>Card, PIN, and biometric entry systems with central management and full audit trails.</p>
+                        <h3 data-i18n="svc.4.title">Access Control</h3>
+                        <p data-i18n="svc.4.desc">Card, PIN, and biometric entry systems with central management and full audit trails.</p>
                         <ul class="service-list">
-                            <li>Biometric & card readers</li>
-                            <li>Door controllers</li>
-                            <li>Audit & reporting</li>
+                            <li data-i18n="svc.4.li1">Biometric & card readers</li>
+                            <li data-i18n="svc.4.li2">Door controllers</li>
+                            <li data-i18n="svc.4.li3">Audit & reporting</li>
                         </ul>
                     </div>
                     <div class="service-card">
                         <span class="service-icon">🖥️</span>
-                        <h3>Server Room Build</h3>
-                        <p>Standard rack rooms: racks, UPS, cooling, cable management, and environmental monitoring.</p>
+                        <h3 data-i18n="svc.5.title">Server Room Build</h3>
+                        <p data-i18n="svc.5.desc">Standard rack rooms: racks, UPS, cooling, cable management, and environmental monitoring.</p>
                         <ul class="service-list">
-                            <li>Rack & power layout</li>
-                            <li>UPS & cooling sizing</li>
-                            <li>Environmental monitoring</li>
+                            <li data-i18n="svc.5.li1">Rack & power layout</li>
+                            <li data-i18n="svc.5.li2">UPS & cooling sizing</li>
+                            <li data-i18n="svc.5.li3">Environmental monitoring</li>
                         </ul>
                     </div>
                     <div class="service-card">
                         <span class="service-icon">📡</span>
-                        <h3>Network Consulting</h3>
-                        <p>MikroTik & Cisco design, troubleshooting, and optimization for offices, hotels, and factories.</p>
+                        <h3 data-i18n="svc.6.title">Network Consulting</h3>
+                        <p data-i18n="svc.6.desc">MikroTik & Cisco design, troubleshooting, and optimization for offices, hotels, and factories.</p>
                         <ul class="service-list">
-                            <li>Network design & audit</li>
-                            <li>Wi-Fi coverage planning</li>
-                            <li>Performance tuning</li>
+                            <li data-i18n="svc.6.li1">Network design & audit</li>
+                            <li data-i18n="svc.6.li2">Wi-Fi coverage planning</li>
+                            <li data-i18n="svc.6.li3">Performance tuning</li>
                         </ul>
                     </div>
                 </div>
@@ -537,30 +540,30 @@
         <section class="section" id="process">
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="section-label">Process</span>
-                    <h2 class="section-title">How We Work Together</h2>
-                    <p class="section-desc">A clear, predictable path from first call to signed-off delivery.</p>
+                    <span class="section-label" data-i18n="process.label">Process</span>
+                    <h2 class="section-title" data-i18n="process.title">How We Work Together</h2>
+                    <p class="section-desc" data-i18n="process.desc">A clear, predictable path from first call to signed-off delivery.</p>
                 </div>
                 <div class="process-steps reveal">
                     <div class="process-step">
                         <span class="step-num">1</span>
-                        <h3>Free Consultation</h3>
-                        <p>Call or message. I assess your needs and answer within 24 hours.</p>
+                        <h3 data-i18n="proc.1.title">Free Consultation</h3>
+                        <p data-i18n="proc.1.desc">Call or message. I assess your needs and answer within 24 hours.</p>
                     </div>
                     <div class="process-step">
                         <span class="step-num">2</span>
-                        <h3>Survey & Quote</h3>
-                        <p>On-site survey, transparent itemized quote, no hidden costs.</p>
+                        <h3 data-i18n="proc.2.title">Survey & Quote</h3>
+                        <p data-i18n="proc.2.desc">On-site survey, transparent itemized quote, no hidden costs.</p>
                     </div>
                     <div class="process-step">
                         <span class="step-num">3</span>
-                        <h3>Execution</h3>
-                        <p>Clean installation on schedule with daily progress updates.</p>
+                        <h3 data-i18n="proc.3.title">Execution</h3>
+                        <p data-i18n="proc.3.desc">Clean installation on schedule with daily progress updates.</p>
                     </div>
                     <div class="process-step">
                         <span class="step-num">4</span>
-                        <h3>Test & Handover</h3>
-                        <p>Full test reports, documentation, and post-delivery support.</p>
+                        <h3 data-i18n="proc.4.title">Test & Handover</h3>
+                        <p data-i18n="proc.4.desc">Full test reports, documentation, and post-delivery support.</p>
                     </div>
                 </div>
             </div>
@@ -570,8 +573,8 @@
         <section class="section expand-target" id="skills">
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="section-label">Skills</span>
-                    <h2 class="section-title">Skills</h2>
+                    <span class="section-label" data-i18n="skills.label">Skills</span>
+                    <h2 class="section-title" data-i18n="skills.title">Skills</h2>
                 </div>
                 <div class="skills-groups reveal-stagger" id="skillsContainer"></div>
             </div>
@@ -581,21 +584,21 @@
         <section class="section expand-target" id="projects">
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="section-label">Case Studies</span>
-                    <h2 class="section-title">Infrastructure Projects</h2>
-                    <p class="section-subtitle" style="color:var(--text-2);max-width:640px;margin:12px auto 0;font-size:15px;">
+                    <span class="section-label" data-i18n="projects.label">Case Studies</span>
+                    <h2 class="section-title" data-i18n="projects.title">Infrastructure Projects</h2>
+                    <p class="section-subtitle" style="color:var(--text-2);max-width:640px;margin:12px auto 0;font-size:15px;" data-i18n="projects.desc">
                         Field-delivered network infrastructure work. Each case study documents
                         my role, the technologies applied, and measurable results.
                     </p>
                 </div>
 
                 <div class="filter-bar reveal" id="caseStudyFilters">
-                    <button class="filter-btn active" data-filter="all">All Projects</button>
-                    <button class="filter-btn" data-filter="cabling">Cabling</button>
-                    <button class="filter-btn" data-filter="cctv">CCTV</button>
-                    <button class="filter-btn" data-filter="rack">Server Room</button>
-                    <button class="filter-btn" data-filter="fiber">Fiber</button>
-                    <button class="filter-btn" data-filter="security">Security</button>
+                    <button class="filter-btn active" data-filter="all" data-i18n="projects.filter.all">All Projects</button>
+                    <button class="filter-btn" data-filter="cabling" data-i18n="projects.filter.cabling">Cabling</button>
+                    <button class="filter-btn" data-filter="cctv" data-i18n="projects.filter.cctv">CCTV</button>
+                    <button class="filter-btn" data-filter="rack" data-i18n="projects.filter.rack">Server Room</button>
+                    <button class="filter-btn" data-filter="fiber" data-i18n="projects.filter.fiber">Fiber</button>
+                    <button class="filter-btn" data-filter="security" data-i18n="projects.filter.security">Security</button>
                 </div>
 
                 <div class="projects-grid" id="projectsGrid" aria-live="polite"></div>
@@ -606,8 +609,8 @@
         <section class="section expand-target" id="experience">
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="section-label">Experience</span>
-                    <h2 class="section-title">Work Experience</h2>
+                    <span class="section-label" data-i18n="exp.label">Experience</span>
+                    <h2 class="section-title" data-i18n="exp.title">Work Experience</h2>
                 </div>
                 <div class="timeline reveal" id="timelineContainer"></div>
             </div>
@@ -617,23 +620,23 @@
         <section class="section" id="testimonials">
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="section-label">Reviews</span>
-                    <h2 class="section-title">Client Reviews</h2>
-                    <p class="section-desc">What people I've worked with have to say.</p>
+                    <span class="section-label" data-i18n="test.label">Reviews</span>
+                    <h2 class="section-title" data-i18n="test.title">Client Reviews</h2>
+                    <p class="section-desc" data-i18n="test.desc">What people I've worked with have to say.</p>
                 </div>
 
                 <div class="testimonials-slider reveal" id="testimonialsSlider">
                     <div class="slider-track" id="sliderTrack"></div>
                     <div class="slider-controls">
-                        <button class="slider-btn slider-prev" id="sliderPrev" aria-label="Previous">‹</button>
+                        <button class="slider-btn slider-prev" id="sliderPrev" aria-label="Previous" data-i18n-attr="aria-label" data-i18n-attr-val="test.prev">‹</button>
                         <div class="slider-dots" id="sliderDots"></div>
-                        <button class="slider-btn slider-next" id="sliderNext" aria-label="Next">›</button>
+                        <button class="slider-btn slider-next" id="sliderNext" aria-label="Next" data-i18n-attr="aria-label" data-i18n-attr-val="test.next">›</button>
                     </div>
                 </div>
 
                 <div style="text-align:center;margin-top:40px;" class="reveal">
                     <button class="btn btn-outline" id="openReviewFormBtn">
-                        ✍️ Leave a Review
+                        <span data-i18n="test.leave">✍️ Leave a Review</span>
                     </button>
                 </div>
             </div>
@@ -643,29 +646,29 @@
         <section class="section" id="faq">
             <div class="container container-narrow">
                 <div class="section-header reveal">
-                    <span class="section-label">FAQ</span>
-                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <span class="section-label" data-i18n="faq.label">FAQ</span>
+                    <h2 class="section-title" data-i18n="faq.title">Frequently Asked Questions</h2>
                 </div>
                 <div class="faq-list reveal">
                     <details class="faq-item">
-                        <summary>How fast do you respond to inquiries?</summary>
-                        <div class="faq-answer">I reply to all messages within 24 hours, usually much faster during business hours. For urgent projects, call directly.</div>
+                        <summary data-i18n="faq.q1">How fast do you respond to inquiries?</summary>
+                        <div class="faq-answer" data-i18n="faq.a1">I reply to all messages within 24 hours, usually much faster during business hours. For urgent projects, call directly.</div>
                     </details>
                     <details class="faq-item">
-                        <summary>Do you work outside Mashhad?</summary>
-                        <div class="faq-answer">Yes. I've delivered projects across Iran including Tehran, Isfahan, and Ahvaz. Travel costs are included transparently in the quote.</div>
+                        <summary data-i18n="faq.q2">Do you work outside Mashhad?</summary>
+                        <div class="faq-answer" data-i18n="faq.a2">Yes. I've delivered projects across Iran including Tehran, Isfahan, and Ahvaz. Travel costs are included transparently in the quote.</div>
                     </details>
                     <details class="faq-item">
-                        <summary>Do you provide documentation and test reports?</summary>
-                        <div class="faq-answer">Always. Every cabling link is certified with printed reports, fiber links come with OTDR traces, and you receive full as-built documentation.</div>
+                        <summary data-i18n="faq.q3">Do you provide documentation and test reports?</summary>
+                        <div class="faq-answer" data-i18n="faq.a3">Always. Every cabling link is certified with printed reports, fiber links come with OTDR traces, and you receive full as-built documentation.</div>
                     </details>
                     <details class="faq-item">
-                        <summary>What happens after delivery? Is there support?</summary>
-                        <div class="faq-answer">Yes. Every project includes a support period. If anything related to my installation fails, I fix it. That's why my callback rate is effectively zero.</div>
+                        <summary data-i18n="faq.q4">What happens after delivery? Is there support?</summary>
+                        <div class="faq-answer" data-i18n="faq.a4">Yes. Every project includes a support period. If anything related to my installation fails, I fix it. That's why my callback rate is effectively zero.</div>
                     </details>
                     <details class="faq-item">
-                        <summary>Can you work with our existing contractor or IT team?</summary>
-                        <div class="faq-answer">Absolutely. I regularly collaborate with in-house IT teams and other contractors — clear scope division keeps everything smooth.</div>
+                        <summary data-i18n="faq.q5">Can you work with our existing contractor or IT team?</summary>
+                        <div class="faq-answer" data-i18n="faq.a5">Absolutely. I regularly collaborate with in-house IT teams and other contractors — clear scope division keeps everything smooth.</div>
                     </details>
                 </div>
             </div>
@@ -675,90 +678,90 @@
         <section class="section expand-target" id="contact">
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="section-label">Contact</span>
-                    <h2 class="section-title">Get in Touch</h2>
+                    <span class="section-label" data-i18n="contact.label">Contact</span>
+                    <h2 class="section-title" data-i18n="contact.title">Get in Touch</h2>
                 </div>
 
                 <div class="response-promise reveal">
                     <span class="promise-icon">⚡</span>
-                    <span>I reply to every message within <strong>24 hours</strong> — or call <a href="tel:+989999718581">+98 999-971-8581</a> directly.</span>
+                    <span data-i18n-html="contact.promise">I reply to every message within <strong>24 hours</strong> — or call <a href="tel:+989999718581">+98 999-971-8581</a> directly.</span>
                 </div>
 
                 <div class="contact-grid">
                     <form class="contact-form reveal" id="contactForm" novalidate>
-                        <h3 class="form-title">Contact Form</h3>
+                        <h3 class="form-title" data-i18n="contact.form.title">Contact Form</h3>
                         <div class="form-group">
-                            <label for="contactName" class="form-label">Full Name *</label>
+                            <label for="contactName" class="form-label" data-i18n="contact.form.name">Full Name *</label>
                             <input type="text" id="contactName" name="name" class="form-input" required minlength="2">
                             <span class="form-error" id="contactNameError"></span>
                         </div>
                         <div class="form-group">
-                            <label for="contactEmail" class="form-label">Email *</label>
+                            <label for="contactEmail" class="form-label" data-i18n="contact.form.email">Email *</label>
                             <input type="email" id="contactEmail" name="email" class="form-input" required>
                             <span class="form-error" id="contactEmailError"></span>
                         </div>
                         <div class="form-group">
-                            <label for="contactCompany" class="form-label">Company</label>
+                            <label for="contactCompany" class="form-label" data-i18n="contact.form.company">Company</label>
                             <input type="text" id="contactCompany" name="company" class="form-input">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Service Needed *</label>
+                            <label class="form-label" data-i18n="contact.form.service">Service Needed *</label>
                             <div class="custom-select" data-name="service" data-required="true">
-                                <div class="custom-select-trigger placeholder">Select a service...</div>
+                                <div class="custom-select-trigger placeholder" data-i18n="contact.form.service.ph">Select a service...</div>
                                 <span class="custom-select-arrow">▼</span>
                                 <div class="custom-select-dropdown">
-                                    <div class="custom-select-option disabled" data-value="">Select a service...</div>
-                                    <div class="custom-select-option" data-value="Network Infrastructure">Network Infrastructure</div>
-                                    <div class="custom-select-option" data-value="CCTV & Security Systems">CCTV & Security Systems</div>
-                                    <div class="custom-select-option" data-value="Fiber Optic Installation">Fiber Optic Installation</div>
-                                    <div class="custom-select-option" data-value="Security Consulting">Security Consulting</div>
-                                    <div class="custom-select-option" data-value="Other">Other</div>
+                                    <div class="custom-select-option disabled" data-value="" data-i18n="contact.form.service.ph">Select a service...</div>
+                                    <div class="custom-select-option" data-value="Network Infrastructure" data-i18n="opt.service.infra">Network Infrastructure</div>
+                                    <div class="custom-select-option" data-value="CCTV & Security Systems" data-i18n="opt.service.cctv">CCTV & Security Systems</div>
+                                    <div class="custom-select-option" data-value="Fiber Optic Installation" data-i18n="opt.service.fiber">Fiber Optic Installation</div>
+                                    <div class="custom-select-option" data-value="Security Consulting" data-i18n="opt.service.security">Security Consulting</div>
+                                    <div class="custom-select-option" data-value="Other" data-i18n="opt.service.other">Other</div>
                                 </div>
                             </div>
                             <input type="hidden" name="service" class="custom-select-value">
                             <span class="form-error" id="contactServiceError"></span>
                         </div>
                         <div class="form-group">
-                            <label for="contactSubject" class="form-label">Subject *</label>
+                            <label for="contactSubject" class="form-label" data-i18n="contact.form.subject">Subject *</label>
                             <input type="text" id="contactSubject" name="subject" class="form-input" required minlength="3">
                             <span class="form-error" id="contactSubjectError"></span>
                         </div>
                         <div class="form-group">
-                            <label for="contactMessage" class="form-label">Message *</label>
+                            <label for="contactMessage" class="form-label" data-i18n="contact.form.message">Message *</label>
                             <textarea id="contactMessage" name="message" class="form-input form-textarea" required minlength="10" rows="5"></textarea>
                             <span class="form-error" id="contactMessageError"></span>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+                        <button type="submit" class="btn btn-primary btn-full"><span data-i18n="contact.form.submit">Send Message</span></button>
                     </form>
 
                     <form class="contact-form reveal" id="hireForm" novalidate>
-                        <h3 class="form-title">Hire Me</h3>
+                        <h3 class="form-title" data-i18n="hire.form.title">Hire Me</h3>
                         <div class="form-group">
-                            <label for="hireName" class="form-label">Name *</label>
+                            <label for="hireName" class="form-label" data-i18n="hire.form.name">Name *</label>
                             <input type="text" id="hireName" name="name" class="form-input" required minlength="2">
                             <span class="form-error" id="hireNameError"></span>
                         </div>
                         <div class="form-group">
-                            <label for="hireEmail" class="form-label">Email *</label>
+                            <label for="hireEmail" class="form-label" data-i18n="hire.form.email">Email *</label>
                             <input type="email" id="hireEmail" name="email" class="form-input" required>
                             <span class="form-error" id="hireEmailError"></span>
                         </div>
                         <div class="form-group">
-                            <label for="hireCompany" class="form-label">Company</label>
+                            <label for="hireCompany" class="form-label" data-i18n="hire.form.company">Company</label>
                             <input type="text" id="hireCompany" name="company" class="form-input">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Service Needed *</label>
+                            <label class="form-label" data-i18n="contact.form.service">Service Needed *</label>
                             <div class="custom-select" data-name="service" data-required="true">
-                                <div class="custom-select-trigger placeholder">Select a service...</div>
+                                <div class="custom-select-trigger placeholder" data-i18n="contact.form.service.ph">Select a service...</div>
                                 <span class="custom-select-arrow">▼</span>
                                 <div class="custom-select-dropdown">
-                                    <div class="custom-select-option disabled" data-value="">Select a service...</div>
-                                    <div class="custom-select-option" data-value="Network Infrastructure">Network Infrastructure</div>
-                                    <div class="custom-select-option" data-value="CCTV & Security Systems">CCTV & Security Systems</div>
-                                    <div class="custom-select-option" data-value="Fiber Optic Installation">Fiber Optic Installation</div>
-                                    <div class="custom-select-option" data-value="Security Consulting">Security Consulting</div>
-                                    <div class="custom-select-option" data-value="Other">Other</div>
+                                    <div class="custom-select-option disabled" data-value="" data-i18n="contact.form.service.ph">Select a service...</div>
+                                    <div class="custom-select-option" data-value="Network Infrastructure" data-i18n="opt.service.infra">Network Infrastructure</div>
+                                    <div class="custom-select-option" data-value="CCTV & Security Systems" data-i18n="opt.service.cctv">CCTV & Security Systems</div>
+                                    <div class="custom-select-option" data-value="Fiber Optic Installation" data-i18n="opt.service.fiber">Fiber Optic Installation</div>
+                                    <div class="custom-select-option" data-value="Security Consulting" data-i18n="opt.service.security">Security Consulting</div>
+                                    <div class="custom-select-option" data-value="Other" data-i18n="opt.service.other">Other</div>
                                 </div>
                             </div>
                             <input type="hidden" name="service" class="custom-select-value">
@@ -766,38 +769,38 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="hireBudget" class="form-label">Budget Range</label>
+                                <label for="hireBudget" class="form-label" data-i18n="hire.form.budget">Budget Range</label>
                                 <select id="hireBudget" name="budget" class="form-input form-select">
-                                    <option value="">Select…</option>
-                                    <option>Under 50M Toman</option>
-                                    <option>50M – 150M Toman</option>
-                                    <option>150M – 500M Toman</option>
-                                    <option>500M+ Toman</option>
-                                    <option>Not sure yet</option>
+                                    <option value="" data-i18n="hire.form.budget.ph">Select…</option>
+                                    <option data-i18n="hire.form.budget.1">Under 50M Toman</option>
+                                    <option data-i18n="hire.form.budget.2">50M – 150M Toman</option>
+                                    <option data-i18n="hire.form.budget.3">150M – 500M Toman</option>
+                                    <option data-i18n="hire.form.budget.4">500M+ Toman</option>
+                                    <option data-i18n="hire.form.budget.5">Not sure yet</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="hireTimeline" class="form-label">Timeline</label>
+                                <label for="hireTimeline" class="form-label" data-i18n="hire.form.timeline">Timeline</label>
                                 <select id="hireTimeline" name="timeline" class="form-input form-select">
-                                    <option value="">Select…</option>
-                                    <option>ASAP / Urgent</option>
-                                    <option>Within 1 month</option>
-                                    <option>1–3 months</option>
-                                    <option>Flexible</option>
+                                    <option value="" data-i18n="hire.form.timeline.ph">Select…</option>
+                                    <option data-i18n="hire.form.timeline.1">ASAP / Urgent</option>
+                                    <option data-i18n="hire.form.timeline.2">Within 1 month</option>
+                                    <option data-i18n="hire.form.timeline.3">1–3 months</option>
+                                    <option data-i18n="hire.form.timeline.4">Flexible</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="hireSubject" class="form-label">Subject *</label>
+                            <label for="hireSubject" class="form-label" data-i18n="hire.form.subject">Subject *</label>
                             <input type="text" id="hireSubject" name="subject" class="form-input" required minlength="3">
                             <span class="form-error" id="hireSubjectError"></span>
                         </div>
                         <div class="form-group">
-                            <label for="hireDesc" class="form-label">Project Details *</label>
+                            <label for="hireDesc" class="form-label" data-i18n="hire.form.details">Project Details *</label>
                             <textarea id="hireDesc" name="message" class="form-input form-textarea" required minlength="20" rows="5"></textarea>
                             <span class="form-error" id="hireDescError"></span>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-full">Submit Request</button>
+                        <button type="submit" class="btn btn-primary btn-full"><span data-i18n="hire.form.submit">Submit Request</span></button>
                     </form>
                 </div>
             </div>
@@ -809,42 +812,42 @@
             <div class="footer-brand">
                 <img src="images/logo.png" alt="Amin Saadati Logo" class="footer-logo-img">
                 <div>
-                    <span class="footer-name">Amin Saadati</span>
-                    <span class="footer-title">Network Infrastructure & Security Specialist</span>
+                    <span class="footer-name" data-i18n="footer.name">Amin Saadati</span>
+                    <span class="footer-title" data-i18n="footer.title">Network Infrastructure & Security Specialist</span>
                 </div>
             </div>
             <div class="footer-columns">
                 <div class="footer-col">
-                    <h4>Quick Links</h4>
+                    <h4 data-i18n="footer.quick">Quick Links</h4>
                     <a href="#about">About</a>
                     <a href="#skills">Skills</a>
                     <a href="#projects">Projects</a>
                     <a href="#experience">Experience</a>
                 </div>
                 <div class="footer-col">
-                    <h4>Contact</h4>
+                    <h4 data-i18n="footer.col.contact">Contact</h4>
                     <a href="mailto:amin.saadati5195@gmail.com">amin.saadati5195@gmail.com</a>
                     <a href="tel:+989999718581">+98 999-971-8581</a>
-                    <span>Mashhad, Iran</span>
+                    <span data-i18n="footer.location">Mashhad, Iran</span>
                 </div>
                 <div class="footer-col">
-                    <h4>Social</h4>
+                    <h4 data-i18n="footer.col.social">Social</h4>
                     <a href="https://github.com/AminSaadatiIT" target="_blank" rel="noopener">GitHub</a>                        <a href="https://www.linkedin.com/in/aminsaadati" target="_blank" rel="noopener">LinkedIn</a>
                         <a href="https://t.me/AminSaadati" target="_blank" rel="noopener">Telegram</a>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p class="footer-copy">© <span id="footerYear"></span> Amin Saadati. All rights reserved.</p>
-                <p class="footer-credit">Designed & Built with ❤️</p>
+                <p class="footer-credit" data-i18n="footer.credit">Designed & Built with ❤️</p>
             </div>
         </div>
     </footer>
 
     <!-- Project Modal -->
     <!-- Case Study Modal -->
-    <div class="modal-overlay case-study-overlay" id="projectModal" role="dialog" aria-modal="true" aria-label="Project case study" hidden>
+    <div class="modal-overlay case-study-overlay" id="projectModal" role="dialog" aria-modal="true" aria-label="Project case study" data-i18n-attr="aria-label" data-i18n-attr-val="aria.caseStudyModal" hidden>
         <article class="case-study">
-            <button class="modal-close" id="modalClose" aria-label="Close case study">✕</button>
+            <button class="modal-close" id="modalClose" aria-label="Close case study" data-i18n-attr="aria-label" data-i18n-attr-val="cs.modal.close">✕</button>
 
             <!-- 1. Hero media (video or cover image) -->
             <div class="cs-hero" id="csHero"></div>
@@ -861,26 +864,26 @@
 
                 <!-- 2. Overview -->
                 <section class="cs-section">
-                    <h3 class="cs-heading">Project Overview</h3>
+                    <h3 class="cs-heading" data-i18n="cs.modal.overview">Project Overview</h3>
                     <p class="cs-text" id="csOverview"></p>
                     <p class="cs-scope" id="csScope"></p>
                 </section>
 
                 <!-- 3. My Role -->
                 <section class="cs-section">
-                    <h3 class="cs-heading">My Role</h3>
+                    <h3 class="cs-heading" data-i18n="cs.modal.myRole">My Role</h3>
                     <p class="cs-text" id="csRole"></p>
                 </section>
 
                 <!-- 4. Technologies & Standards -->
                 <section class="cs-section">
-                    <h3 class="cs-heading">Technologies &amp; Standards</h3>
+                    <h3 class="cs-heading" data-i18n="cs.modal.tech">Technologies &amp; Standards</h3>
                     <div class="cs-tech" id="csTech"></div>
                 </section>
 
                 <!-- 6. Technical diagram -->
                 <section class="cs-section" id="csDiagramSection" hidden>
-                    <h3 class="cs-heading">Technical Diagram</h3>
+                    <h3 class="cs-heading" data-i18n="cs.modal.diagram">Technical Diagram</h3>
                     <figure class="cs-figure">
                         <img id="csDiagram" alt="Technical diagram" loading="lazy">
                     </figure>
@@ -888,22 +891,22 @@
 
                 <!-- 5. Gallery -->
                 <section class="cs-section" id="csGallerySection" hidden>
-                    <h3 class="cs-heading">Project Gallery</h3>
+                    <h3 class="cs-heading" data-i18n="cs.modal.gallery">Project Gallery</h3>
                     <div class="cs-gallery" id="csGallery"></div>
                 </section>
 
                 <!-- 7-9. Challenges / Solutions / Results -->
                 <div class="cs-csr">
                     <section class="cs-section cs-card cs-challenges">
-                        <h3 class="cs-heading cs-heading-ch">Challenges</h3>
+                        <h3 class="cs-heading cs-heading-ch" data-i18n="cs.modal.challenges">Challenges</h3>
                         <ul class="cs-list" id="csChallenges"></ul>
                     </section>
                     <section class="cs-section cs-card cs-solutions">
-                        <h3 class="cs-heading cs-heading-so">Solutions</h3>
+                        <h3 class="cs-heading cs-heading-so" data-i18n="cs.modal.solutions">Solutions</h3>
                         <ul class="cs-list" id="csSolutions"></ul>
                     </section>
                     <section class="cs-section cs-card cs-results">
-                        <h3 class="cs-heading cs-heading-re">Results</h3>
+                        <h3 class="cs-heading cs-heading-re" data-i18n="cs.modal.results">Results</h3>
                         <ul class="cs-list" id="csResults"></ul>
                     </section>
                 </div>
@@ -913,45 +916,45 @@
 
     <!-- Gallery Lightbox -->
     <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
-        <button class="lightbox-close" id="lightboxClose" aria-label="Close viewer">✕</button>
-        <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">‹</button>
+        <button class="lightbox-close" id="lightboxClose" aria-label="Close viewer" data-i18n-attr="aria-label" data-i18n-attr-val="cs.lightbox.close">✕</button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image" data-i18n-attr="aria-label" data-i18n-attr-val="cs.lightbox.prev">‹</button>
         <figure class="lightbox-stage">
-            <img id="lightboxImg" alt="Project photo enlarged">
+            <img id="lightboxImg" alt="Project photo enlarged" data-i18n-attr="alt" data-i18n-attr-val="cs.lightbox.alt">
             <figcaption class="lightbox-caption" id="lightboxCaption"></figcaption>
         </figure>
-        <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">›</button>
+        <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image" data-i18n-attr="aria-label" data-i18n-attr-val="cs.lightbox.next">›</button>
     </div>
 
     <!-- Review Submission Modal -->
     <div class="modal-overlay" id="reviewModal" role="dialog" aria-modal="true" hidden>
         <div class="modal" style="max-width:520px;">
-            <button class="modal-close" id="reviewClose" aria-label="Close">✕</button>
+            <button class="modal-close" id="reviewClose" aria-label="Close" data-i18n-attr="aria-label" data-i18n-attr-val="review.close">✕</button>
             <div class="modal-body">
-                <h2 class="modal-title" style="margin-bottom:8px;">✍️ Leave a Review</h2>
-                <p style="color:var(--text-2);font-size:14px;margin-bottom:24px;">
+                <h2 class="modal-title" style="margin-bottom:8px;" data-i18n="review.title">✍️ Leave a Review</h2>
+                <p style="color:var(--text-2);font-size:14px;margin-bottom:24px;" data-i18n="review.note">
                     Your review will be displayed on the site after approval.
                 </p>
 
                 <form id="reviewForm" novalidate>
                     <div class="form-group">
-                        <label class="form-label" for="reviewName">Full Name *</label>
+                        <label class="form-label" for="reviewName" data-i18n="review.name">Full Name *</label>
                         <input type="text" id="reviewName" class="form-input" required minlength="2" maxlength="60">
                         <span class="form-error" id="reviewNameError"></span>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="reviewEmail">Email *</label>
+                        <label class="form-label" for="reviewEmail" data-i18n="review.email">Email *</label>
                         <input type="email" id="reviewEmail" class="form-input" required>
                         <span class="form-error" id="reviewEmailError"></span>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="reviewRole">Role / Company</label>
-                        <input type="text" id="reviewRole" class="form-input" maxlength="100" placeholder="e.g. Tech Lead — Company X">
+                        <label class="form-label" for="reviewRole" data-i18n="review.role">Role / Company</label>
+                        <input type="text" id="reviewRole" class="form-input" maxlength="100" placeholder="e.g. Tech Lead — Company X" data-i18n-attr="placeholder" data-i18n-attr-val="review.rolePlaceholder">
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Your Rating *</label>
+                        <label class="form-label" data-i18n="review.rating">Your Rating *</label>
                         <div class="star-rating-input" id="reviewStars" data-rating="5">
                             <span class="star" data-value="1">★</span>
                             <span class="star" data-value="2">★</span>
@@ -962,13 +965,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="reviewText">Your Review *</label>
+                        <label class="form-label" for="reviewText" data-i18n="review.text">Your Review *</label>
                         <textarea id="reviewText" class="form-input form-textarea" required minlength="20" maxlength="500" rows="4"></textarea>
                         <span class="form-error" id="reviewTextError"></span>
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-full">
-                        📤 Submit Review
+                        <span data-i18n="review.submit">📤 Submit Review</span>
                     </button>
                 </form>
             </div>
@@ -979,11 +982,11 @@
     <div class="sticky-cta-bar" id="stickyCtaBar">
         <a href="#contact" class="sticky-cta-btn sticky-cta-hire">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            Hire Me
+            <span data-i18n="sticky.hire">Hire Me</span>
         </a>
         <a href="#contact" class="sticky-cta-btn sticky-cta-msg">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
-            Message
+            <span data-i18n="sticky.msg">Message</span>
         </a>
     </div>
 
@@ -1042,9 +1045,9 @@
         if (s.aboutYears && aboutStatNums[2]) aboutStatNums[2].setAttribute('data-count', s.aboutYears);
 
         // Social Links
-        if (s.github) { const el = document.querySelector('a[aria-label="GitHub"]'); if (el) el.href = s.github; }
-        if (s.linkedin) { const el = document.querySelector('a[aria-label="LinkedIn"]'); if (el) el.href = s.linkedin; }
-        if (s.telegram) { const el = document.querySelector('a[aria-label="Telegram"]'); if (el) el.href = s.telegram; }
+        if (s.github) { const el = document.querySelector('a[aria-label="GitHub" data-i18n-attr="aria-label" data-i18n-attr-val="aria.github"]'); if (el) el.href = s.github; }
+        if (s.linkedin) { const el = document.querySelector('a[aria-label="LinkedIn" data-i18n-attr="aria-label" data-i18n-attr-val="aria.linkedin"]'); if (el) el.href = s.linkedin; }
+        if (s.telegram) { const el = document.querySelector('a[aria-label="Telegram" data-i18n-attr="aria-label" data-i18n-attr-val="aria.telegram"]'); if (el) el.href = s.telegram; }
 
         // Footer
         if (s.footerName) { const el = document.querySelector('.footer-name'); if (el) el.textContent = s.footerName; }
@@ -1078,7 +1081,8 @@
     })();
     </script>
 
-    <script src="js/app.js?v=20261005" defer></script>
+    <script src="js/i18n-data.js?v=20261006"></script>
+    <script src="js/app.js?v=20261006" defer></script>
 
 </body>
 </html>
