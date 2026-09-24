@@ -144,10 +144,9 @@
             faSwapData();
             reRenderDynamic();
         };
-        const t1 = $('#langToggle'), t2 = $('#langToggleMobile'), t3 = $('#langToggleInline');
+        const t1 = $('#langToggle'), t2 = $('#langToggleMobile');
         if (t1) t1.addEventListener('click', switchLang);
         if (t2) t2.addEventListener('click', switchLang);
-        if (t3) t3.addEventListener('click', switchLang);
     }
 
     // ═══════ DEFAULT DATA ═══════
