@@ -97,10 +97,9 @@
         });
         // Toggle buttons show the OTHER language
         const other = isFA() ? 'EN' : 'فا';
-        const t1 = $('#langToggle'), t2 = $('#langToggleMobile'), t3 = $('#langToggleInline');
+        const t1 = $('#langToggle'), t2 = $('#langToggleMobile');
         if (t1) t1.textContent = other;
         if (t2) t2.textContent = other;
-        if (t3) t3.textContent = other;
     }
 
     // FA overrides for dynamic data; EN restores originals
