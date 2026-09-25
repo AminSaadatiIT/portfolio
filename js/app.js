@@ -545,20 +545,21 @@
         document.body.classList.add('custom-cursor-active');
 
         let seen = false;
-        let mx = -100, my = -100;   // last real mouse position
-        let raf = 0;
 
-        const write = () => {
-            raf = 0;
-            dot.style.transform = `translate3d(${mx - 4}px, ${my - 4}px, 0)`;
-            ring.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%,-50%)`;
+        // Synchronous write, inside the event task itself — no rAF hop,
+        // no coalescing queue. By the time the browser paints, both layers
+        // already hold the latest pointer position, so the custom cursor
+        // can never trail the hardware pointer (an rAF-coalesced write could
+        // be delayed a full frame — or several, under load — behind the
+        // event that carried the new position).
+        const write = (x, y) => {
+            dot.style.transform = `translate3d(${x - 4}px, ${y - 4}px, 0)`;
+            ring.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%,-50%)`;
         };
-        const schedule = () => { if (!raf) raf = requestAnimationFrame(write); };
 
         document.addEventListener('mousemove', e => {
-            mx = e.clientX; my = e.clientY;
-            if (!seen) { seen = true; dot.classList.add('is-visible'); ring.classList.add('is-visible'); write(); }
-            schedule();   // coalesce moves into one write per frame — both layers ALWAYS in lockstep
+            if (!seen) { seen = true; dot.classList.add('is-visible'); ring.classList.add('is-visible'); }
+            write(e.clientX, e.clientY);
         }, { passive: true });
 
         // Hover states: grow ring over interactive elements, text-bar over fields
@@ -581,10 +582,6 @@
         // Hide when pointer leaves the window
         document.addEventListener('mouseleave', () => { dot.classList.remove('is-visible'); ring.classList.remove('is-visible'); });
         document.addEventListener('mouseenter', () => { if (seen) { dot.classList.add('is-visible'); ring.classList.add('is-visible'); } });
-
-        // Safety net: if the tab was backgrounded mid-move or an event was
-        // coalesced away, one late frame re-syncs both layers before paint.
-        document.addEventListener('visibilitychange', () => { if (!document.hidden && seen) schedule(); });
 
         console.info('[cursor] zero-lag cursor active');
     }
