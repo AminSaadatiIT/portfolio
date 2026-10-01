@@ -1755,6 +1755,13 @@ select.form-input option,
 /* Tablet */
 @media (max-width: 1024px) {
     .container { padding: 0 24px; }
+    /* The nav collapses to a hamburger only at 768px, so between 769–1024px
+       every header item must fit on one row. Tightening the nav + actions
+       here keeps the language toggle inside the viewport (it used to be
+       clipped past the right edge around 800px). */
+    .nav-link { padding: 8px 10px; font-size: 13px; }
+    .header-actions { gap: 8px; }
+    .btn-hire { padding: 8px 16px; }
     .about-premium {
         grid-template-columns: 280px 1fr;
         gap: 32px;
