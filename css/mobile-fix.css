@@ -292,9 +292,9 @@
         right: 0 !important;
         left: 0 !important;
         padding: 16px 20px !important;
-        background: rgba(10,10,10,0.96) !important;
-        backdrop-filter: blur(24px) !important;
-        -webkit-backdrop-filter: blur(24px) !important;
+        background: #0a0a0a !important;
+        /* No backdrop blur: an open mobile menu blurred the whole page
+           behind it, which lagged every scroll frame on low-end GPUs. */
         border-bottom: 1px solid rgba(255,255,255,0.08) !important;
         gap: 2px !important;
         z-index: 100 !important;

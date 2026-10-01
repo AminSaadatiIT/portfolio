@@ -325,9 +325,10 @@ body.custom-cursor-active summary {
     height: var(--header-h);
     z-index: 1000;
     border-bottom: 1px solid var(--border-1);
-    background: rgba(5,5,5,0.82);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    background: #050505;
+    /* Solid background instead of backdrop blur: the header sits on top of
+       every scroll frame, and a fixed full-width blur forced a window-wide
+       recomposite per frame (the biggest single scroll-lag source). */
 }
 .header-inner {
     height: 100%;
@@ -999,9 +1000,7 @@ body.custom-cursor-active summary {
     display: flex;
     align-items: center;
     gap: 16px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: all 200ms;
+    transition: transform 200ms, background 200ms, border-color 200ms;
 }
 .glass-card:hover {
     background: rgba(255,255,255,0.05);
@@ -1060,9 +1059,7 @@ body.custom-cursor-active summary {
     border-radius: 16px;
     padding: 24px 16px;
     text-align: center;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: all 200ms;
+    transition: transform 200ms, background 200ms, border-color 200ms;
 }
 .stat-glass:hover {
     background: rgba(232,168,56,0.05);
@@ -1103,9 +1100,7 @@ body.custom-cursor-active summary {
     color: var(--text-1);
     font-size: 15px;
     font-weight: 600;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: all 200ms;
+    transition: transform 200ms, background 200ms, border-color 200ms;
     position: relative;
     overflow: hidden;
 }
@@ -1140,8 +1135,6 @@ body.custom-cursor-active summary {
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 16px;
     padding: 28px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     transition: border-color 250ms, transform 250ms;
 }
 .skill-group:hover {
@@ -1222,8 +1215,6 @@ body.custom-cursor-active summary {
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     transition: all 300ms var(--ease);
 }
 .project-card:hover {
@@ -1350,8 +1341,6 @@ body.custom-cursor-active summary {
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 16px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 .testimonial-text {
     font-size: 17px; line-height: 1.85;
@@ -1422,8 +1411,6 @@ body.custom-cursor-active summary {
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 16px;
     padding: 32px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 .form-title {
     font-size: 18px; font-weight: 700;
@@ -1549,8 +1536,9 @@ select.form-input option,
     padding: 60px 0 30px;
     border-top: 1px solid var(--border-1);
     position: relative; z-index: 2;
-    background: rgba(10,10,10,0.8);
-    backdrop-filter: blur(10px);
+    background: #0a0a0a;
+    /* No backdrop blur: the footer spans the full width and re-blurs the
+       scrolling content behind it every frame while it is on screen. */
 }
 .footer-inner {
     color: var(--text-3); font-size: 13px;
@@ -1926,8 +1914,6 @@ img, video, svg {
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 18px;
     padding: 28px 24px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     transition: transform 250ms cubic-bezier(0.16,1,0.3,1), border-color 250ms, box-shadow 250ms;
 }
 
@@ -2147,8 +2133,6 @@ img, video, svg {
     border-radius: 16px;
     padding: 24px 16px;
     text-align: center;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     transition: transform 200ms, border-color 200ms;
 }
 
@@ -2234,9 +2218,7 @@ img, video, svg {
     z-index: 999;
     padding: 10px 12px;
     gap: 8px;
-    background: rgba(5,5,5,0.92);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: #050505;
     border-top: 1px solid var(--border-1);
     transform: translateY(100%);
     transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
