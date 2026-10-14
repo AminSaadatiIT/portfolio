@@ -41,11 +41,16 @@
         min-height: auto !important;
         height: auto !important;
         padding: 64px 16px 24px !important;
-        flex-direction: column !important;
-        align-items: stretch !important;
+        flex-direction: row !important;
+        align-items: center !important;
         text-align: left !important;
-        gap: 12px !important;
+        gap: 10px !important;
         overflow: visible !important;
+    }
+
+    /* Mirror the side-by-side row in Persian (RTL), like desktop */
+    html[lang="fa"] .hero-new {
+        flex-direction: row-reverse !important;
     }
 
     .hero-new::after {
@@ -54,8 +59,8 @@
 
     /* ── Hero Left (Text) — Full Width ── */
     .hero-left {
-        flex: none !important;
-        width: 100% !important;
+        flex: 1 1 0 !important;
+        width: auto !important;
         min-width: 0 !important;
         text-align: left !important;
         overflow: visible !important;
@@ -125,6 +130,8 @@
         flex: 1 !important;
         text-align: center !important;
         min-width: 0 !important;
+        padding: 0 !important; /* styles.css gives 0 32px which
+        cannot shrink and clips the third stat on narrow screens */
     }
 
     .stat-number {
@@ -198,10 +205,11 @@
        Instead: keep the inner system at full 720px and scale the WHOLE
        thing down — proportions stay perfect at any width. */
     .hero-right {
-        flex: none !important;
-        width: min(78vw, 340px) !important;
-        height: min(78vw, 340px) !important;
-        margin: -8px auto 0 !important;
+        flex: 0 0 40% !important;
+        width: 40% !important;
+        height: auto !important;
+        aspect-ratio: 1 / 1 !important;
+        margin: 0 !important;
         padding: 0 !important;
         position: relative !important;
         align-self: center !important;
@@ -212,6 +220,8 @@
     }
 
     .circles-container {
+        position: absolute !important; /* out of flow: keep the box
+        square; flex centering still centers it visually */
         width: 720px !important;
         height: 720px !important;
         flex: none !important;
@@ -530,7 +540,7 @@
     }
 
     .hero-heading {
-        font-size: clamp(20px, 6.5vw, 26px) !important;
+        font-size: clamp(18px, 5.6vw, 22px) !important;
     }
 
     .hero-badge-intro {
@@ -646,17 +656,86 @@
 
 @media (max-width: 768px) {
     .circles-container {
-        transform: scale(0.45) !important;
+        transform: scale(0.34) !important;
+    }
+}
+
+@media (max-width: 560px) {
+    .circles-container {
+        transform: scale(0.26) !important;
     }
 }
 
 @media (max-width: 480px) {
+    /* Hero: grid so the orbit sits beside ONLY the badge/heading/
+       subtitle, while stats + CTAs span the full width below both;
+       the two columns end up visually balanced instead of a tall
+       text column next to a tiny orbit with dead space under it. */
+    .hero-new {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) min(56%, 230px) !important;
+        grid-template-areas:
+            "badge  orbit"
+            "head   orbit"
+            "sub    orbit"
+            "stats  stats"
+            "cta    cta";
+        align-items: start !important;
+        gap: 10px !important;
+    }
+
+    /* Children of .hero-left become grid items directly; in RTL the
+       grid mirrors itself via direction: rtl (see rtl.css).
+       display:contents drops .hero-left position/z-index, so each
+       child needs its own stacking context to stay above .hero-bg. */
+    .hero-left {
+        display: contents !important;
+    }
+
+    .hero-badge-intro,
+    .hero-heading,
+    .hero-subtitle,
+    .hero-stats,
+    .hero-cta-group {
+        position: relative !important;
+        z-index: 6 !important;
+    }
+
+    .hero-badge-intro { grid-area: badge !important; }
+    .hero-heading { grid-area: head !important; }
+    .hero-subtitle { grid-area: sub !important; }
+    .hero-stats { grid-area: stats !important; }
+    .hero-cta-group { grid-area: cta !important; }
+
     .hero-right {
-        width: min(78vw, 270px) !important;
-        height: min(78vw, 270px) !important;
+        grid-area: orbit !important;
+        width: auto !important;
+        height: auto !important;
+        aspect-ratio: 1 / 1 !important;
+        align-self: center !important;
+        margin: 0 !important;
+    }
+
+    /* CTAs: first two share a row, Download Resume spans below */
+    .hero-cta-group {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        align-items: stretch !important;
+    }
+
+    .hero-cta-group .btn-primary,
+    .hero-cta-group .btn-secondary {
+        flex: 1 1 45% !important;
+        justify-content: center !important;
+        white-space: nowrap !important;
+    }
+
+    .hero-cta-group .btn-outline {
+        flex: 1 0 100% !important;
+        justify-content: center !important;
     }
 
     .circles-container {
-        transform: scale(0.38) !important;
+        transform: scale(0.23) !important;
     }
 }
