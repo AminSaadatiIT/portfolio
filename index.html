@@ -1022,7 +1022,13 @@
         if (s.ctaSecondary) { const el = document.querySelector('.hero-cta-group .btn-secondary'); if (el) el.textContent = s.ctaSecondary; }
         if (s.ctaSecondaryLink) { const el = document.querySelector('.hero-cta-group .btn-secondary'); if (el) el.href = s.ctaSecondaryLink; }
         if (s.ctaDownload) { const el = document.querySelector('.hero-cta-group .btn-outline'); if (el) { const svg = el.querySelector('svg'); el.textContent = ''; if (svg) el.appendChild(svg); el.appendChild(document.createTextNode(' ' + s.ctaDownload)); } }
-        if (s.ctaDownloadUrl) { const el = document.querySelector('.hero-cta-group .btn-outline'); if (el) el.href = s.ctaDownloadUrl; }
+        if (s.ctaDownloadUrl) {
+            const el = document.querySelector('.hero-cta-group .btn-outline');
+            const u = String(s.ctaDownloadUrl).trim();
+            const host = (u.split('://')[1] || '').split('/')[0].toLowerCase();
+            const isGithubRepo = (host === 'github.com' || host === 'www.github.com');
+            if (el && u) el.href = isGithubRepo ? 'https://aminsaadatiit.github.io/RESUME-CV/' : u;
+        }
 
         // About Section
         if (s.aboutName) { const el = document.querySelector('.profile-name'); if (el) el.textContent = s.aboutName; }
