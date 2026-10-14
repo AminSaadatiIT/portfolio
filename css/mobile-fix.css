@@ -16,7 +16,6 @@
     backface-visibility: hidden;
 }
 .circles-container {
-    contain: layout paint;
     will-change: transform;
 }
 .orbit {
@@ -24,7 +23,10 @@
     animation-fill-mode: both;
 }
 .network-icon {
-    contain: layout paint;
+    /* keep per-icon GPU hints; do NOT set contain:paint here — the parent
+       circles-container is a 720px fixed system and will-change alone is
+       enough; paint containment clipped the orbit-4 ring past the viewport
+       edge on Android narrow screens */
     will-change: transform;
 }
 
@@ -213,9 +215,9 @@
         width: 720px !important;
         height: 720px !important;
         flex: none !important;
-        /* 720 → container width, computed live via CSS min(); the fallback
-           scale covers browsers without min() in transform (all modern ones support it) */
-        transform: scale(0.47) !important;
+        /* relies on the general .circles-container scale rule (0.45 at
+           max-width 768px) so the orbit-4 ring never gets squashed into
+           a tiny corner on narrow Android screens */
         transform-origin: center center !important;
     }
 
@@ -546,7 +548,7 @@
     }
 
     .circles-container {
-        transform: scale(0.3) !important;
+        transform: scale(0.28) !important;
     }
 
     .stat-number {
@@ -568,7 +570,7 @@
     }
 
     .profile-photo-container {
-        height: 260px !important;
+        height: 340px !important;
     }
 
     .about-bio-premium {

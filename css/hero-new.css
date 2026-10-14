@@ -24,13 +24,12 @@
 }
 
 .hero-new::after {
-    content: '';
-    position: absolute;
+    content: '';    position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 150px;
-    background: linear-gradient(to bottom, transparent, var(--bg-1, #050505));
+    height: 120px;
+    background: linear-gradient(to bottom, transparent, var(--bg-1, #0a0a12));
     z-index: -1;
     pointer-events: none;
 }
